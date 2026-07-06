@@ -128,59 +128,69 @@ nav{{padding:14px 0;border-bottom:1px solid {'#221e15' if dark else '#e7e1d3'}}}
 
 FOOT = lambda dark: f'<footer style="border-top:1px solid {"#221e15" if dark else "#e7e1d3"};color:{"#7d7768" if dark else "#8f8877"};font-size:12.5px;padding:30px 0;line-height:1.7"><div class=wrap><p style="border:1px solid {"#221e15" if dark else "#e7e1d3"};border-radius:8px;padding:16px;margin-bottom:12px">{DISC}</p><a href="{SITE}" style="color:{GOLD};text-decoration:none">© Veyron Biologics · veyronbiologics.com</a></div></footer></body></html>'
 
-# ── TEMPLATES (distinct feels, shared brand) ─────────────────────────────────────
+# ── TEMPLATES (distinct feels, shared brand, premium polish) ─────────────────────
+def trustbar(dark=False):
+    bg = "#141109" if dark else "#fff"; line = "#221e15" if dark else "#eee7d7"; c = "#a79f8d" if dark else "#6b6455"
+    cells = [("99.8%","Peak HPLC purity"),("QR-COA","Verified, per vial"),("Named lab","Verify it yourself"),("USA","Made &amp; shipped")]
+    inner = "".join(f'<div style="text-align:center"><div style="font-family:{SERIF};font-size:26px;color:{GOLD};font-weight:600">{a}</div><div style="font-size:12px;color:{c};text-transform:uppercase;letter-spacing:.6px;margin-top:2px">{b}</div></div>' for a,b in cells)
+    return f'<div style="background:{bg};border-top:1px solid {line};border-bottom:1px solid {line}"><div class=wrap style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:26px 22px">{inner}</div></div>'
+
 def content_block(p, dark=False):
-    line = "#221e15" if dark else "#e7e1d3"; mut = "#a79f8d" if dark else "#6b6455"
-    return f"""<section style="padding:20px 0 50px"><div class=wrap style="max-width:760px">
-    <div style="border-top:1px solid {line};padding-top:30px"><p class=kick>What it is</p><h2 style="font-size:28px;margin:6px 0 10px">{p['name']}</h2><p style="color:{mut};font-size:17px">{p['what']}</p></div>
-    <div style="border-top:1px solid {line};padding-top:26px;margin-top:30px"><p class=kick>Why researchers use it</p><p style="color:{mut};font-size:17px;margin-top:8px">{p['why']}</p></div>
+    line = "#221e15" if dark else "#e7e1d3"; mut = "#a79f8d" if dark else "#5c5647"
+    return f"""<section style="padding:56px 0"><div class=wrap style="max-width:720px">
+    <p class=kick>What it is</p><h2 style="font-size:32px;margin:8px 0 12px">{p['name']}</h2><p style="color:{mut};font-size:18px;line-height:1.75">{p['what']}</p>
+    <div style="border-top:1px solid {line};padding-top:30px;margin-top:34px"><p class=kick>Why researchers use it</p><p style="color:{mut};font-size:18px;line-height:1.75;margin-top:10px">{p['why']}</p></div>
     </div></section>"""
 
-def tpl_editorial(p):
+def frame(p, dark=False, size="88%"):  # product photo in a soft premium frame
+    glow = "radial-gradient(circle at 50% 42%,rgba(184,145,47,.14),transparent 62%),#0c0a07" if dark else "radial-gradient(circle at 50% 40%,#fff,#f1ebdd)"
+    bd = "#221e15" if dark else "#e7e1d3"
+    return f'<div style="background:{glow};border:1px solid {bd};border-radius:20px;padding:26px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,{".45" if dark else ".08"})"><img src="{SITE}/products/{p["img"]}.webp" onerror="this.onerror=null;this.src=\'{SITE}/products/{p["img"]}.png\'" alt="{p["name"]}" style="max-width:{size};height:auto;filter:drop-shadow(0 18px 28px rgba(0,0,0,.3))"></div>'
+
+def offer_cta(p, dark=False):
+    bg = "#141109" if dark else "#fff"; line = "#221e15" if dark else "#e7e1d3"; mut = "#a79f8d" if dark else "#6b6455"
+    return f'<section style="text-align:center;padding:60px 0;background:{bg};border-top:1px solid {line}"><div class=wrap><p class=kick>First-order offer</p><h2 style="font-size:clamp(30px,4vw,40px);margin:8px 0 4px">25% off your first order</h2><p style="color:{mut};margin:0 0 24px;font-size:17px">Code <b style="color:{GOLD};font-family:{MONO};letter-spacing:2px">FIRST25</b> — applied automatically. Free shipping over $200.</p>{cta(p)}</div></section>'
+
+def tpl_editorial(p):  # light luxury magazine
     return head(p['name'],False)+f"""<nav><div class=wrap>{logo()}{cta(p,'Shop')}</div></nav>
-<header style="padding:56px 0 40px"><div class=wrap style="display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center">
-<div><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(32px,5vw,50px);line-height:1.08;margin:12px 0 16px">{p['hook']}</h1><p style="font-size:18px;color:#6b6455;margin-bottom:26px">{p['sub']}</p>{cta(p)}
-<div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;font-size:13px;color:#6b6455">{TRUST}</div></div>
-<div style="text-align:center;background:radial-gradient(circle at 50% 40%,#fff,#efe9db);border:1px solid #e7e1d3;border-radius:16px;padding:22px">{img_tag(p['img'],'')}<style>header img{{max-width:70%}}</style></div>
-</div></header>{content_block(p,False)}
-<section style="padding:44px 0;background:#fff;border-top:1px solid #e7e1d3;text-align:center"><div class=wrap><h2 style="font-size:30px">25% off your first order</h2><p style="color:#6b6455;margin:6px 0 22px">Code <b style="color:{GOLD};font-family:{MONO}">FIRST25</b> — automatic. Free shipping over $200.</p>{cta(p)}</div></section>{FOOT(False)}"""
+<header style="padding:64px 0 20px"><div class=wrap style="display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center">
+<div><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(36px,5.4vw,58px);line-height:1.04;margin:16px 0 20px">{p['hook']}</h1><p style="font-size:19px;color:#5c5647;line-height:1.7;margin-bottom:30px;max-width:480px">{p['sub']}</p>{cta(p)}</div>
+{frame(p,False,"82%")}</div></header>{trustbar(False)}{content_block(p,False)}{offer_cta(p,False)}{FOOT(False)}"""
 
-def tpl_bold(p):
+def tpl_bold(p):  # dark, dramatic, oversized
     return head(p['name'],True)+f"""<nav><div class=wrap>{logo(True)}{cta(p,'Shop')}</div></nav>
-<header style="padding:64px 0"><div class=wrap style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center">
-<div><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(40px,6.5vw,66px);line-height:1.02;margin:14px 0 16px">{p['hook']}</h1><p style="font-size:19px;color:#a79f8d;margin-bottom:28px">{p['sub']}</p>{cta(p)}</div>
-<div style="text-align:center">{img_tag(p['img'])}<style>header img{{max-width:76%}}</style></div></div></header>
-<div style="border-top:1px solid #221e15;border-bottom:1px solid #221e15;text-align:center;padding:36px 0"><div class=wrap><div style="font-family:{SERIF};font-size:60px;color:{GOLD}">{p['stat']}</div><p style="color:#a79f8d;text-transform:uppercase;letter-spacing:1px;font-size:12px">{p['statlabel']}</p></div></div>
-{content_block(p,True)}
-<div style="display:flex;justify-content:center;gap:28px;flex-wrap:wrap;padding:34px 0;color:#a79f8d;font-size:14px"><div class=wrap style="display:flex;justify-content:center;gap:28px;flex-wrap:wrap">{TRUST}</div></div>
-<section style="text-align:center;padding:48px 0;border-top:1px solid #221e15"><div class=wrap><h2 style="font-size:32px">25% off your first order</h2><p style="color:#a79f8d;margin:6px 0 22px">Code <b style="color:{GOLD};font-family:{MONO}">FIRST25</b> — automatic. Free shipping over $200.</p>{cta(p)}</div></section>{FOOT(True)}"""
+<header style="padding:72px 0 24px"><div class=wrap style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">
+<div><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(44px,7vw,74px);line-height:1;margin:18px 0 20px">{p['hook']}</h1><p style="font-size:20px;color:#a79f8d;line-height:1.65;margin-bottom:30px">{p['sub']}</p>{cta(p)}</div>
+{frame(p,True,"84%")}</div></header>
+<div style="border-top:1px solid #221e15;border-bottom:1px solid #221e15;text-align:center;padding:48px 0"><div class=wrap><div style="font-family:{SERIF};font-size:clamp(56px,9vw,84px);color:{GOLD};line-height:1;font-weight:600">{p['stat']}</div><p style="color:#a79f8d;text-transform:uppercase;letter-spacing:2px;font-size:13px;margin-top:8px">{p['statlabel']}</p></div></div>
+{content_block(p,True)}{trustbar(True)}{offer_cta(p,True)}{FOOT(True)}"""
 
-def tpl_clinical(p):
+def tpl_clinical(p):  # clean white, spec/trust forward
     return head(p['name'],False)+f"""<nav style="background:#fff"><div class=wrap>{logo()}{cta(p,'Shop')}</div></nav>
-<header style="padding:52px 0;text-align:center"><div class=wrap><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(30px,4.6vw,44px);line-height:1.1;max-width:760px;margin:12px auto 14px">{p['hook']}</h1><p style="font-size:18px;color:#6b6455;max-width:600px;margin:0 auto 22px">{p['sub']}</p>{cta(p)}<div style="margin-top:22px">{img_tag(p['img'])}<style>header img{{max-width:150px}}</style></div></div></header>
-<div class=wrap><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:10px">
-<div style="background:#fff;border:1px solid #e7e1d3;border-radius:12px;padding:24px;text-align:center"><div style="font-family:{SERIF};font-size:34px;color:{GOLD}">{p['stat']}</div><p style="font-size:13.5px;color:#6b6455;margin-top:4px">{p['statlabel']}</p></div>
-<div style="background:#fff;border:1px solid #e7e1d3;border-radius:12px;padding:24px;text-align:center"><div style="font-family:{SERIF};font-size:34px;color:{GOLD}">99%+</div><p style="font-size:13.5px;color:#6b6455;margin-top:4px">HPLC-verified purity, to the decimal</p></div>
-<div style="background:#fff;border:1px solid #e7e1d3;border-radius:12px;padding:24px;text-align:center"><div style="font-family:{SERIF};font-size:34px;color:{GOLD}">COA</div><p style="font-size:13.5px;color:#6b6455;margin-top:4px">QR-verified, per lot, lab named</p></div>
-</div></div>{content_block(p,False)}
-<section style="text-align:center;padding:44px 0;background:#fff;border-top:1px solid #e7e1d3"><div class=wrap><h2 style="font-size:30px">25% off your first order</h2><p style="color:#6b6455;margin:6px 0 22px">Code <b style="color:{GOLD};font-family:{MONO}">FIRST25</b> — automatic. Free shipping over $200.</p>{cta(p)}</div></section>{FOOT(False)}"""
+<header style="padding:60px 0 30px;text-align:center"><div class=wrap><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(34px,5vw,48px);line-height:1.08;max-width:780px;margin:16px auto 16px">{p['hook']}</h1><p style="font-size:19px;color:#5c5647;max-width:600px;margin:0 auto 28px;line-height:1.7">{p['sub']}</p>{cta(p)}
+<div style="max-width:340px;margin:34px auto 0">{frame(p,False,"70%")}</div></div></header>{trustbar(False)}
+<div class=wrap><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:44px 0">
+<div style="background:#fff;border:1px solid #e7e1d3;border-radius:14px;padding:28px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.04)"><div style="font-family:{SERIF};font-size:38px;color:{GOLD};font-weight:600">{p['stat']}</div><p style="font-size:14px;color:#6b6455;margin-top:6px">{p['statlabel']}</p></div>
+<div style="background:#fff;border:1px solid #e7e1d3;border-radius:14px;padding:28px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.04)"><div style="font-family:{SERIF};font-size:38px;color:{GOLD};font-weight:600">99.8%</div><p style="font-size:14px;color:#6b6455;margin-top:6px">Peak HPLC purity, to the decimal</p></div>
+<div style="background:#fff;border:1px solid #e7e1d3;border-radius:14px;padding:28px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.04)"><div style="font-family:{SERIF};font-size:38px;color:{GOLD};font-weight:600">COA</div><p style="font-size:14px;color:#6b6455;margin-top:6px">QR-verified, per lot, lab named</p></div>
+</div></div>{content_block(p,False)}{offer_cta(p,False)}{FOOT(False)}"""
 
-def tpl_minimal(p):
-    return head(p['name'],False)+f"""<main style="min-height:72vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px 22px">
-<div style="max-width:620px"><div style="margin-bottom:24px">{logo()}</div><p class=kick>{p['klass']}</p><div style="margin:14px 0 6px">{img_tag(p['img'])}<style>main img{{max-width:150px;margin:0 auto}}</style></div>
-<h1 style="font-size:clamp(32px,5.4vw,50px);line-height:1.08;margin-bottom:14px">{p['hook']}</h1><p style="font-size:19px;color:#6b6455;margin-bottom:12px">{p['sub']}</p>
-<p style="font-size:15px;margin-bottom:26px">25% off your first order — code <b style="color:{GOLD};font-family:{MONO}">FIRST25</b>, automatic · free shipping over $200</p>{cta(p)}</div></main>{FOOT(False)}"""
+def tpl_minimal(p):  # elegant single-focus
+    return head(p['name'],False)+f"""<main style="min-height:88vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:50px 22px">
+<div style="max-width:560px"><div style="margin-bottom:30px">{logo()}</div><p class=kick>{p['klass']}</p>
+<div style="max-width:280px;margin:22px auto 8px">{frame(p,False,"78%")}</div>
+<h1 style="font-size:clamp(36px,6vw,54px);line-height:1.05;margin:10px 0 16px">{p['hook']}</h1><p style="font-size:19px;color:#5c5647;line-height:1.7;margin-bottom:16px">{p['sub']}</p>
+<p style="font-size:15px;color:#161310;margin-bottom:30px">25% off your first order — code <b style="color:{GOLD};font-family:{MONO}">FIRST25</b>, automatic · free shipping over $200</p>{cta(p)}</div></main>{FOOT(False)}"""
 
-def tpl_offer(p):
+def tpl_offer(p):  # dark DR niche + product grid
     cards = ""
     for slug,label in p.get("products",[]):
-        cards += f'<a href="{SITE}/product/{slug}?tr={p["tr"]}" style="background:#1a1710;border:1px solid #2c271c;border-radius:14px;padding:22px;text-align:center;text-decoration:none;color:#f3efe4;display:block">{img_tag(slug)}<style>.grid img{{height:120px}}</style><span style="display:block;font-family:{SERIF};font-size:20px;margin:8px 0 4px">{label}</span><em style="color:{GOLD};font-style:normal;font-size:12px;text-transform:uppercase;letter-spacing:.5px">Add to cart →</em></a>'
-    return head(p['name'],True)+f"""<div style="background:{GOLD};color:#12100c;text-align:center;font-weight:700;font-size:13px;padding:9px;text-transform:uppercase;letter-spacing:.5px">First order → 25% off with FIRST25 · Free shipping over $200</div>
+        cards += f'<a href="{SITE}/product/{slug}?tr={p["tr"]}" style="background:radial-gradient(circle at 50% 30%,rgba(184,145,47,.08),transparent 60%),#161109;border:1px solid #2c271c;border-radius:16px;padding:26px 20px;text-align:center;text-decoration:none;color:#f3efe4;display:block;transition:border-color .15s"><img src="{SITE}/products/{slug}.webp" onerror="this.onerror=null;this.src=\'{SITE}/products/{slug}.png\'" alt="{label}" style="height:150px;filter:drop-shadow(0 14px 22px rgba(0,0,0,.4))"><span style="display:block;font-family:{SERIF};font-size:22px;margin:12px 0 6px">{label}</span><em style="color:{GOLD};font-style:normal;font-size:12px;text-transform:uppercase;letter-spacing:.6px">Add to cart →</em></a>'
+    return head(p['name'],True)+f"""<div style="background:{GOLD};color:#12100c;text-align:center;font-weight:700;font-size:13px;padding:10px;text-transform:uppercase;letter-spacing:.6px">First order → 25% off with FIRST25 · Free shipping over $200</div>
 <nav><div class=wrap>{logo(True)}{cta(p,'Shop')}</div></nav>
-<header style="text-align:center;padding:54px 0"><div class=wrap><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(32px,5.6vw,52px);line-height:1.08;max-width:820px;margin:14px auto 16px">{p['hook']}</h1><p style="font-size:18px;color:#a79f8d;max-width:600px;margin:0 auto 28px">{p['sub']}</p>{cta(p,'Shop the line →')}</div></header>
-<div class=wrap><div class=grid style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-bottom:50px">{cards}</div></div>
-<section style="text-align:center;padding:44px 0;border-top:1px solid #221e15"><div class=wrap><h2 style="font-size:30px">25% off your first order</h2><p style="color:#a79f8d;margin:6px 0 22px">Code <b style="color:{GOLD};font-family:{MONO}">FIRST25</b>, automatic. Free shipping over $200.</p>{cta(p)}</div></section>
-<style>@media(max-width:760px){{.grid{{grid-template-columns:1fr!important}}header div[style*=grid]{{grid-template-columns:1fr!important}}}}</style>{FOOT(True)}"""
+<header style="text-align:center;padding:60px 0 40px"><div class=wrap><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(36px,6vw,56px);line-height:1.05;max-width:840px;margin:16px auto 18px">{p['hook']}</h1><p style="font-size:19px;color:#a79f8d;max-width:600px;margin:0 auto 30px;line-height:1.65">{p['sub']}</p>{cta(p,'Shop the line →')}</div></header>
+<div class=wrap><div class=grid style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding-bottom:20px">{cards}</div></div>{trustbar(True)}{offer_cta(p,True)}
+<style>@media(max-width:760px){{.grid{{grid-template-columns:1fr!important}}header div[style*=grid],main div[style*=grid]{{grid-template-columns:1fr!important}}}}</style>{FOOT(True)}"""
 
 TEMPLATES = {"editorial":tpl_editorial,"bold":tpl_bold,"clinical":tpl_clinical,"minimal":tpl_minimal,"offer":tpl_offer}
 
