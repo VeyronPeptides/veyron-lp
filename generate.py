@@ -34,53 +34,65 @@ def cta(p, label=None):
     lbl = label or (f'Add {p["name"]} to cart →' if p.get("slug") else "Shop the catalog →")
     return f'<a class="btn" href="{dest(p)}">{lbl}</a>'
 
-# ── CONTENT ─────────────────────────────────────────────────────────────────────
-# img = image file (by product slug); slug = product page slug (None = niche → catalog).
-# what/why = education blocks (Cam wants real info). stat = headline number.
-PAGES = [
- dict(file="reta", tpl="editorial", tr="reta", slug="retatrutide", img="retatrutide", name="Retatrutide",
-   klass='"GLP-3" · triple-agonist', hook="The research compound that made <em>GLP-1 look like a warm-up.</em>",
+# ── CONTENT (DB-driven: a page for every active product) ─────────────────────────
+import json
+_prods = json.load(open("products.json"))  # active products exported from the store DB
+
+# Rich hero content + short alias + chosen feel, keyed by the REAL product slug.
+HEROES = {
+ "retatrutide": dict(alias="reta", tpl="editorial", klass='"GLP-3" · triple-agonist',
+   hook="The research compound that made <em>GLP-1 look like a warm-up.</em>",
    sub="Retatrutide is the triple-hormone agonist the field is calling \"GLP-3\" — and in published research it left the previous generation behind.",
    stat="~24%", statlabel="mean body-weight reduction reported in 48-week research",
-   what="Retatrutide is a single molecule that acts on three receptors at once — GLP-1, GIP, and glucagon. Where semaglutide (GLP-1) hits one target and tirzepatide (GLP-2 class) hits two, the triple-agonist engages all three pathways implicated in metabolic research.",
-   why="In the published literature, the triple-agonist didn't just improve on its predecessors — it reset the ceiling. Research on obese study subjects reported roughly 24% mean body-weight reduction over 48 weeks, with figures some researchers compared to bariatric outcomes."),
- dict(file="tirz", tpl="bold", tr="tirz", slug="tirzepatide", img="tirzepatide", name="Tirzepatide",
-   klass="dual-agonist · GLP-1 + GIP", hook="The dual-agonist workhorse.",
+   what="Retatrutide is a single molecule that acts on three receptors at once — GLP-1, GIP, and glucagon. Where a GLP-1 hits one target and a dual-agonist hits two, the triple-agonist engages all three pathways implicated in metabolic research.",
+   why="In the published literature the triple-agonist didn't just improve on its predecessors — it reset the ceiling. Research on obese study subjects reported roughly 24% mean body-weight reduction over 48 weeks, with figures some researchers compared to bariatric outcomes."),
+ "tirzepatide": dict(alias="tirz", tpl="bold", klass="dual-agonist · GLP-1 + GIP", hook="The dual-agonist workhorse.",
    sub="The GLP-1 + GIP combination that became the research standard before the triple-agonist arrived — proven, dependable, decisive.",
    stat="~21%", statlabel="mean reduction reported in trials",
    what="Tirzepatide activates two incretin receptors — GLP-1 and GIP. The dual mechanism made it a clear step up over single-agonist research, and it remains the reference point the newer compounds are measured against.",
    why="The most-studied dual-agonist in the space, with the deepest body of research data behind it. When a study needs a proven benchmark, this is it."),
- dict(file="sema", tpl="clinical", tr="sema", slug="semaglutide", img="semaglutide", name="Semaglutide",
-   klass="GLP-1 · the baseline", hook="Where the whole category started.",
-   sub="The single-agonist that launched the incretin era. Well-studied, dependable — the entry point to the metabolic research line.",
-   stat="~15%", statlabel="mean reduction reported in trials",
-   what="Semaglutide is a GLP-1 receptor agonist — the first-generation incretin the entire modern category was built on. The single-agonist baseline every later compound is compared against.",
-   why="The most extensively researched compound in the class, with years of published data. The dependable starting point for incretin research."),
- dict(file="cagri", tpl="bold", tr="cagri", slug="cagrilintide", img="cagrilintide", name="Cagrilintide",
-   klass="amylin analog · stack partner", hook="The amylin analog the newest research is built around.",
+ "cagrilintide": dict(alias="cagri", tpl="bold", klass="amylin analog · stack partner", hook="The amylin analog the newest research is built around.",
    sub="The compound researchers pair with the incretins — the combination driving the latest metabolic studies.",
    stat="Stack", statlabel="the research favorite for combination work",
    what="Cagrilintide is a long-acting amylin analog — a different mechanism from the incretins. That's exactly why it's the pairing partner: researchers stack it with GLP-1/GIP compounds to study combined pathways.",
    why="The newest wave of metabolic research is built on combinations, and cagrilintide is the amylin half of the most-studied pairings."),
- dict(file="nad", tpl="clinical", tr="nad", slug="nad", img="nad-plus", name="NAD+",
-   klass="cellular · longevity research", hook="The molecule at the center of the longevity conversation.",
+ "nad-plus": dict(alias="nad", tpl="clinical", klass="cellular · longevity research", hook="The molecule at the center of the longevity conversation.",
    sub="Central to cellular energy and sirtuin research — the compound the aging field keeps coming back to.",
    stat="Sirtuins", statlabel="the pathway NAD+ research centers on",
    what="NAD+ (nicotinamide adenine dinucleotide) is a coenzyme found in every living cell, central to energy metabolism and the activity of sirtuins — the proteins at the heart of cellular-aging research.",
    why="NAD+ levels are a recurring variable in longevity studies. It's one of the most-cited molecules in the cellular-aging literature, which is why it anchors the research."),
- dict(file="ghk", tpl="minimal", tr="ghk", slug="ghk-cu", img="ghk-cu", name="GHK-Cu",
-   klass="copper peptide · repair research", hook="The copper peptide the repair literature won't stop citing.",
+ "ghk-cu": dict(alias="ghk", tpl="minimal", klass="copper peptide · repair research", hook="The copper peptide the repair literature won't stop citing.",
    sub="Studied for its role in tissue-repair and regenerative signaling — one of the most-referenced peptides in the field.",
    stat="~33%", statlabel="faster repair reported in research models",
    what="GHK-Cu is a copper-binding tripeptide naturally present in human plasma. Research associates it with tissue-repair signaling and gene-expression pathways tied to regeneration.",
    why="Few peptides have GHK-Cu's depth of repair-and-regeneration research behind them — including studies reporting influence over thousands of genes tied to tissue repair."),
- dict(file="klow", tpl="bold", tr="klow", slug="klow", img="klow", name="KLOW",
-   klass="research blend · GHK / KPV / BPC / TB-500", hook="Four research peptides. One vial.",
+ "klow": dict(alias="klow", tpl="bold", klass="research blend · GHK / KPV / BPC / TB-500", hook="Four research peptides. One vial.",
    sub="A blend built from the repair-and-recovery compounds the research community stacks by hand — pre-combined and COA-verified.",
    stat="4-in-1", statlabel="the convenience of a pre-built research blend",
    what="KLOW combines four of the most-studied repair-and-recovery research peptides — GHK-Cu, KPV, BPC-157, and TB-500 — in a single lyophilized vial.",
    why="Researchers who'd otherwise reconstitute four separate compounds get one COA-verified blend. Convenience without giving up the transparency."),
- # ---- NICHE (catalog) ----
+}
+FEELS = ["bold", "clinical", "minimal", "editorial"]  # rotate across non-hero products for A/B variety
+
+def imgslug(p): return p["img"].split("/")[-1].rsplit(".", 1)[0]
+
+PAGES = []
+for i, pr in enumerate(sorted(_prods, key=lambda x: x["slug"])):
+    slug = pr["slug"]; h = HEROES.get(slug)
+    name = pr["name"]; short = (pr.get("short") or f"{name} — research-grade, HPLC-verified.").strip()
+    desc = (pr.get("desc") or short).strip()
+    if h:
+        PAGES.append(dict(file=h["alias"], tpl=h["tpl"], tr=h["alias"], slug=slug, img=imgslug(pr), name=name,
+            klass=h["klass"], hook=h["hook"], sub=h["sub"], stat=h["stat"], statlabel=h["statlabel"], what=h["what"], why=h["why"]))
+    else:
+        PAGES.append(dict(file=slug, tpl=FEELS[i % len(FEELS)], tr=slug, slug=slug, img=imgslug(pr), name=name,
+            klass="research-grade compound", hook=name, sub=short,
+            stat="99%+", statlabel="HPLC-verified purity",
+            what=desc,
+            why=f"{name} ships HPLC-verified with a QR-linked Certificate of Analysis on every vial — tested by a named third-party lab, synthesized in the USA. Purity you can actually confirm, not just a number on a page."))
+
+# ---- NICHE pages (hand-defined; all product links are ACTIVE slugs) ----
+PAGES += [
  dict(file="weightloss", tpl="offer", tr="weightloss", slug=None, img="retatrutide", name="Metabolic Stack",
    klass="the metabolic research line", hook="The compounds the entire metabolic field <em>can't stop talking about.</em>",
    sub="Retatrutide. Tirzepatide. Cagrilintide. The incretin research everyone's chasing — sourced right, tested to the decimal.",
@@ -88,7 +100,7 @@ PAGES = [
  dict(file="longevity", tpl="offer", tr="longevity", slug=None, img="nad-plus", name="Longevity Line",
    klass="the longevity research line", hook="The compounds the longevity field <em>can't stop studying.</em>",
    sub="NAD+, GHK-Cu, Epithalon — the cellular-aging research everyone's chasing, tested to the decimal.",
-   stat="", statlabel="", products=[("nad","NAD+"),("ghk-cu","GHK-Cu"),("epithalon","Epithalon")]),
+   stat="", statlabel="", products=[("nad-plus","NAD+"),("ghk-cu","GHK-Cu"),("epithalon","Epithalon")]),
  dict(file="recovery", tpl="offer", tr="recovery", slug=None, img="klow", name="Recovery Line",
    klass="the recovery research line", hook="The repair-and-recovery research stack.",
    sub="BPC-157, TB-500, KLOW — the tissue-repair compounds the research community relies on.",
