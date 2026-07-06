@@ -30,16 +30,18 @@ export default {
     // Only the root path renders the LP; deeper paths (assets) fall through to the origin file.
     const path = url.pathname === "/" ? `/${sub}.html` : url.pathname;
 
-    const res = await fetch(`${LP_ORIGIN}${path}`, { cf: { cacheTtl: 300 } });
+    // No edge cache while we're iterating — always pull the latest page so updates show instantly.
+    const res = await fetch(`${LP_ORIGIN}${path}`, { cf: { cacheTtl: 0 } });
 
     // If this subdomain has no page yet, send them to the catalog (attributed to the subdomain).
     if (res.status === 404) {
       return Response.redirect(`https://veyronbiologics.com/catalog?tr=${sub}`, 302);
     }
-    // Serve the page; strip GitHub's headers, set a short cache.
+    // Serve fresh; tell the browser not to hold a stale copy either.
     const out = new Response(res.body, res);
-    out.headers.set("Cache-Control", "public, max-age=300");
+    out.headers.set("Cache-Control", "no-cache, must-revalidate");
     out.headers.delete("x-github-request-id");
+    out.headers.delete("etag");
     return out;
   },
 };
