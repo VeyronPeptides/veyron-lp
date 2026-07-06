@@ -30,8 +30,10 @@ export default {
     // Only the root path renders the LP; deeper paths (assets) fall through to the origin file.
     const path = url.pathname === "/" ? `/${sub}.html` : url.pathname;
 
-    // No edge cache while we're iterating — always pull the latest page so updates show instantly.
-    const res = await fetch(`${LP_ORIGIN}${path}`, { cf: { cacheTtl: 0 } });
+    // No edge cache while we're iterating — cache-bust the origin fetch so GitHub/Fastly + Cloudflare
+    // never serve a stale page. Always the latest.
+    const bust = `${path}${path.includes("?") ? "&" : "?"}cb=${Date.now()}`;
+    const res = await fetch(`${LP_ORIGIN}${bust}`, { cf: { cacheTtl: 0, cacheEverything: false } });
 
     // If this subdomain has no page yet, send them to the catalog (attributed to the subdomain).
     if (res.status === 404) {
