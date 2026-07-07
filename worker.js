@@ -37,8 +37,11 @@ export default {
     }
 
     const sub = host.slice(0, host.indexOf(".")); // e.g. "reta" from reta.veyronbiologics.com
-    // Runner key: an explicit ?tr= from the ad wins; otherwise the page's own subdomain is the key.
-    const trKey = cleanTr(url.searchParams.get("tr")) || sub;
+    // Runner key: an explicit ?tr= from the ad (trParam) is the runner. If none, the page's own
+    // subdomain is the key. When a runner IS present we FORCE their key onto every store link, replacing
+    // the page's hardcoded default — otherwise the runner's attribution is lost at the click.
+    const trParam = cleanTr(url.searchParams.get("tr"));
+    const trKey = trParam || sub;
 
     // Same-origin pixel loader. reta.veyronbiologics.com/px.js → main /px.js?tr=<key>. Served from this
     // subdomain so the browser never trips CORP, and ?tr= resolves the runner's pixel server-side.
@@ -80,7 +83,13 @@ export default {
       .on("a[href]", {
         element(el) {
           const href = el.getAttribute("href") || "";
-          if (/veyronbiologics\.com/i.test(href) && !/[?&]tr=/.test(href)) {
+          if (!/veyronbiologics\.com/i.test(href)) return;
+          if (trParam) {
+            // Explicit runner → force their key onto every store link (replace any hardcoded tr=).
+            let h = /[?&]tr=/i.test(href) ? href.replace(/([?&])tr=[^&]*/i, `$1tr=${trParam}`) : `${href}${href.includes("?") ? "&" : "?"}tr=${trParam}`;
+            el.setAttribute("href", h);
+          } else if (!/[?&]tr=/.test(href)) {
+            // No explicit runner + link untagged → tag with the page's own key.
             el.setAttribute("href", `${href}${href.includes("?") ? "&" : "?"}tr=${encodeURIComponent(trKey)}`);
           }
         },
