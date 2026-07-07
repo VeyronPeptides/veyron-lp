@@ -126,17 +126,17 @@ for i, pr in enumerate(sorted(_prods, key=lambda x: x["slug"])):
 
 # ---- NICHE pages (hand-defined; all product links are ACTIVE slugs) ----
 PAGES += [
- dict(file="weightloss", tpl="offer", tr="weightloss", slug=None, img="retatrutide", name="Metabolic Stack",
-   klass="the metabolic research line", hook="The compounds the entire metabolic field <em>can't stop talking about.</em>",
-   sub="Retatrutide. Tirzepatide. Cagrilintide. The incretin research everyone's chasing, sourced right, tested to the decimal.",
+ dict(file="metabolic", tpl="offer", tr="metabolic", slug=None, img="retatrutide", name="Metabolic Research Line",
+   klass="metabolic research compounds", hook="The metabolic-research compounds, <em>sourced and verified.</em>",
+   sub="Retatrutide, tirzepatide, cagrilintide, the incretin-related research compounds, each HPLC-verified with a COA on every vial.",
    stat="", statlabel="", products=[("retatrutide","Retatrutide"),("tirzepatide","Tirzepatide"),("cagrilintide","Cagrilintide")]),
- dict(file="longevity", tpl="offer", tr="longevity", slug=None, img="nad-plus", name="Longevity Line",
-   klass="the longevity research line", hook="The compounds the longevity field <em>can't stop studying.</em>",
-   sub="NAD+, GHK-Cu, Epithalon, the cellular-aging research everyone's chasing, tested to the decimal.",
+ dict(file="cellular", tpl="offer", tr="cellular", slug=None, img="nad-plus", name="Cellular Research Line",
+   klass="cellular research compounds", hook="The cellular-research line, <em>tested to the decimal.</em>",
+   sub="NAD+, GHK-Cu, epithalon, compounds studied across cellular-aging research, each COA-verified.",
    stat="", statlabel="", products=[("nad-plus","NAD+"),("ghk-cu","GHK-Cu"),("epithalon","Epithalon")]),
- dict(file="recovery", tpl="offer", tr="recovery", slug=None, img="klow", name="Recovery Line",
-   klass="the recovery research line", hook="The repair-and-recovery research stack.",
-   sub="BPC-157, TB-500, KLOW, the tissue-repair compounds the research community relies on.",
+ dict(file="repair", tpl="offer", tr="repair", slug=None, img="klow", name="Tissue Research Line",
+   klass="tissue-repair research compounds", hook="The tissue-repair research line.",
+   sub="BPC-157, TB-500, KLOW, the tissue-repair research compounds, each COA-verified.",
    stat="", statlabel="", products=[("wolverine","BPC-157 / TB-500"),("klow","KLOW"),("ghk-cu","GHK-Cu")]),
  dict(file="buy", tpl="minimal", tr="buy", slug=None, img="retatrutide", name="Veyron Biologics",
    klass="research-grade · verifiable", hook="The research peptides you can <em>actually verify.</em>",
@@ -150,7 +150,7 @@ VARIATIONS = [
     ("reta-story",      "story",     "retatrutide"),  # long-form storytelling + COA-education
     ("wolverine-dark",  "dark",      "wolverine"),     # near-black, heavy, dramatic
     ("ghk-aria",        "wispy",     "ghk-cu"),        # soft, airy, women-esque
-    ("nad-longevity",   "longevity", "nad-plus"),      # clean longevity theme
+    ("nad-cellular",    "longevity", "nad-plus"),      # cellular-research theme (renamed from longevity)
     ("klow-story",      "story",     "klow"),          # long-form storytelling for the 4-in-1 blend
     ("bpc-dark",        "dark",      "bpc-157"),        # near-black dramatic for the foundational compound
 ]
