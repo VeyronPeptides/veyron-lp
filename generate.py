@@ -22,10 +22,10 @@ DISC = ('<strong>Research Use Only.</strong> All products sold by Veyron Biologi
 
 def logo(dark=False):
     f = "veyron-logo-white.png" if dark else "veyron-logo.png"
-    return f'<a href="{SITE}"><img src="{SITE}/{f}" alt="Veyron Biologics" style="height:34px;width:auto;display:block"></a>'
+    return f'<a href="{SITE}"><img src="/{f}" alt="Veyron Biologics" style="height:34px;width:auto;display:block"></a>'
 
 def img_tag(slug, cls=""):
-    return f'<img class="{cls}" src="{SITE}/products/{slug}.webp" alt="{slug} research vial" loading="lazy" onerror="this.onerror=null;this.src=\'{SITE}/products/{slug}.png\'">'
+    return f'<img class="{cls}" src="/products/{slug}.webp" alt="{slug} research vial" loading="lazy" onerror="this.onerror=null;this.src=\'/products/{slug}.png\'">'
 
 def dest(p):  # product pages → one-click add-to-cart → checkout; niches → catalog
     return f'{SITE}/product/{p["slug"]}?tr={p["tr"]}&add=1' if p.get("slug") else f'{SITE}/catalog?tr={p["tr"]}'
@@ -152,7 +152,7 @@ def content_block(p, dark=False):
 def frame(p, dark=False, size="88%"):  # product photo in a soft premium frame
     glow = "radial-gradient(circle at 50% 42%,rgba(184,145,47,.14),transparent 62%),#0c0a07" if dark else "radial-gradient(circle at 50% 40%,#fff,#f1ebdd)"
     bd = "#221e15" if dark else "#e7e1d3"
-    return f'<div style="background:{glow};border:1px solid {bd};border-radius:20px;padding:26px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,{".45" if dark else ".08"})"><img src="{SITE}/products/{p["img"]}.webp" onerror="this.onerror=null;this.src=\'{SITE}/products/{p["img"]}.png\'" alt="{p["name"]}" style="max-width:{size};height:auto;filter:drop-shadow(0 18px 28px rgba(0,0,0,.3))"></div>'
+    return f'<div style="background:{glow};border:1px solid {bd};border-radius:20px;padding:26px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,{".45" if dark else ".08"})"><img src="/products/{p["img"]}.webp" onerror="this.onerror=null;this.src=\'/products/{p["img"]}.png\'" alt="{p["name"]}" style="max-width:{size};height:auto;filter:drop-shadow(0 18px 28px rgba(0,0,0,.3))"></div>'
 
 def offer_cta(p, dark=False):
     bg = "#141109" if dark else "#fff"; line = "#221e15" if dark else "#e7e1d3"; mut = "#a79f8d" if dark else "#6b6455"
@@ -230,7 +230,7 @@ def tpl_minimal(p):  # elegant single-focus
 def tpl_offer(p):  # dark DR niche + product grid
     cards = ""
     for slug,label in p.get("products",[]):
-        cards += f'<a href="{SITE}/product/{slug}?tr={p["tr"]}" style="background:radial-gradient(circle at 50% 30%,rgba(184,145,47,.08),transparent 60%),#161109;border:1px solid #2c271c;border-radius:16px;padding:26px 20px;text-align:center;text-decoration:none;color:#f3efe4;display:block;transition:border-color .15s"><img src="{SITE}/products/{slug}.webp" onerror="this.onerror=null;this.src=\'{SITE}/products/{slug}.png\'" alt="{label}" style="height:150px;filter:drop-shadow(0 14px 22px rgba(0,0,0,.4))"><span style="display:block;font-family:{SERIF};font-size:22px;margin:12px 0 6px">{label}</span><em style="color:{GOLD};font-style:normal;font-size:12px;text-transform:uppercase;letter-spacing:.6px">Add to cart →</em></a>'
+        cards += f'<a href="{SITE}/product/{slug}?tr={p["tr"]}" style="background:radial-gradient(circle at 50% 30%,rgba(184,145,47,.08),transparent 60%),#161109;border:1px solid #2c271c;border-radius:16px;padding:26px 20px;text-align:center;text-decoration:none;color:#f3efe4;display:block;transition:border-color .15s"><img src="/products/{slug}.webp" onerror="this.onerror=null;this.src=\'/products/{slug}.png\'" alt="{label}" style="height:150px;filter:drop-shadow(0 14px 22px rgba(0,0,0,.4))"><span style="display:block;font-family:{SERIF};font-size:22px;margin:12px 0 6px">{label}</span><em style="color:{GOLD};font-style:normal;font-size:12px;text-transform:uppercase;letter-spacing:.6px">Add to cart →</em></a>'
     return head(p['name'],True)+f"""<div style="background:{GOLD};color:#12100c;text-align:center;font-weight:700;font-size:13px;padding:10px;text-transform:uppercase;letter-spacing:.6px">First order → 25% off with FIRST25 · Free shipping over $200</div>
 <nav><div class=wrap>{logo(True)}{cta(p,'Shop')}</div></nav>
 <header style="text-align:center;padding:60px 0 40px"><div class=wrap><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(36px,6vw,56px);line-height:1.05;max-width:840px;margin:16px auto 18px">{p['hook']}</h1><p style="font-size:19px;color:#a79f8d;max-width:600px;margin:0 auto 30px;line-height:1.65">{p['sub']}</p>{cta(p,'Shop the line →')}</div></header>
