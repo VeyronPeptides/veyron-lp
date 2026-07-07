@@ -88,6 +88,21 @@ try:
 except Exception as _e:
     print("content merge skipped:", _e)
 
+# Premium template (v2) rollout — each hero gets a UNIQUE hero layout + signature section so no two
+# featured pages look the same, all on the shared "E-commerce Luxury" design system.
+from premium import tpl_prem
+PREM = {
+    "retatrutide": ("split-right", "receptors"),
+    "klow":        ("centered",    "blend"),
+    "nad-plus":    ("split-left",  "cellular"),
+    "wolverine":   ("centered",    "dual"),
+    "ghk-cu":      ("split-right",  "gene"),
+    "bpc-157":     ("split-left",  "citations"),
+}
+for _slug, (_hl, _sig) in PREM.items():
+    if _slug in HEROES:
+        HEROES[_slug]["tpl"] = "prem"; HEROES[_slug]["hero_layout"] = _hl; HEROES[_slug]["signature"] = _sig
+
 FEELS = ["bold", "clinical", "minimal", "editorial"]  # rotate across non-hero products for A/B variety
 
 def imgslug(p): return p["img"].split("/")[-1].rsplit(".", 1)[0]
@@ -100,7 +115,8 @@ for i, pr in enumerate(sorted(_prods, key=lambda x: x["slug"])):
     if h:
         PAGES.append(dict(file=h["alias"], tpl=h["tpl"], tr=h["alias"], slug=slug, img=imgslug(pr), name=name, price=pr.get("price"),
             klass=h["klass"], hook=h["hook"], sub=h["sub"], stat=h["stat"], statlabel=h["statlabel"], what=h["what"], why=h["why"],
-            story=h.get("story"), edge=h.get("edge"), coa=h.get("coa"), faqs=h.get("faqs"), review=h.get("review")))
+            story=h.get("story"), edge=h.get("edge"), coa=h.get("coa"), faqs=h.get("faqs"), review=h.get("review"),
+            hero_layout=h.get("hero_layout"), signature=h.get("signature")))
     else:
         PAGES.append(dict(file=slug, tpl=FEELS[i % len(FEELS)], tr=slug, slug=slug, img=imgslug(pr), name=name, price=pr.get("price"),
             klass="research-grade compound", hook=name, sub=short,
@@ -323,7 +339,7 @@ def tpl_longevity(p):  # VARIATION: clean teal/mist longevity theme, aspirationa
 {richsections(p,False)}{content_block(p,False)}{trustbar(False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 TEMPLATES = {"editorial":tpl_editorial,"bold":tpl_bold,"clinical":tpl_clinical,"minimal":tpl_minimal,"offer":tpl_offer,
-             "story":tpl_story,"dark":tpl_dark,"wispy":tpl_wispy,"longevity":tpl_longevity}
+             "story":tpl_story,"dark":tpl_dark,"wispy":tpl_wispy,"longevity":tpl_longevity,"prem":tpl_prem}
 
 built=[]
 for p in PAGES:
