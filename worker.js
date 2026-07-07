@@ -5,8 +5,16 @@
  *
  * SAFETY: the main site and all business-critical hosts are passed straight through, untouched —
  * this Worker only ever serves LP subdomains. The bank page cannot be affected.
+ *
+ * Beyond routing, the Worker makes each LP a real ad-traffic entry point:
+ *   1. Injects the Meta pixel bootstrap + a same-origin /px.js loader → PageView fires the RIGHT
+ *      runner pixel on the landing page itself (previously LPs fired nothing).
+ *   2. Proxies /px.js same-origin so it isn't blocked cross-subdomain (CORP) and resolves the runner.
+ *   3. Carries the incoming ?tr=<runner> into every store link + sets a domain-wide cookie, so the
+ *      runner key survives the LP → veyronbiologics.com hop and the sale attributes correctly.
  */
 const LP_ORIGIN = "https://veyronpeptides.github.io/veyron-lp";
+const MAIN = "https://veyronbiologics.com";
 
 // Hosts the Worker must NEVER intercept — they serve the real business. Pass through as-is.
 const PASSTHROUGH = new Set([
@@ -15,6 +23,8 @@ const PASSTHROUGH = new Set([
   "pay.veyronbiologics.com",
   "checkout.veyronbiologics.com",
 ]);
+
+const cleanTr = (s) => (s || "").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 48);
 
 export default {
   async fetch(request) {
@@ -27,21 +37,60 @@ export default {
     }
 
     const sub = host.slice(0, host.indexOf(".")); // e.g. "reta" from reta.veyronbiologics.com
-    // Only the root path renders the LP; deeper paths (assets) fall through to the origin file.
-    const path = url.pathname === "/" ? `/${sub}.html` : url.pathname;
+    // Runner key: an explicit ?tr= from the ad wins; otherwise the page's own subdomain is the key.
+    const trKey = cleanTr(url.searchParams.get("tr")) || sub;
 
-    // No edge cache while we're iterating — cache-bust the origin fetch so GitHub/Fastly + Cloudflare
-    // never serve a stale page. Always the latest.
-    const bust = `${path}${path.includes("?") ? "&" : "?"}cb=${Date.now()}`;
-    const res = await fetch(`${LP_ORIGIN}${bust}`, { cf: { cacheTtl: 0, cacheEverything: false } });
-
-    // If this subdomain has no page yet, send them to the catalog (attributed to the subdomain).
-    if (res.status === 404) {
-      return Response.redirect(`https://veyronbiologics.com/catalog?tr=${sub}`, 302);
+    // Same-origin pixel loader. reta.veyronbiologics.com/px.js → main /px.js?tr=<key>. Served from this
+    // subdomain so the browser never trips CORP, and ?tr= resolves the runner's pixel server-side.
+    if (url.pathname === "/px.js") {
+      const px = await fetch(`${MAIN}/px.js?tr=${encodeURIComponent(trKey)}`, { cf: { cacheTtl: 300, cacheEverything: true } });
+      const r = new Response(px.body, px);
+      r.headers.set("Content-Type", "application/javascript; charset=utf-8");
+      r.headers.set("Cache-Control", "public, max-age=300");
+      r.headers.delete("etag");
+      return r;
     }
-    // Serve fresh; tell the browser not to hold a stale copy either.
-    const out = new Response(res.body, res);
-    out.headers.set("Cache-Control", "no-cache, must-revalidate");
+
+    const path = url.pathname === "/" ? `/${sub}.html` : url.pathname;
+    // Edge-cache the origin fetch (fast); per-request personalization happens in the transform below.
+    const res = await fetch(`${LP_ORIGIN}${path}`, { cf: { cacheTtl: 600, cacheEverything: true } });
+
+    // If this subdomain has no page yet, send them to the catalog (attributed to the runner key).
+    if (res.status === 404) {
+      return Response.redirect(`${MAIN}/catalog?tr=${encodeURIComponent(trKey)}`, 302);
+    }
+
+    const ct = res.headers.get("content-type") || "";
+    if (!ct.includes("text/html")) {
+      // Assets (images/css/js) pass through with the origin's cache headers — fast, unchanged.
+      const a = new Response(res.body, res);
+      a.headers.delete("x-github-request-id");
+      return a;
+    }
+
+    // Fire the Meta pixel base + load the runner's pixel same-origin, and add ?tr= to every store link.
+    const bootstrap =
+      `<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?` +
+      `n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;` +
+      `n.loaded=!0;n.version='2.0';n.queue=[]}(window,document);</script>` +
+      `<script src="/px.js?tr=${encodeURIComponent(trKey)}" async></script>`;
+
+    const rewriter = new HTMLRewriter()
+      .on("head", { element(el) { el.append(bootstrap, { html: true }); } })
+      .on("a[href]", {
+        element(el) {
+          const href = el.getAttribute("href") || "";
+          if (/veyronbiologics\.com/i.test(href) && !/[?&]tr=/.test(href)) {
+            el.setAttribute("href", `${href}${href.includes("?") ? "&" : "?"}tr=${encodeURIComponent(trKey)}`);
+          }
+        },
+      });
+
+    const out = new Response(rewriter.transform(res).body, res);
+    // Personalized by runner key → don't let a shared cache serve one runner's HTML to another.
+    out.headers.set("Cache-Control", "private, no-store");
+    // Persist the runner key across the LP → store hop, all subdomains, 90 days.
+    out.headers.append("Set-Cookie", `veyron_tr=${trKey}; Domain=.veyronbiologics.com; Path=/; Max-Age=7776000; SameSite=Lax; Secure`);
     out.headers.delete("x-github-request-id");
     out.headers.delete("etag");
     return out;

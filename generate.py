@@ -79,6 +79,15 @@ HEROES = {
    what="KLOW combines four of the most-studied repair-and-recovery research peptides — GHK-Cu, KPV, BPC-157, and TB-500 — in a single lyophilized vial.",
    why="Researchers who'd otherwise reconstitute four separate compounds get one COA-verified blend. Convenience without giving up the transparency."),
 }
+# Merge the rich DR copy (story/edge/coa/faqs/review) over the base HEROES — overrides hook/sub/etc for
+# the featured pages and adds wolverine. Featured pages then render the extra richsections.
+try:
+    from content import RICH
+    for _slug, _r in RICH.items():
+        HEROES[_slug] = {**HEROES.get(_slug, {}), **_r}
+except Exception as _e:
+    print("content merge skipped:", _e)
+
 FEELS = ["bold", "clinical", "minimal", "editorial"]  # rotate across non-hero products for A/B variety
 
 def imgslug(p): return p["img"].split("/")[-1].rsplit(".", 1)[0]
@@ -90,7 +99,8 @@ for i, pr in enumerate(sorted(_prods, key=lambda x: x["slug"])):
     desc = (pr.get("desc") or short).strip()
     if h:
         PAGES.append(dict(file=h["alias"], tpl=h["tpl"], tr=h["alias"], slug=slug, img=imgslug(pr), name=name, price=pr.get("price"),
-            klass=h["klass"], hook=h["hook"], sub=h["sub"], stat=h["stat"], statlabel=h["statlabel"], what=h["what"], why=h["why"]))
+            klass=h["klass"], hook=h["hook"], sub=h["sub"], stat=h["stat"], statlabel=h["statlabel"], what=h["what"], why=h["why"],
+            story=h.get("story"), edge=h.get("edge"), coa=h.get("coa"), faqs=h.get("faqs"), review=h.get("review")))
     else:
         PAGES.append(dict(file=slug, tpl=FEELS[i % len(FEELS)], tr=slug, slug=slug, img=imgslug(pr), name=name, price=pr.get("price"),
             klass="research-grade compound", hook=name, sub=short,
@@ -143,6 +153,7 @@ def trustbar(dark=False):
     return f'<div style="background:{bg};border-top:1px solid {line};border-bottom:1px solid {line}"><div class=wrap style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:26px 22px">{inner}</div></div>'
 
 def content_block(p, dark=False):
+    if not p.get("what"): return ""  # niche pages (buy/weightloss/etc) carry no product body
     line = "#221e15" if dark else "#e7e1d3"; mut = "#a79f8d" if dark else "#5c5647"
     return f"""<section style="padding:56px 0"><div class=wrap style="max-width:720px">
     <p class=kick>What it is</p><h2 style="font-size:32px;margin:8px 0 12px">{p['name']}</h2><p style="color:{mut};font-size:18px;line-height:1.75">{p['what']}</p>
@@ -196,11 +207,28 @@ def sticky(p):
 def dr(p, dark=False):
     return reviews(dark) + guarantee(dark) + faq(dark) + sticky(p)
 
+# Featured-page depth: story → why-this-one → verify → pull-quote → product FAQs. Only renders for pages
+# that carry the rich copy (the 5 featured); everything else returns "".
+def richsections(p, dark=False):
+    if not p.get("story"): return ""
+    line = "#2c271c" if dark else "#e7e1d3"; mut = "#a79f8d" if dark else "#5c5647"
+    bg = "#161109" if dark else "#faf7f0"; ink = "#f3efe4" if dark else "#161310"
+    out = f'<section style="padding:58px 0;background:{bg};border-top:1px solid {line}"><div class=wrap style="max-width:720px"><p class=kick>The shift the field is watching</p><p style="font-size:19px;line-height:1.8;color:{mut};margin-top:12px">{p["story"]}</p></div></section>'
+    out += f'<section style="padding:52px 0"><div class=wrap style="max-width:720px"><p class=kick>Why this one</p><h2 style="font-size:29px;margin:8px 0 12px">The edge</h2><p style="font-size:18px;line-height:1.75;color:{mut}">{p["edge"]}</p></div></section>'
+    out += f'<section style="padding:52px 0;background:{bg};border-top:1px solid {line};border-bottom:1px solid {line}"><div class=wrap style="max-width:720px"><p class=kick>Verify it yourself</p><h2 style="font-size:29px;margin:8px 0 12px">Batch-level proof, not a promise</h2><p style="font-size:18px;line-height:1.75;color:{mut}">{p["coa"]}</p></div></section>'
+    if p.get("review"):
+        q, by = p["review"]
+        out += f'<section style="padding:54px 0"><div class=wrap style="max-width:680px;text-align:center"><p style="font-family:{SERIF};font-size:clamp(22px,3vw,28px);line-height:1.5;color:{ink}">&ldquo;{q}&rdquo;</p><p style="color:{GOLD};margin-top:16px;font-size:13px;letter-spacing:1.5px;text-transform:uppercase">&mdash; {by}</p></div></section>'
+    if p.get("faqs"):
+        items = "".join(f'<div style="border-top:1px solid {line};padding:18px 0"><p style="font-family:{SERIF};font-size:19px;margin-bottom:6px;color:{ink}">{q}</p><p style="color:{mut};font-size:15px;line-height:1.65">{a}</p></div>' for q, a in p["faqs"])
+        out += f'<section style="padding:16px 0 46px"><div class=wrap style="max-width:720px"><p class=kick>{p["name"]} &mdash; the specifics</p>{items}</div></section>'
+    return out
+
 def tpl_editorial(p):  # light luxury magazine
     return head(p['name'],False)+f"""<nav><div class=wrap>{logo()}{cta(p,'Shop')}</div></nav>
 <header style="padding:64px 0 20px"><div class=wrap style="display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center">
 <div><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(36px,5.4vw,58px);line-height:1.04;margin:16px 0 20px">{p['hook']}</h1><p style="font-size:19px;color:#5c5647;line-height:1.7;margin-bottom:30px;max-width:480px">{p['sub']}</p>{cta(p)}</div>
-{frame(p,False,"82%")}</div></header>{urgency(False)}{trustbar(False)}{content_block(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
+{frame(p,False,"82%")}</div></header>{urgency(False)}{trustbar(False)}{content_block(p,False)}{richsections(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 def tpl_bold(p):  # dark, dramatic, oversized
     return head(p['name'],True)+f"""<nav><div class=wrap>{logo(True)}{cta(p,'Shop')}</div></nav>
@@ -208,7 +236,7 @@ def tpl_bold(p):  # dark, dramatic, oversized
 <div><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(44px,7vw,74px);line-height:1;margin:18px 0 20px">{p['hook']}</h1><p style="font-size:20px;color:#a79f8d;line-height:1.65;margin-bottom:30px">{p['sub']}</p>{cta(p)}</div>
 {frame(p,True,"84%")}</div></header>
 <div style="border-top:1px solid #221e15;border-bottom:1px solid #221e15;text-align:center;padding:48px 0"><div class=wrap><div style="font-family:{SERIF};font-size:clamp(56px,9vw,84px);color:{GOLD};line-height:1;font-weight:600">{p['stat']}</div><p style="color:#a79f8d;text-transform:uppercase;letter-spacing:2px;font-size:13px;margin-top:8px">{p['statlabel']}</p></div></div>
-{content_block(p,True)}{trustbar(True)}{reviews(True)}{guarantee(True)}{faq(True)}{offer_cta(p,True)}{FOOT(True)}{sticky(p)}"""
+{content_block(p,True)}{richsections(p,True)}{trustbar(True)}{reviews(True)}{guarantee(True)}{faq(True)}{offer_cta(p,True)}{FOOT(True)}{sticky(p)}"""
 
 def tpl_clinical(p):  # clean white, spec/trust forward
     return head(p['name'],False)+f"""<nav style="background:#fff"><div class=wrap>{logo()}{cta(p,'Shop')}</div></nav>
@@ -218,14 +246,14 @@ def tpl_clinical(p):  # clean white, spec/trust forward
 <div style="background:#fff;border:1px solid #e7e1d3;border-radius:14px;padding:28px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.04)"><div style="font-family:{SERIF};font-size:38px;color:{GOLD};font-weight:600">{p['stat']}</div><p style="font-size:14px;color:#6b6455;margin-top:6px">{p['statlabel']}</p></div>
 <div style="background:#fff;border:1px solid #e7e1d3;border-radius:14px;padding:28px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.04)"><div style="font-family:{SERIF};font-size:38px;color:{GOLD};font-weight:600">99.8%</div><p style="font-size:14px;color:#6b6455;margin-top:6px">Peak HPLC purity, to the decimal</p></div>
 <div style="background:#fff;border:1px solid #e7e1d3;border-radius:14px;padding:28px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.04)"><div style="font-family:{SERIF};font-size:38px;color:{GOLD};font-weight:600">COA</div><p style="font-size:14px;color:#6b6455;margin-top:6px">QR-verified, per lot, lab named</p></div>
-</div></div>{content_block(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
+</div></div>{content_block(p,False)}{richsections(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 def tpl_minimal(p):  # elegant single-focus
     return head(p['name'],False)+f"""<main style="min-height:88vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:50px 22px">
 <div style="max-width:560px"><div style="margin-bottom:30px">{logo()}</div><p class=kick>{p['klass']}</p>
 <div style="max-width:280px;margin:22px auto 8px">{frame(p,False,"78%")}</div>
 <h1 style="font-size:clamp(36px,6vw,54px);line-height:1.05;margin:10px 0 16px">{p['hook']}</h1><p style="font-size:19px;color:#5c5647;line-height:1.7;margin-bottom:16px">{p['sub']}</p>
-<p style="font-size:15px;color:#161310;margin-bottom:30px">25% off your first order — code <b style="color:{GOLD};font-family:{MONO}">FIRST25</b>, automatic · free shipping over $200</p>{cta(p)}</div></main>{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
+<p style="font-size:15px;color:#161310;margin-bottom:30px">25% off your first order — code <b style="color:{GOLD};font-family:{MONO}">FIRST25</b>, automatic · free shipping over $200</p>{cta(p)}</div></main>{content_block(p,False)}{richsections(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 def tpl_offer(p):  # dark DR niche + product grid
     cards = ""
