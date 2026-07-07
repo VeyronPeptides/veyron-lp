@@ -27,9 +27,10 @@ a{color:inherit;text-decoration:none}
 .hero .lede{font-size:21px;line-height:1.65;color:#c9c1b6;max-width:520px;margin-bottom:34px}.hg-center .lede{margin-inline:auto}.hero .lede b{color:#fff;font-weight:600}
 .badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}.hg-center .badges{justify-content:center}
 .badge{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:9px 16px;font:600 13px/1 'Inter';color:#d8d1c6}.badge svg{width:15px;height:15px;color:var(--gold-lite)}
-.vialwrap{position:relative;display:flex;justify-content:center}
-.vialwrap::before{content:"";position:absolute;width:82%;height:82%;top:9%;left:9%;background:radial-gradient(circle,rgba(161,98,7,.34),transparent 66%);filter:blur(24px)}
-.vialwrap img{position:relative;max-width:340px;width:100%;filter:drop-shadow(0 40px 54px rgba(0,0,0,.6))}.hg-center .vialwrap img{max-width:270px}
+.vialwrap{position:relative;display:flex;justify-content:center;align-items:center}
+.vialwrap::before{content:"";position:absolute;width:98%;height:98%;top:1%;left:1%;background:radial-gradient(circle at 50% 44%,rgba(201,138,30,.30),rgba(161,98,7,.10) 42%,transparent 72%);filter:blur(34px)}
+.vialwrap::after{content:"";position:absolute;bottom:4%;left:50%;transform:translateX(-50%);width:58%;height:20px;background:radial-gradient(ellipse,rgba(0,0,0,.55),transparent 72%);filter:blur(9px)}
+.vialwrap img{position:relative;max-width:340px;width:100%;filter:drop-shadow(0 30px 40px rgba(0,0,0,.55)) drop-shadow(0 4px 10px rgba(0,0,0,.4))}.hg-center .vialwrap img{max-width:270px}
 .statband{background:var(--dark);color:#fff;border-top:1px solid var(--line-d);text-align:center;padding:62px 0}
 .statband .n{font-family:'Cormorant Garamond';font-size:clamp(66px,10vw,124px);font-weight:600;color:var(--gold-lite);line-height:.92}
 .statband .l{color:#a79f93;font:600 14px/1.5 'Inter';letter-spacing:1px;text-transform:uppercase;margin-top:10px;max-width:460px;margin-inline:auto}
@@ -95,10 +96,10 @@ def _story(p):
 def _signature(p):
     sig = p.get("signature", "")
     if sig == "receptors":
-        return ('<section class="blk alt"><div class=wrap><div class=narrow><p class="kick eyebrow">Why this one</p><h2 class=big>One receptor. Then two. Then three.</h2></div>'
-          '<div class=vs><div class=vscard><p class=tag>GLP-1 · single</p><div class=big>1 receptor</div><p>Engages one incretin pathway. The first generation, and where it plateaus.</p></div>'
-          '<div class=vscard><p class=tag>Tirzepatide · dual</p><div class=big>2 receptors</div><p>GLP-1 + GIP. A clear step up, and the benchmark newer work is measured against.</p></div>'
-          '<div class="vscard win"><p class=tag>Retatrutide · triple</p><div class=big>3 receptors</div><p>Adds the glucagon receptor, an energy-expenditure pathway the duals can\'t reach.</p></div></div></div></section>')
+        return ('<section class="blk alt"><div class=wrap><div class=narrow><p class="kick eyebrow">The mechanism</p><h2 class=big>Three receptors, one molecule.</h2></div>'
+          '<div class=vs><div class=vscard><p class=tag>Receptor 01</p><div class=big>GLP-1</div><p>One of three incretin-related receptors the compound is structured to engage.</p></div>'
+          '<div class=vscard><p class=tag>Receptor 02</p><div class=big>GIP</div><p>The second receptor in the triple-agonist structure studied in metabolic research.</p></div>'
+          '<div class="vscard win"><p class=tag>Receptor 03</p><div class=big>Glucagon</div><p>The third receptor — what defines retatrutide as a triple-agonist research compound.</p></div></div></div></section>')
     if sig == "blend":
         peps = [("GHK-Cu","copper peptide, regeneration"),("KPV","tripeptide, anti-inflammatory"),("BPC-157","body protection compound"),("TB-500","thymosin β4, recovery")]
         cards = "".join(f'<div class=pcard><p class=code>0{i+1}</p><h4>{n}</h4><p>{d}</p></div>' for i,(n,d) in enumerate(peps))
@@ -161,5 +162,5 @@ def tpl_prem(p):
     return (f'<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1">'
       f'<title>{p["name"]} — Veyron Biologics</title>{FONTS}{PREM_CSS}</head><body>'
       '<div class=ruo>For laboratory &amp; research use only · Not for human or animal consumption · 21+ qualified researchers</div>'
-      f'{_hero(p)}{_stat(p)}{_story(p)}{_signature(p)}{_verify(p)}{_reviews(p)}{_faq(p)}{_offer(p)}{_footer()}{_sticky(p)}'
+      f'{_hero(p)}{_stat(p)}<div style="height:110px;background:linear-gradient(180deg,var(--dark),var(--paper))"></div>{_story(p)}{_signature(p)}{_verify(p)}{_reviews(p)}{_faq(p)}{_offer(p)}{_footer()}{_sticky(p)}'
       '</body></html>')
