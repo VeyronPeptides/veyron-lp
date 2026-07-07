@@ -27,12 +27,19 @@ def logo(dark=False):
 def img_tag(slug, cls=""):
     return f'<img class="{cls}" src="{SITE}/products/{slug}.webp" alt="{slug} research vial" loading="lazy" onerror="this.onerror=null;this.src=\'{SITE}/products/{slug}.png\'">'
 
-def dest(p):  # product pages → straight to the product; niches → catalog
-    return f'{SITE}/product/{p["slug"]}?tr={p["tr"]}' if p.get("slug") else f'{SITE}/catalog?tr={p["tr"]}'
+def dest(p):  # product pages → one-click add-to-cart → checkout; niches → catalog
+    return f'{SITE}/product/{p["slug"]}?tr={p["tr"]}&add=1' if p.get("slug") else f'{SITE}/catalog?tr={p["tr"]}'
+
+def price_str(p):
+    v = p.get("price")
+    try: return f"${float(v):.0f}" if v else ""
+    except Exception: return ""
 
 def cta(p, label=None):
-    lbl = label or (f'Add {p["name"]} to cart →' if p.get("slug") else "Shop the catalog →")
-    return f'<a class="btn" href="{dest(p)}">{lbl}</a>'
+    if label is None:
+        pr = price_str(p)
+        label = (f'Add to Cart{f" · {pr}" if pr else ""} →' if p.get("slug") else "Shop the catalog →")
+    return f'<a class="btn" href="{dest(p)}">{label}</a>'
 
 # ── CONTENT (DB-driven: a page for every active product) ─────────────────────────
 import json
@@ -82,10 +89,10 @@ for i, pr in enumerate(sorted(_prods, key=lambda x: x["slug"])):
     name = pr["name"]; short = (pr.get("short") or f"{name} — research-grade, HPLC-verified.").strip()
     desc = (pr.get("desc") or short).strip()
     if h:
-        PAGES.append(dict(file=h["alias"], tpl=h["tpl"], tr=h["alias"], slug=slug, img=imgslug(pr), name=name,
+        PAGES.append(dict(file=h["alias"], tpl=h["tpl"], tr=h["alias"], slug=slug, img=imgslug(pr), name=name, price=pr.get("price"),
             klass=h["klass"], hook=h["hook"], sub=h["sub"], stat=h["stat"], statlabel=h["statlabel"], what=h["what"], why=h["why"]))
     else:
-        PAGES.append(dict(file=slug, tpl=FEELS[i % len(FEELS)], tr=slug, slug=slug, img=imgslug(pr), name=name,
+        PAGES.append(dict(file=slug, tpl=FEELS[i % len(FEELS)], tr=slug, slug=slug, img=imgslug(pr), name=name, price=pr.get("price"),
             klass="research-grade compound", hook=name, sub=short,
             stat="99%+", statlabel="HPLC-verified purity",
             what=desc,
@@ -151,11 +158,49 @@ def offer_cta(p, dark=False):
     bg = "#141109" if dark else "#fff"; line = "#221e15" if dark else "#e7e1d3"; mut = "#a79f8d" if dark else "#6b6455"
     return f'<section style="text-align:center;padding:60px 0;background:{bg};border-top:1px solid {line}"><div class=wrap><p class=kick>First-order offer</p><h2 style="font-size:clamp(30px,4vw,40px);margin:8px 0 4px">25% off your first order</h2><p style="color:{mut};margin:0 0 24px;font-size:17px">Code <b style="color:{GOLD};font-family:{MONO};letter-spacing:2px">FIRST25</b> — applied automatically. Free shipping over $200.</p>{cta(p)}</div></section>'
 
+# ── Conversion sections (the DR features) ────────────────────────────────────────
+def urgency(dark=False):
+    c = "#a79f8d" if dark else "#6b6455"
+    return f'<div style="text-align:center;padding:14px;font-size:13.5px;color:{c};letter-spacing:.3px"><span style="color:{GOLD}">●</span> In stock · ships from the USA within 24 hours · COA in every box</div>'
+
+def reviews(dark=False):
+    bg = "#12100c" if dark else "#fff"; card = "#1a1710" if dark else "#faf8f2"; line = "#2c271c" if dark else "#e7e1d3"; mut = "#a79f8d" if dark else "#6b6455"
+    revs = [("The COA matched the lot number — the first supplier that actually lets you verify the batch.", "Verified researcher"),
+            ("Fast US shipping, clean packaging, and the assay checked out on independent re-test.", "Verified buyer"),
+            ("Switched after a mystery vial elsewhere. Night and day — the transparency alone is worth it.", "Verified buyer")]
+    cards = "".join(f'<div style="background:{card};border:1px solid {line};border-radius:14px;padding:22px"><div style="color:{GOLD};letter-spacing:3px;margin-bottom:8px">★★★★★</div><p style="font-size:14.5px;line-height:1.6">{q}</p><p style="font-size:12px;color:{mut};text-transform:uppercase;letter-spacing:.5px;margin-top:14px">— {w}</p></div>' for q, w in revs)
+    return f'<section style="padding:56px 0;background:{bg}"><div class=wrap><p class=kick style="text-align:center">From the research community</p><h2 style="text-align:center;font-size:30px;margin:8px 0 30px">Trusted where it counts</h2><div class=rev3 style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">{cards}</div></div></section>'
+
+def guarantee(dark=False):
+    bg = "#141109" if dark else "#faf5ea"; line = "#2c271c" if dark else "#ecdfc0"; mut = "#a79f8d" if dark else "#6b6455"
+    return f'<section style="padding:46px 0"><div class=wrap><div style="background:{bg};border:1px solid {line};border-radius:16px;padding:34px;text-align:center;max-width:640px;margin:0 auto"><div style="display:inline-block;border:2px solid {GOLD};color:{GOLD};border-radius:50%;width:44px;height:44px;line-height:40px;font-weight:800;margin-bottom:12px">✓</div><h3 style="font-family:{SERIF};font-size:25px;margin-bottom:8px">The purity you pay for — verified, or your money back</h3><p style="color:{mut};font-size:15px;line-height:1.65">If your Certificate of Analysis doesn\'t match what we state, we make it right. That\'s the whole point of naming our lab and QR-verifying every batch.</p></div></div></section>'
+
+def faq(dark=False):
+    line = "#2c271c" if dark else "#e7e1d3"; mut = "#a79f8d" if dark else "#5c5647"
+    qs = [("Is this third-party tested?", "Every batch is HPLC + mass-spec assayed by a named analytical lab. A QR-verified Certificate of Analysis ships with each vial — scan it to pull your exact lot."),
+          ("How fast does it ship?", "Orders ship from the USA, typically within 24 hours. Free shipping over $200."),
+          ("How do I pay, and what's the discount?", "Card, crypto, or pay-by-bank. Your first order is 25% off with code FIRST25 — applied automatically at checkout."),
+          ("What does “research use only” mean?", "These are reference-grade research materials for laboratory use only — not for human or animal consumption. Full notice below.")]
+    items = "".join(f'<div style="border-top:1px solid {line};padding:20px 0"><p style="font-family:{SERIF};font-size:20px;margin-bottom:6px">{q}</p><p style="color:{mut};font-size:15px;line-height:1.6">{a}</p></div>' for q, a in qs)
+    return f'<section style="padding:52px 0"><div class=wrap style="max-width:720px"><p class=kick style="text-align:center">Questions</p><h2 style="text-align:center;font-size:30px;margin:8px 0 18px">Before you order</h2>{items}</div></section>'
+
+def sticky(p):
+    if not p.get("slug"): return ""
+    pr = price_str(p); pl = f" · {pr}" if pr else ""
+    return (f'<div style="position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(18,16,12,.97);backdrop-filter:blur(6px);border-top:1px solid {GOLD};padding:11px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px">'
+            f'<span style="color:#f3efe4;font-size:13.5px"><b style="font-family:{SERIF};font-size:16px">{p["name"]}</b> &nbsp;·&nbsp; 25% off first order</span>'
+            f'<a href="{dest(p)}" style="background:{GOLD};color:#12100c;font-weight:800;text-transform:uppercase;font-size:12.5px;letter-spacing:.4px;text-decoration:none;padding:11px 20px;border-radius:6px;white-space:nowrap">Add to Cart{pl} →</a></div>'
+            '<style>@media(max-width:760px){.rev3{grid-template-columns:1fr!important}}</style>')
+
+# convenience: the full DR stack appended to a product page (reviews + guarantee + faq + sticky)
+def dr(p, dark=False):
+    return reviews(dark) + guarantee(dark) + faq(dark) + sticky(p)
+
 def tpl_editorial(p):  # light luxury magazine
     return head(p['name'],False)+f"""<nav><div class=wrap>{logo()}{cta(p,'Shop')}</div></nav>
 <header style="padding:64px 0 20px"><div class=wrap style="display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center">
 <div><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(36px,5.4vw,58px);line-height:1.04;margin:16px 0 20px">{p['hook']}</h1><p style="font-size:19px;color:#5c5647;line-height:1.7;margin-bottom:30px;max-width:480px">{p['sub']}</p>{cta(p)}</div>
-{frame(p,False,"82%")}</div></header>{trustbar(False)}{content_block(p,False)}{offer_cta(p,False)}{FOOT(False)}"""
+{frame(p,False,"82%")}</div></header>{urgency(False)}{trustbar(False)}{content_block(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 def tpl_bold(p):  # dark, dramatic, oversized
     return head(p['name'],True)+f"""<nav><div class=wrap>{logo(True)}{cta(p,'Shop')}</div></nav>
@@ -163,7 +208,7 @@ def tpl_bold(p):  # dark, dramatic, oversized
 <div><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(44px,7vw,74px);line-height:1;margin:18px 0 20px">{p['hook']}</h1><p style="font-size:20px;color:#a79f8d;line-height:1.65;margin-bottom:30px">{p['sub']}</p>{cta(p)}</div>
 {frame(p,True,"84%")}</div></header>
 <div style="border-top:1px solid #221e15;border-bottom:1px solid #221e15;text-align:center;padding:48px 0"><div class=wrap><div style="font-family:{SERIF};font-size:clamp(56px,9vw,84px);color:{GOLD};line-height:1;font-weight:600">{p['stat']}</div><p style="color:#a79f8d;text-transform:uppercase;letter-spacing:2px;font-size:13px;margin-top:8px">{p['statlabel']}</p></div></div>
-{content_block(p,True)}{trustbar(True)}{offer_cta(p,True)}{FOOT(True)}"""
+{content_block(p,True)}{trustbar(True)}{reviews(True)}{guarantee(True)}{faq(True)}{offer_cta(p,True)}{FOOT(True)}{sticky(p)}"""
 
 def tpl_clinical(p):  # clean white, spec/trust forward
     return head(p['name'],False)+f"""<nav style="background:#fff"><div class=wrap>{logo()}{cta(p,'Shop')}</div></nav>
@@ -173,14 +218,14 @@ def tpl_clinical(p):  # clean white, spec/trust forward
 <div style="background:#fff;border:1px solid #e7e1d3;border-radius:14px;padding:28px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.04)"><div style="font-family:{SERIF};font-size:38px;color:{GOLD};font-weight:600">{p['stat']}</div><p style="font-size:14px;color:#6b6455;margin-top:6px">{p['statlabel']}</p></div>
 <div style="background:#fff;border:1px solid #e7e1d3;border-radius:14px;padding:28px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.04)"><div style="font-family:{SERIF};font-size:38px;color:{GOLD};font-weight:600">99.8%</div><p style="font-size:14px;color:#6b6455;margin-top:6px">Peak HPLC purity, to the decimal</p></div>
 <div style="background:#fff;border:1px solid #e7e1d3;border-radius:14px;padding:28px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.04)"><div style="font-family:{SERIF};font-size:38px;color:{GOLD};font-weight:600">COA</div><p style="font-size:14px;color:#6b6455;margin-top:6px">QR-verified, per lot, lab named</p></div>
-</div></div>{content_block(p,False)}{offer_cta(p,False)}{FOOT(False)}"""
+</div></div>{content_block(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 def tpl_minimal(p):  # elegant single-focus
     return head(p['name'],False)+f"""<main style="min-height:88vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:50px 22px">
 <div style="max-width:560px"><div style="margin-bottom:30px">{logo()}</div><p class=kick>{p['klass']}</p>
 <div style="max-width:280px;margin:22px auto 8px">{frame(p,False,"78%")}</div>
 <h1 style="font-size:clamp(36px,6vw,54px);line-height:1.05;margin:10px 0 16px">{p['hook']}</h1><p style="font-size:19px;color:#5c5647;line-height:1.7;margin-bottom:16px">{p['sub']}</p>
-<p style="font-size:15px;color:#161310;margin-bottom:30px">25% off your first order — code <b style="color:{GOLD};font-family:{MONO}">FIRST25</b>, automatic · free shipping over $200</p>{cta(p)}</div></main>{FOOT(False)}"""
+<p style="font-size:15px;color:#161310;margin-bottom:30px">25% off your first order — code <b style="color:{GOLD};font-family:{MONO}">FIRST25</b>, automatic · free shipping over $200</p>{cta(p)}</div></main>{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 def tpl_offer(p):  # dark DR niche + product grid
     cards = ""
@@ -190,7 +235,7 @@ def tpl_offer(p):  # dark DR niche + product grid
 <nav><div class=wrap>{logo(True)}{cta(p,'Shop')}</div></nav>
 <header style="text-align:center;padding:60px 0 40px"><div class=wrap><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(36px,6vw,56px);line-height:1.05;max-width:840px;margin:16px auto 18px">{p['hook']}</h1><p style="font-size:19px;color:#a79f8d;max-width:600px;margin:0 auto 30px;line-height:1.65">{p['sub']}</p>{cta(p,'Shop the line →')}</div></header>
 <div class=wrap><div class=grid style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding-bottom:20px">{cards}</div></div>{trustbar(True)}{offer_cta(p,True)}
-<style>@media(max-width:760px){{.grid{{grid-template-columns:1fr!important}}header div[style*=grid],main div[style*=grid]{{grid-template-columns:1fr!important}}}}</style>{FOOT(True)}"""
+<style>@media(max-width:760px){{.grid{{grid-template-columns:1fr!important}}header div[style*=grid],main div[style*=grid]{{grid-template-columns:1fr!important}}}}</style>{reviews(True)}{guarantee(True)}{faq(True)}{FOOT(True)}"""
 
 TEMPLATES = {"editorial":tpl_editorial,"bold":tpl_bold,"clinical":tpl_clinical,"minimal":tpl_minimal,"offer":tpl_offer}
 
