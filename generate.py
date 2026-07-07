@@ -146,21 +146,33 @@ PAGES += [
 
 # ---- A/B VARIATIONS: one per featured hero, each a distinct FEEL (own subdomain). Reuses the hero's
 # rich copy, rendered in a new aesthetic so the marketing team can test feel-vs-feel. ----
-VARIATIONS = [
-    ("reta-story",      "story",     "retatrutide"),  # long-form storytelling + COA-education
-    ("wolverine-dark",  "dark",      "wolverine"),     # near-black, heavy, dramatic
-    ("ghk-aria",        "wispy",     "ghk-cu"),        # soft, airy, women-esque
-    ("nad-cellular",    "longevity", "nad-plus"),      # cellular-research theme (renamed from longevity)
-    ("klow-story",      "story",     "klow"),          # long-form storytelling for the 4-in-1 blend
-    ("bpc-dark",        "dark",      "bpc-157"),        # near-black dramatic for the foundational compound
-]
-for _file, _tpl, _slug in VARIATIONS:
+# A/B VARIATIONS — same product on the premium system, but a DIFFERENT hero layout + lead angle than the
+# main page (a meaningful A/B), clean -2 names, all copy inside the compliance rails (spec/mechanism only).
+VARIATION_COPY = {
+  "reta-2": dict(hero_layout="centered", hook="""Retatrutide, <em>verified to the decimal.</em>""",
+    sub="""A triple-agonist research compound engaging the GLP-1, GIP, and glucagon receptors. Supplied at 99%+ HPLC purity, mass-spec confirmed, with a QR-verified COA on every vial."""),
+  "klow-2": dict(hero_layout="split-right", hook="""Four research peptides. <em>One verified vial.</em>""",
+    sub="""GHK-Cu, KPV, BPC-157, and TB-500 pre-combined and COA-verified, so the blend the research community assembles by hand arrives as one documented material."""),
+  "nad-2": dict(hero_layout="centered", hook="""NAD+, the coenzyme <em>in every living cell.</em>""",
+    sub="""Nicotinamide adenine dinucleotide, studied across cellular-aging research, supplied at 99%+ HPLC purity with a QR-verified COA on every vial."""),
+  "wolverine-2": dict(hero_layout="split-right", hook="""BPC-157 and TB-500, <em>one verified vial.</em>""",
+    sub="""The two tissue-repair research compounds most often paired in the literature, pre-combined and COA-verified. USA-made, batch-traceable."""),
+  "ghk-2": dict(hero_layout="split-left", hook="""GHK-Cu, the <em>copper-binding tripeptide</em> the repair literature keeps citing.""",
+    sub="""Naturally present in human plasma, studied across regeneration-research pathways. 99%+ HPLC purity, COA-verified, identity-confirmed."""),
+  "bpc-2": dict(hero_layout="centered", hook="""BPC-157, the <em>body protection compound.</em>""",
+    sub="""Among the most-referenced peptides in tissue-repair research, supplied standalone at 99%+ HPLC purity with a QR-verified COA on every vial."""),
+}
+VARIATIONS = [("reta-2","retatrutide","receptors"),("klow-2","klow","blend"),("nad-2","nad-plus","cellular"),
+              ("wolverine-2","wolverine","dual"),("ghk-2","ghk-cu","gene"),("bpc-2","bpc-157","citations")]
+for _file, _slug, _sig in VARIATIONS:
     _h = HEROES.get(_slug); _pr = next((x for x in _prods if x["slug"] == _slug), None)
     if not _h or not _pr:
         continue
-    PAGES.append(dict(file=_file, tpl=_tpl, tr=_file, slug=_slug, img=imgslug(_pr), name=_pr["name"], price=_pr.get("price"),
-        klass=_h["klass"], hook=_h["hook"], sub=_h["sub"], stat=_h["stat"], statlabel=_h["statlabel"], what=_h["what"], why=_h["why"],
-        story=_h.get("story"), edge=_h.get("edge"), coa=_h.get("coa"), faqs=_h.get("faqs"), review=_h.get("review")))
+    _vc = VARIATION_COPY.get(_file, {})
+    PAGES.append(dict(file=_file, tpl="prem", tr=_file, slug=_slug, img=imgslug(_pr), name=_pr["name"], price=_pr.get("price"),
+        klass=_h["klass"], hook=_vc.get("hook", _h["hook"]), sub=_vc.get("sub", _h["sub"]), stat=_h["stat"], statlabel=_h["statlabel"],
+        what=_h["what"], why=_h["why"], story=_h.get("story"), edge=_h.get("edge"), coa=_h.get("coa"), faqs=_h.get("faqs"),
+        review=_h.get("review"), hero_layout=_vc.get("hero_layout"), signature=_sig))
 
 TRUST = ("<span><b>99%+</b> HPLC purity</span><span><b>QR-verified COA</b> per vial</span>"
          "<span><b>Lab named</b> · verify it yourself</span><span><b>USA</b> made &amp; shipped</span>")
