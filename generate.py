@@ -135,6 +135,8 @@ VARIATIONS = [
     ("wolverine-dark",  "dark",      "wolverine"),     # near-black, heavy, dramatic
     ("ghk-aria",        "wispy",     "ghk-cu"),        # soft, airy, women-esque
     ("nad-longevity",   "longevity", "nad-plus"),      # clean longevity theme
+    ("klow-story",      "story",     "klow"),          # long-form storytelling for the 4-in-1 blend
+    ("bpc-dark",        "dark",      "bpc-157"),        # near-black dramatic for the foundational compound
 ]
 for _file, _tpl, _slug in VARIATIONS:
     _h = HEROES.get(_slug); _pr = next((x for x in _prods if x["slug"] == _slug), None)
