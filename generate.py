@@ -128,6 +128,22 @@ PAGES += [
    stat="99%+", statlabel="HPLC-verified purity"),
 ]
 
+# ---- A/B VARIATIONS: one per featured hero, each a distinct FEEL (own subdomain). Reuses the hero's
+# rich copy, rendered in a new aesthetic so the marketing team can test feel-vs-feel. ----
+VARIATIONS = [
+    ("reta-story",      "story",     "retatrutide"),  # long-form storytelling + COA-education
+    ("wolverine-dark",  "dark",      "wolverine"),     # near-black, heavy, dramatic
+    ("ghk-aria",        "wispy",     "ghk-cu"),        # soft, airy, women-esque
+    ("nad-longevity",   "longevity", "nad-plus"),      # clean longevity theme
+]
+for _file, _tpl, _slug in VARIATIONS:
+    _h = HEROES.get(_slug); _pr = next((x for x in _prods if x["slug"] == _slug), None)
+    if not _h or not _pr:
+        continue
+    PAGES.append(dict(file=_file, tpl=_tpl, tr=_file, slug=_slug, img=imgslug(_pr), name=_pr["name"], price=_pr.get("price"),
+        klass=_h["klass"], hook=_h["hook"], sub=_h["sub"], stat=_h["stat"], statlabel=_h["statlabel"], what=_h["what"], why=_h["why"],
+        story=_h.get("story"), edge=_h.get("edge"), coa=_h.get("coa"), faqs=_h.get("faqs"), review=_h.get("review")))
+
 TRUST = ("<span><b>99%+</b> HPLC purity</span><span><b>QR-verified COA</b> per vial</span>"
          "<span><b>Lab named</b> · verify it yourself</span><span><b>USA</b> made &amp; shipped</span>")
 
@@ -265,7 +281,45 @@ def tpl_offer(p):  # dark DR niche + product grid
 <div class=wrap><div class=grid style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding-bottom:20px">{cards}</div></div>{trustbar(True)}{offer_cta(p,True)}
 <style>@media(max-width:760px){{.grid{{grid-template-columns:1fr!important}}header div[style*=grid],main div[style*=grid]{{grid-template-columns:1fr!important}}}}</style>{reviews(True)}{guarantee(True)}{faq(True)}{FOOT(True)}"""
 
-TEMPLATES = {"editorial":tpl_editorial,"bold":tpl_bold,"clinical":tpl_clinical,"minimal":tpl_minimal,"offer":tpl_offer}
+def tpl_story(p):  # VARIATION: long-form storytelling, story-first, COA-educational (light/cream)
+    return head(p['name'],False)+f"""<nav><div class=wrap>{logo()}{cta(p,'Shop')}</div></nav>
+<header style="padding:82px 0 30px;text-align:center"><div class=wrap style="max-width:820px">
+<p class=kick>{p['klass']}</p><h1 style="font-size:clamp(40px,6vw,68px);line-height:1.05;margin:20px 0 26px">{p['hook']}</h1>
+<p style="font-size:21px;color:#5c5647;line-height:1.7;max-width:620px;margin:0 auto 34px">{p['sub']}</p>{cta(p)}
+<div style="max-width:360px;margin:46px auto 0">{frame(p,False,'80%')}</div></div></header>{urgency(False)}{trustbar(False)}
+{richsections(p,False)}{content_block(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
+
+def tpl_dark(p):  # VARIATION: near-black, oversized, dramatic (heavier than 'bold')
+    return head(p['name'],True)+f"""<style>body{{background:#070707}}</style><nav><div class=wrap>{logo(True)}{cta(p,'Shop')}</div></nav>
+<header style="padding:92px 0 42px"><div class=wrap style="text-align:center;max-width:900px;margin:0 auto">
+<p class=kick>{p['klass']}</p><h1 style="font-size:clamp(48px,9vw,94px);line-height:.97;margin:22px 0 24px;text-transform:uppercase;letter-spacing:-1px">{p['hook']}</h1>
+<p style="font-size:21px;color:#a79f8d;line-height:1.6;max-width:600px;margin:0 auto 34px">{p['sub']}</p>{cta(p)}
+<div style="max-width:340px;margin:42px auto 0">{frame(p,True,'82%')}</div></div></header>
+<div style="border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;text-align:center;padding:58px 0;background:#0a0a0a"><div class=wrap><div style="font-family:{SERIF};font-size:clamp(64px,11vw,112px);color:{GOLD};line-height:1;font-weight:600">{p['stat']}</div><p style="color:#a79f8d;text-transform:uppercase;letter-spacing:3px;font-size:13px;margin-top:10px">{p['statlabel']}</p></div></div>
+{richsections(p,True)}{content_block(p,True)}{trustbar(True)}{reviews(True)}{guarantee(True)}{faq(True)}{offer_cta(p,True)}{FOOT(True)}{sticky(p)}"""
+
+def tpl_wispy(p):  # VARIATION: soft blush, thin serif, airy, women-esque
+    return head(p['name'],False)+f"""<style>body{{background:#fdf6f3;color:#3a3330}}.kick{{color:#c19a92!important;letter-spacing:3px}}.btn{{background:#3a3330!important;box-shadow:0 8px 22px rgba(58,51,48,.18)!important}}h1,h2,h3{{font-weight:400!important}}</style>
+<nav style="border-bottom:1px solid #f2e6e1"><div class=wrap>{logo()}{cta(p,'Shop')}</div></nav>
+<header style="padding:92px 0 34px;text-align:center"><div class=wrap style="max-width:760px">
+<p class=kick>{p['klass']}</p><h1 style="font-size:clamp(42px,6.5vw,72px);line-height:1.08;margin:24px 0 28px;font-family:{SERIF};color:#3a3330">{p['hook']}</h1>
+<p style="font-size:20px;color:#8a7d78;line-height:1.9;max-width:560px;margin:0 auto 36px;font-weight:300">{p['sub']}</p>{cta(p)}
+<div style="max-width:300px;margin:52px auto 0">{frame(p,False,'76%')}</div></div></header>
+<div style="text-align:center;padding:22px;color:#a89a94;font-size:14px;letter-spacing:.5px;font-style:italic">Naturally present in the body — studied for its role in renewal and repair</div>
+{richsections(p,False)}{content_block(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
+
+def tpl_longevity(p):  # VARIATION: clean teal/mist longevity theme, aspirational
+    return head(p['name'],False)+f"""<style>body{{background:#f0f5f4}}.kick{{color:#0f4f4a!important}}.btn{{background:#0f4f4a!important;color:#fff!important;box-shadow:0 8px 22px rgba(15,79,74,.25)!important}}</style>
+<nav style="border-bottom:1px solid #dde8e6"><div class=wrap>{logo()}{cta(p,'Shop')}</div></nav>
+<header style="padding:82px 0 36px;text-align:center"><div class=wrap style="max-width:820px">
+<p class=kick>{p['klass']}</p><h1 style="font-size:clamp(40px,6vw,66px);line-height:1.06;margin:20px 0 24px;color:#12201e">{p['hook']}</h1>
+<p style="font-size:20px;color:#4a5b58;line-height:1.75;max-width:600px;margin:0 auto 32px">{p['sub']}</p>{cta(p)}
+<div style="max-width:340px;margin:44px auto 0">{frame(p,False,'78%')}</div></div></header>
+<div style="border-top:1px solid #dde8e6;border-bottom:1px solid #dde8e6;text-align:center;padding:52px 0;background:#fff"><div class=wrap><div style="font-family:{SERIF};font-size:clamp(54px,8vw,86px);color:#0f4f4a;line-height:1;font-weight:600">{p['stat']}</div><p style="color:#4a5b58;text-transform:uppercase;letter-spacing:2px;font-size:13px;margin-top:8px">{p['statlabel']}</p></div></div>
+{richsections(p,False)}{content_block(p,False)}{trustbar(False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
+
+TEMPLATES = {"editorial":tpl_editorial,"bold":tpl_bold,"clinical":tpl_clinical,"minimal":tpl_minimal,"offer":tpl_offer,
+             "story":tpl_story,"dark":tpl_dark,"wispy":tpl_wispy,"longevity":tpl_longevity}
 
 built=[]
 for p in PAGES:
