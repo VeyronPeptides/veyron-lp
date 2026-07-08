@@ -18,12 +18,12 @@
 // Flip a pair's `live` to true + deploy ONLY once (a) compliance greenlights that page for paid traffic
 // AND (b) its PostHog experiment is LAUNCHED. While false: zero effect on that subdomain.
 const AB_PAIRS = {
-  reta:      { live: false, flag: "reta-lp",      dest: "reta-2" },
-  klow:      { live: false, flag: "klow-lp",      dest: "klow-2" },
-  nad:       { live: false, flag: "nad-lp",       dest: "nad-2" },
-  wolverine: { live: false, flag: "wolverine-lp", dest: "wolverine-2" },
-  ghk:       { live: false, flag: "ghk-lp",       dest: "ghk-2" },
-  bpc:       { live: false, flag: "bpc-lp",       dest: "bpc-2" },
+  reta:      { live: true,  flag: "reta-lp",      dest: "reta-2" },
+  klow:      { live: true,  flag: "klow-lp",      dest: "klow-2" },
+  nad:       { live: true,  flag: "nad-lp",       dest: "nad-2" },
+  wolverine: { live: true,  flag: "wolverine-lp", dest: "wolverine-2" },
+  ghk:       { live: true,  flag: "ghk-lp",       dest: "ghk-2" },
+  bpc:       { live: true,  flag: "bpc-lp",       dest: "bpc-2" },
 };
 
 const LP_ORIGIN = "https://veyronpeptides.github.io/veyron-lp";
