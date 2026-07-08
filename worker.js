@@ -13,6 +13,11 @@
  *   3. Carries the incoming ?tr=<runner> into every store link + sets a domain-wide cookie, so the
  *      runner key survives the LP → veyronbiologics.com hop and the sale attributes correctly.
  */
+
+// L3 A/B master switch (reta vs reta-2 via PostHog flag 'reta-lp'). Flip to true + deploy ONLY once
+// compliance greenlights the GLP-1 pages AND the PostHog experiment is launched. See the staged block below.
+const RETA_AB_LIVE = false;
+
 const LP_ORIGIN = "https://veyronpeptides.github.io/veyron-lp";
 const MAIN = "https://veyronbiologics.com";
 
@@ -78,7 +83,16 @@ export default {
       `n.loaded=!0;n.version='2.0';n.queue=[]}(window,document);</script>` +
       `<script src="/px.js?tr=${encodeURIComponent(trKey)}" async></script>` +
       // Microsoft Clarity — heatmaps + session recordings on the LPs (house-wide; dashboard access controlled in Clarity).
-      `<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","xiwmt0kmh3")</script>`;
+      `<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","xiwmt0kmh3")</script>` +
+      // PostHog — product analytics + feature flags + cohorts on the LPs (same project as the store).
+      `<script>!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture identify alias people.set register register_once unregister onFeatureFlags getFeatureFlag getFeatureFlagPayload getFeatureFlagResult reloadFeatureFlags group".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);posthog.init('phc_wiushYFJjVJj6kJDeuMxGoMjTWgLVPmTMHx43s79Eyct',{api_host:'https://us.i.posthog.com',defaults:'2026-05-30',enable_heatmaps:true,persistence:'localStorage+cookie',cross_subdomain_cookie:true});</script>` +
+      // L3 A/B (reta vs reta-2) — STAGED. Flip RETA_AB_LIVE to true + deploy ONLY after (a) compliance
+      // greenlights the GLP-1 pages and (b) the 'reta-lp' experiment is LAUNCHED in PostHog. While false:
+      // zero effect (no hide, no flag calls). While true: reta hides ≤300ms for everyone (equal delay, no
+      // bias), 'test' group goes to reta-2 with ?tr= preserved; flag exposure ties to the store purchase.
+      (RETA_AB_LIVE && sub === "reta"
+        ? `<script>(function(){var e=document.documentElement,v0=e.style.visibility;e.style.visibility='hidden';var d=0;function show(){if(!d){d=1;e.style.visibility=v0||''}}setTimeout(show,300);function run(){try{if(posthog.getFeatureFlag('reta-lp')==='test'){location.replace('https://reta-2.veyronbiologics.com/'+(location.search||''));return}}catch(x){}show()}if(window.posthog&&posthog.onFeatureFlags){posthog.onFeatureFlags(run)}else{setTimeout(run,250)}})()</script>`
+        : "");
 
     const rewriter = new HTMLRewriter()
       .on("head", { element(el) { el.append(bootstrap, { html: true }); } })
