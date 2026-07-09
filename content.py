@@ -1,7 +1,7 @@
 # Rich DR copy for the featured landing pages. Keyed by real product slug.
 # Triple-quoted strings so quotes/apostrophes/<em> pass through safely.
 RICH = {
- "retatrutide": dict(alias="reta", tpl="editorial", klass='triple-agonist · metabolic research',
+ "rt3": dict(alias="reta", tpl="editorial", klass='triple-agonist · metabolic research',
    hook="""A single research molecule engineered to engage <em>three receptors at once.</em>""",
    sub="""RT3 is a triple-agonist research compound targeting the three key metabolic-research receptors studied in metabolic research. Supplied at 99%+ HPLC purity, identity-confirmed, COA-verified.""",
    stat="Triple", statlabel="Three key receptors studied in metabolic research, one molecule",

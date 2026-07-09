@@ -48,13 +48,13 @@ _prods = json.load(open("products.json"))  # active products exported from the s
 
 # Rich hero content + short alias + chosen feel, keyed by the REAL product slug.
 HEROES = {
- "retatrutide": dict(alias="reta", tpl="editorial", klass='triple-agonist · metabolic research',
+ "rt3": dict(alias="reta", tpl="editorial", klass='triple-agonist · metabolic research',
    hook="The research compound that made <em>the previous generation look like a warm-up.</em>",
    sub="RT3 is the triple-hormone agonist the field is calling a triple-agonist, and in published research it left the previous generation behind.",
    stat="~24%", statlabel="mean body-weight reduction reported in 48-week research",
    what="RT3 is a single molecule that acts on three key metabolic-research receptors at once. Where a single-agonist hits one target and a dual-agonist hits two, the triple-agonist engages all three pathways implicated in metabolic research.",
    why="In the published literature the triple-agonist didn't just improve on its predecessors, it reset the ceiling. Research on obese study subjects reported roughly 24% mean body-weight reduction over 48 weeks, with figures some researchers compared to bariatric outcomes."),
- "tirzepatide": dict(alias="tirz", tpl="bold", klass="dual-agonist · incretin receptors", hook="The dual-agonist workhorse.",
+ "tz2": dict(alias="tirz", tpl="bold", klass="dual-agonist · incretin receptors", hook="The dual-agonist workhorse.",
    sub="The dual-incretin combination that became the research standard before the triple-agonist arrived, proven, dependable, decisive.",
    stat="~21%", statlabel="mean reduction reported in trials",
    what="TZ2 activates two key incretin receptors. The dual mechanism made it a clear step up over single-agonist research, and it remains the reference point the newer compounds are measured against.",
@@ -93,7 +93,7 @@ except Exception as _e:
 # featured pages look the same, all on the shared "E-commerce Luxury" design system.
 from premium import tpl_prem
 PREM = {
-    "retatrutide": ("split-right", "receptors"),
+    "rt3": ("split-right", "receptors"),
     "klow":        ("centered",    "blend"),
     "nad-plus":    ("split-left",  "cellular"),
     "wolverine":   ("centered",    "dual"),
@@ -127,10 +127,10 @@ for i, pr in enumerate(sorted(_prods, key=lambda x: x["slug"])):
 
 # ---- NICHE pages (hand-defined; all product links are ACTIVE slugs) ----
 PAGES += [
- dict(file="metabolic", tpl="offer", tr="metabolic", slug=None, img="retatrutide", name="Metabolic Research Line",
+ dict(file="metabolic", tpl="offer", tr="metabolic", slug=None, img="rt3", name="Metabolic Research Line",
    klass="metabolic research compounds", hook="The metabolic-research compounds, <em>sourced and verified.</em>",
    sub="RT3, TZ2, cagrilintide, the incretin-related research compounds, each HPLC-verified with a COA on every vial.",
-   stat="", statlabel="", products=[("retatrutide","RT3"),("tirzepatide","TZ2"),("cagrilintide","Cagrilintide")]),
+   stat="", statlabel="", products=[("rt3","RT3"),("tz2","TZ2"),("cagrilintide","Cagrilintide")]),
  dict(file="cellular", tpl="offer", tr="cellular", slug=None, img="nad-plus", name="Cellular Research Line",
    klass="cellular research compounds", hook="The cellular-research line, <em>tested to the decimal.</em>",
    sub="NAD+, GHK-Cu, epithalon, compounds studied across cellular-aging research, each COA-verified.",
@@ -139,7 +139,7 @@ PAGES += [
    klass="tissue-repair research compounds", hook="The tissue-repair research line.",
    sub="BPC-157, TB-500, KLOW, the tissue-repair research compounds, each COA-verified.",
    stat="", statlabel="", products=[("wolverine","BPC-157 / TB-500"),("klow","KLOW"),("ghk-cu","GHK-Cu")]),
- dict(file="buy", tpl="minimal", tr="buy", slug=None, img="retatrutide", name="Veyron Biologics",
+ dict(file="buy", tpl="minimal", tr="buy", slug=None, img="rt3", name="Veyron Biologics",
    klass="research-grade · verifiable", hook="The research peptides you can <em>actually verify.</em>",
    sub="99%+ HPLC purity. QR-verified COA on every vial. A lab we name. The reference-grade version.",
    stat="99%+", statlabel="HPLC-verified purity"),
@@ -163,7 +163,7 @@ VARIATION_COPY = {
   "bpc-2": dict(hero_layout="centered", hook="""BPC-157, the <em>body protection compound.</em>""",
     sub="""Among the most-referenced peptides in tissue-repair research, supplied standalone at 99%+ HPLC purity with a QR-verified COA on every vial."""),
 }
-VARIATIONS = [("reta-2","retatrutide","receptors"),("klow-2","klow","blend"),("nad-2","nad-plus","cellular"),
+VARIATIONS = [("reta-2","rt3","receptors"),("klow-2","klow","blend"),("nad-2","nad-plus","cellular"),
               ("wolverine-2","wolverine","dual"),("ghk-2","ghk-cu","gene"),("bpc-2","bpc-157","citations")]
 for _file, _slug, _sig in VARIATIONS:
     _h = HEROES.get(_slug); _pr = next((x for x in _prods if x["slug"] == _slug), None)

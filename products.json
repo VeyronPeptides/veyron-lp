@@ -261,11 +261,11 @@
     "price": 44.95
   },
   {
-    "slug": "retatrutide",
+    "slug": "rt3",
     "name": "RT3",
     "short": "Triple-receptor incretin agonist (GIP/glucagon axis) studied for metabolic research.",
     "desc": "Triple-receptor incretin agonist (GIP/glucagon axis) studied for metabolic research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
-    "img": "/products/retatrutide.webp",
+    "img": "/products/rt3.webp",
     "cat": "",
     "price": 69.95
   },
@@ -342,11 +342,11 @@
     "price": 69.95
   },
   {
-    "slug": "tirzepatide",
+    "slug": "tz2",
     "name": "TZ2",
     "short": "Dual-receptor incretin agonist (GIP axis) studied for incretin-receptor research.",
     "desc": "Dual-receptor incretin agonist (GIP axis) studied for incretin-receptor research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
-    "img": "/products/tirzepatide.webp",
+    "img": "/products/tz2.webp",
     "cat": "",
     "price": 79.95
   },
