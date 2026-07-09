@@ -17,13 +17,16 @@
 // L3 A/B experiments — one entry per compound pair (PostHog experiments #381888–#381893, drafts).
 // Flip a pair's `live` to true + deploy ONLY once (a) compliance greenlights that page for paid traffic
 // AND (b) its PostHog experiment is LAUNCHED. While false: zero effect on that subdomain.
+// DISABLED 2026-07-09 (Cam): the client redirect to the -2 variant caused a visible double-load/flash on
+// the money pages (klow/nad/wolverine/bpc were bouncing to their -2). All paused → each page serves its
+// own content, no reload. Re-enable a pair ONLY with a non-reload (server-side/same-URL) A/B mechanism.
 const AB_PAIRS = {
-  reta:      { live: true,  flag: "reta-lp",      dest: "reta-2" },
-  klow:      { live: true,  flag: "klow-lp",      dest: "klow-2" },
-  nad:       { live: true,  flag: "nad-lp",       dest: "nad-2" },
-  wolverine: { live: true,  flag: "wolverine-lp", dest: "wolverine-2" },
-  ghk:       { live: true,  flag: "ghk-lp",       dest: "ghk-2" },
-  bpc:       { live: true,  flag: "bpc-lp",       dest: "bpc-2" },
+  reta:      { live: false, flag: "reta-lp",      dest: "reta-2" },
+  klow:      { live: false, flag: "klow-lp",      dest: "klow-2" },
+  nad:       { live: false, flag: "nad-lp",       dest: "nad-2" },
+  wolverine: { live: false, flag: "wolverine-lp", dest: "wolverine-2" },
+  ghk:       { live: false, flag: "ghk-lp",       dest: "ghk-2" },
+  bpc:       { live: false, flag: "bpc-lp",       dest: "bpc-2" },
 };
 
 const LP_ORIGIN = "https://veyronpeptides.github.io/veyron-lp";

@@ -181,7 +181,7 @@ TRUST = ("<span><b>99%+</b> HPLC purity</span><span><b>QR-verified COA</b> per v
 def head(title, dark=False):
     bg = "#0f0d09" if dark else "#faf8f2"; ink = "#f3efe4" if dark else "#161310"
     return f"""<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="apple-touch-icon" href="/favicon.svg"><meta name="theme-color" content="#0c0a09">
+<link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/favicon.png"><meta name="theme-color" content="#0c0a09">
 <title>{title} | Veyron Biologics</title>{FONTS}<style>
 *{{margin:0;padding:0;box-sizing:border-box}}body{{font:16px/1.65 {SANS};background:{bg};color:{ink}}}
 .wrap{{max-width:1040px;margin:0 auto;padding:0 22px}}a{{color:inherit}}h1,h2,h3,.serif{{font-family:{SERIF};font-weight:500}}

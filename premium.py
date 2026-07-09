@@ -182,7 +182,7 @@ def _sticky(p):
 
 def tpl_prem(p):
     return (f'<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1">'
-      '<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="apple-touch-icon" href="/favicon.svg"><meta name="theme-color" content="#0c0a09">'
+      '<link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/favicon.png"><meta name="theme-color" content="#0c0a09">'
       f'<title>{p["name"]} — Veyron Biologics</title>{FONTS}{PREM_CSS}</head><body>'
       '<div class=ruo>For laboratory &amp; research use only · Not for human or animal consumption · 21+ qualified researchers</div>'
       f'{_hero(p)}{_stat(p)}<div style="height:110px;background:linear-gradient(180deg,var(--dark),var(--paper))"></div>{_story(p)}{_signature(p)}{_verify(p)}{_rawdata(p)}{_guarantee(p)}{_reviews(p)}{_faq(p)}{_offer(p)}{_footer()}{_sticky(p)}'
