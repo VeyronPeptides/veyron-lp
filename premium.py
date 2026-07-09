@@ -5,6 +5,7 @@
 #   signature:   "receptors" | "blend" | "cellular" | "dual" | "gene" | "citations"
 #   accent:      optional hex override (defaults to gold)
 SITE = "https://veyronbiologics.com"
+from trust import LAB, LAB_LONG, ELITE, ELITE_BLURB, REFUND_BLURB, REFUND_DAYS, TESTS_10
 
 PREM_CSS = """<style>
 :root{--ink:#0C0A09;--dark:#1C1917;--dark2:#12100e;--gold:#A16207;--gold-lite:#C98A1E;--paper:#FAFAF9;--sec:#44403C;--muted:#57534E;--line:#E7E2DA;--line-d:#2A2622}
@@ -54,6 +55,13 @@ h2.big{font-size:clamp(34px,4.6vw,52px);margin-bottom:20px}.lead{font-size:20px;
 .faq details{border-top:1px solid var(--line);padding:22px 0}.faq summary{font-family:'Cormorant Garamond';font-size:23px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;align-items:center}.faq summary::-webkit-details-marker{display:none}.faq summary::after{content:"+";color:var(--gold);font-size:26px;font-weight:400;font-family:'Inter'}.faq details[open] summary::after{content:"−"}.faq p{font-size:15.5px;color:var(--muted);line-height:1.7;margin-top:12px}
 .offer{background:radial-gradient(120% 100% at 50% 0,rgba(161,98,7,.18),transparent 60%),var(--dark);color:#fff;text-align:center;padding:84px 0}.offer h2{font-size:clamp(38px,5vw,60px);margin-bottom:12px}.offer p{color:#c9c1b6;font-size:18px;margin-bottom:30px}.offer .code{font-family:'JetBrains Mono';color:var(--gold-lite);font-weight:500;letter-spacing:2px}
 footer{background:#0a0908;color:#8b8378;font-size:12.5px;line-height:1.7;padding:36px 0}footer .disc{border:1px solid var(--line-d);border-radius:10px;padding:18px;margin-bottom:14px}
+.tests{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 26px;max-width:760px;margin:26px auto 0;padding:0}
+.tests li{position:relative;padding:11px 0 11px 30px;border-bottom:1px solid var(--line);font:500 15px/1.4 'Inter';color:var(--sec)}
+.tests li::before{content:"";position:absolute;left:4px;top:15px;width:9px;height:9px;border-radius:2px;background:var(--gold)}
+@media(max-width:640px){.tests{grid-template-columns:1fr}}
+.gtee{background:linear-gradient(180deg,#fffdf8,#fff);border:1px solid var(--gold);border-radius:20px;padding:40px 34px;box-shadow:0 18px 44px rgba(161,98,7,.12)}
+.gtee .seal{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border:2px solid var(--gold);color:var(--gold);border-radius:50%;font-size:24px;font-weight:800;margin-bottom:14px}
+.gtee h3{font-size:27px;margin-bottom:10px}.gtee p{font-size:15.5px;line-height:1.7;color:var(--muted);max-width:520px;margin:0 auto}
 .sticky{position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(18,16,14,.97);backdrop-filter:blur(8px);border-top:1px solid var(--gold);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:14px}.sticky .p{color:#f3efe9;font-size:14px}.sticky .p b{font-family:'Cormorant Garamond';font-size:18px;font-weight:600}.sticky a{background:var(--gold);color:#fff;font:800 13px/1 'Inter';letter-spacing:.4px;text-transform:uppercase;padding:14px 24px;border-radius:8px;white-space:nowrap}.sticky a:hover{background:var(--gold-lite)}
 @media(max-width:860px){.hero-grid{grid-template-columns:1fr!important;gap:12px;padding:20px 0 70px;text-align:center}.vialwrap{order:-1;margin-bottom:8px}.vialwrap img{max-width:230px!important}.hero .lede{margin-inline:auto}.badges{justify-content:center}.grid3,.grid4,.rev{grid-template-columns:1fr!important}.vs{grid-template-columns:1fr!important}.vs .mid{transform:rotate(90deg)}.orbit .node{position:static;display:inline-block;margin:4px}}
 </style>"""
@@ -125,10 +133,24 @@ def _signature(p):
 
 def _verify(p):
     return ('<section class=blk><div class=wrap><div class="narrow eyebrow"><p class=kick>Verify it yourself</p><h2 class=big>Batch-level proof, not a promise</h2></div>'
-      '<div class=grid3><div class=tcard><div class=ic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><h3>99.8% HPLC</h3><p>Every lot assayed to peak purity by a named third-party lab.</p></div>'
+      f'<div class=grid3><div class=tcard><div class=ic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><h3>99.8% HPLC</h3><p>Every lot assayed to peak purity by {LAB}, a US ISO-certified lab.</p></div>'
       '<div class=tcard><div class=ic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><path d="M14 14h6v6h-6z"/></svg></div><h3>QR-verified COA</h3><p>Scan the vial, pull the exact batch report. Raw data, not a summary.</p></div>'
-      '<div class=tcard><div class=ic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div><h3>USA-made</h3><p>Synthesized stateside, ships within 24 hours. Traceable to the vial in hand.</p></div></div>'
+      f'<div class=tcard><div class=ic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div><h3>{ELITE.split(" Verified")[0]} certified</h3><p>Real-time COA verification. Can\'t be faked, replicated, or duplicated.</p></div></div>'
       f'<p class=lead style="margin-top:30px">{p.get("coa","")}</p></div></section>')
+
+def _rawdata(p):
+    lis = "".join(f'<li>{t}</li>' for t in TESTS_10)
+    return (f'<section class="blk alt"><div class=wrap><div class="narrow eyebrow"><p class=kick>10x testing</p>'
+      '<h2 class=big>No anonymous reviews. Just the raw data.</h2>'
+      f'<p class=lead style="margin-top:14px">In this market, five-star ratings from names you cannot check do not mean much. Here is what does. Every vial label carries a QR code. Scan it and pull the actual Certificate of Analysis for the batch in your hand, straight from {LAB_LONG}. No summary. No selectivity. The raw report, specific to your vial. {ELITE_BLURB}</p></div>'
+      f'<ul class=tests>{lis}</ul>'
+      '<p class=lead class=narrow style="max-width:760px;margin:22px auto 0;text-align:center">Harder to fake than a testimonial. Easier to trust.</p></div></section>')
+
+def _guarantee(p):
+    return ('<section class=blk><div class="wrap narrow" style="text-align:center">'
+      '<div class=gtee><div class=seal>&#10003;</div>'
+      '<h3>The purity you pay for, verified. Or your money back.</h3>'
+      f'<p>{REFUND_BLURB}</p></div></div></section>')
 
 def _reviews(p):
     q, by = p.get("review", ("The COA matched the batch to the decimal. This is the reference material our work now runs on.", "Verified researcher"))
@@ -141,7 +163,7 @@ def _faq(p):
     items = ""
     for i,(q,a) in enumerate(p.get("faqs", [])[:2]):
         items += f'<details{" open" if i==0 else ""}><summary>{q}</summary><p>{a}</p></details>'
-    items += ('<details><summary>Is this third-party tested?</summary><p>Every batch is HPLC + mass-spec assayed by a named lab; a QR-verified Certificate of Analysis ships with each vial.</p></details>'
+    items += (f'<details><summary>Is this third-party tested?</summary><p>Every batch goes through the 10x testing protocol at {LAB}, a US ISO-certified facility, earning {ELITE} certification with real-time COA verification. A QR-verified Certificate of Analysis ships with each vial.</p></details>'
       '<details><summary>How does it ship, and what\'s the discount?</summary><p>Ships from the USA, typically within 24 hours; free shipping over $200. First order is 25% off with code FIRST25, applied automatically.</p></details>')
     return f'<section class=blk><div class="wrap narrow faq"><p class="kick eyebrow" style="text-align:center">Questions</p><h2 class=big style="text-align:center;margin-bottom:16px">Before you order</h2>{items}</div></section>'
 
@@ -162,5 +184,5 @@ def tpl_prem(p):
     return (f'<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1">'
       f'<title>{p["name"]} — Veyron Biologics</title>{FONTS}{PREM_CSS}</head><body>'
       '<div class=ruo>For laboratory &amp; research use only · Not for human or animal consumption · 21+ qualified researchers</div>'
-      f'{_hero(p)}{_stat(p)}<div style="height:110px;background:linear-gradient(180deg,var(--dark),var(--paper))"></div>{_story(p)}{_signature(p)}{_verify(p)}{_reviews(p)}{_faq(p)}{_offer(p)}{_footer()}{_sticky(p)}'
+      f'{_hero(p)}{_stat(p)}<div style="height:110px;background:linear-gradient(180deg,var(--dark),var(--paper))"></div>{_story(p)}{_signature(p)}{_verify(p)}{_rawdata(p)}{_guarantee(p)}{_reviews(p)}{_faq(p)}{_offer(p)}{_footer()}{_sticky(p)}'
       '</body></html>')

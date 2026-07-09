@@ -6,6 +6,7 @@ real product photos by slug. Clean subdomain names (no dashes). Product pages li
 product (add-to-cart on the real site), niche pages to the catalog. Distinct FEELS for A/B.
 Run: python3 generate.py
 """
+from trust import LAB, LAB_LONG, ELITE, ELITE_BLURB, REFUND_BLURB, REFUND_DAYS, TESTS_10
 SITE = "https://veyronbiologics.com"
 GOLD = "#b8912f"
 FONTS = ("<link rel=preconnect href=https://fonts.googleapis.com>"
@@ -122,7 +123,7 @@ for i, pr in enumerate(sorted(_prods, key=lambda x: x["slug"])):
             klass="research-grade compound", hook=name, sub=short,
             stat="99%+", statlabel="HPLC-verified purity",
             what=desc,
-            why=f"{name} ships HPLC-verified with a QR-linked Certificate of Analysis on every vial, tested by a named third-party lab, synthesized in the USA. Purity you can actually confirm, not just a number on a page."))
+            why=f"{name} ships HPLC-verified with a QR-linked Certificate of Analysis on every vial, tested by {LAB}, a US ISO-certified lab, synthesized in the USA. Purity you can actually confirm, not just a number on a page."))
 
 # ---- NICHE pages (hand-defined; all product links are ACTIVE slugs) ----
 PAGES += [
@@ -175,7 +176,7 @@ for _file, _slug, _sig in VARIATIONS:
         review=_h.get("review"), hero_layout=_vc.get("hero_layout"), signature=_sig))
 
 TRUST = ("<span><b>99%+</b> HPLC purity</span><span><b>QR-verified COA</b> per vial</span>"
-         "<span><b>Lab named</b> · verify it yourself</span><span><b>USA</b> made &amp; shipped</span>")
+         f"<span><b>{LAB}</b> · verify it yourself</span><span><b>USA</b> made &amp; shipped</span>")
 
 def head(title, dark=False):
     bg = "#0f0d09" if dark else "#faf8f2"; ink = "#f3efe4" if dark else "#161310"
@@ -194,7 +195,7 @@ FOOT = lambda dark: f'<footer style="border-top:1px solid {"#221e15" if dark els
 # ── TEMPLATES (distinct feels, shared brand, premium polish) ─────────────────────
 def trustbar(dark=False):
     bg = "#141109" if dark else "#fff"; line = "#221e15" if dark else "#eee7d7"; c = "#a79f8d" if dark else "#6b6455"
-    cells = [("99.8%","Peak HPLC purity"),("QR-COA","Verified, per vial"),("Named lab","Verify it yourself"),("USA","Made &amp; shipped")]
+    cells = [("99.8%","Peak HPLC purity"),("QR-COA","Verified, per vial"),("Vanguard","Level 3 · verify it yourself"),("USA","Made &amp; shipped")]
     inner = "".join(f'<div style="text-align:center"><div style="font-family:{SERIF};font-size:26px;color:{GOLD};font-weight:600">{a}</div><div style="font-size:12px;color:{c};text-transform:uppercase;letter-spacing:.6px;margin-top:2px">{b}</div></div>' for a,b in cells)
     return f'<div style="background:{bg};border-top:1px solid {line};border-bottom:1px solid {line}"><div class=wrap style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:26px 22px">{inner}</div></div>'
 
@@ -232,11 +233,11 @@ def reviews(dark=False):
 
 def guarantee(dark=False):
     bg = "#141109" if dark else "#faf5ea"; line = "#2c271c" if dark else "#ecdfc0"; mut = "#a79f8d" if dark else "#6b6455"
-    return f'<section style="padding:46px 0"><div class=wrap><div style="background:{bg};border:1px solid {line};border-radius:16px;padding:34px;text-align:center;max-width:640px;margin:0 auto"><div style="display:inline-block;border:2px solid {GOLD};color:{GOLD};border-radius:50%;width:44px;height:44px;line-height:40px;font-weight:800;margin-bottom:12px">✓</div><h3 style="font-family:{SERIF};font-size:25px;margin-bottom:8px">The purity you pay for, verified, or your money back</h3><p style="color:{mut};font-size:15px;line-height:1.65">If your Certificate of Analysis doesn\'t match what we state, we make it right. That\'s the whole point of naming our lab and QR-verifying every batch.</p></div></div></section>'
+    return f'<section style="padding:46px 0"><div class=wrap><div style="background:{bg};border:1px solid {line};border-radius:16px;padding:34px;text-align:center;max-width:640px;margin:0 auto"><div style="display:inline-block;border:2px solid {GOLD};color:{GOLD};border-radius:50%;width:44px;height:44px;line-height:40px;font-weight:800;margin-bottom:12px">✓</div><h3 style="font-family:{SERIF};font-size:25px;margin-bottom:8px">The purity you pay for, verified, or your money back</h3><p style="color:{mut};font-size:15px;line-height:1.65">{REFUND_BLURB}</p></div></div></section>'
 
 def faq(dark=False):
     line = "#2c271c" if dark else "#e7e1d3"; mut = "#a79f8d" if dark else "#5c5647"
-    qs = [("Is this third-party tested?", "Every batch is HPLC + mass-spec assayed by a named analytical lab. A QR-verified Certificate of Analysis ships with each vial, scan it to pull your exact lot."),
+    qs = [("Is this third-party tested?", f"Every batch goes through the 10x testing protocol at {LAB}, a US ISO-certified facility, earning {ELITE} certification with real-time COA verification. A QR-verified Certificate of Analysis ships with each vial, scan it to pull your exact lot."),
           ("How fast does it ship?", "Orders ship from the USA, typically within 24 hours. Free shipping over $200."),
           ("How do I pay, and what's the discount?", "Card, crypto, or pay-by-bank. Your first order is 25% off with code FIRST25, applied automatically at checkout."),
           ("What does “research use only” mean?", "These are reference-grade research materials for laboratory use only, not for human or animal consumption. Full notice below.")]
@@ -251,9 +252,20 @@ def sticky(p):
             f'<a href="{dest(p)}" style="background:{GOLD};color:#12100c;font-weight:800;text-transform:uppercase;font-size:12.5px;letter-spacing:.4px;text-decoration:none;padding:11px 20px;border-radius:6px;white-space:nowrap">Add to Cart{pl} →</a></div>'
             '<style>@media(max-width:760px){.rev3{grid-template-columns:1fr!important}}</style>')
 
+# "No anonymous reviews. Just the raw data." — the 10x testing list + named-lab framing.
+def rawdata(dark=False):
+    bg = "#12100c" if dark else "#fff"; line = "#2c271c" if dark else "#e7e1d3"; mut = "#a79f8d" if dark else "#5c5647"; ink = "#f3efe4" if dark else "#161310"
+    lis = "".join(f'<li style="position:relative;list-style:none;padding:10px 0 10px 26px;border-bottom:1px solid {line};font-size:14.5px;color:{mut}"><span style="position:absolute;left:2px;top:15px;width:8px;height:8px;border-radius:2px;background:{GOLD}"></span>{t}</li>' for t in TESTS_10)
+    return (f'<section style="padding:56px 0;background:{bg};border-top:1px solid {line};border-bottom:1px solid {line}"><div class=wrap style="max-width:760px">'
+            f'<p class=kick style="text-align:center">10x testing</p><h2 style="text-align:center;font-size:clamp(28px,4vw,38px);margin:8px 0 16px;color:{ink}">No anonymous reviews. Just the raw data.</h2>'
+            f'<p style="color:{mut};font-size:16px;line-height:1.75;text-align:center">In this market, five-star ratings from names you cannot check do not mean much. Here is what does. Every vial label carries a QR code, scan it and pull the actual Certificate of Analysis for the batch in your hand, straight from {LAB_LONG}. No summary. No selectivity. {ELITE_BLURB}</p>'
+            f'<ul style="display:grid;grid-template-columns:1fr 1fr;gap:0 24px;margin:24px 0 0;padding:0">{lis}</ul>'
+            f'<p style="text-align:center;color:{ink};font-size:15px;margin-top:20px">Harder to fake than a testimonial. Easier to trust.</p></div>'
+            '<style>@media(max-width:640px){section ul[style*=grid]{grid-template-columns:1fr!important}}</style></section>')
+
 # convenience: the full DR stack appended to a product page (reviews + guarantee + faq + sticky)
 def dr(p, dark=False):
-    return reviews(dark) + guarantee(dark) + faq(dark) + sticky(p)
+    return rawdata(dark) + reviews(dark) + guarantee(dark) + faq(dark) + sticky(p)
 
 # Featured-page depth: story → why-this-one → verify → pull-quote → product FAQs. Only renders for pages
 # that carry the rich copy (the 5 featured); everything else returns "".
@@ -276,7 +288,7 @@ def tpl_editorial(p):  # light luxury magazine
     return head(p['name'],False)+f"""<nav><div class=wrap>{logo()}{cta(p,'Shop')}</div></nav>
 <header style="padding:64px 0 20px"><div class=wrap style="display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center">
 <div><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(36px,5.4vw,58px);line-height:1.04;margin:16px 0 20px">{p['hook']}</h1><p style="font-size:19px;color:#5c5647;line-height:1.7;margin-bottom:30px;max-width:480px">{p['sub']}</p>{cta(p)}</div>
-{frame(p,False,"82%")}</div></header>{urgency(False)}{trustbar(False)}{content_block(p,False)}{richsections(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
+{frame(p,False,"82%")}</div></header>{urgency(False)}{trustbar(False)}{content_block(p,False)}{richsections(p,False)}{rawdata(False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 def tpl_bold(p):  # dark, dramatic, oversized
     return head(p['name'],True)+f"""<nav><div class=wrap>{logo(True)}{cta(p,'Shop')}</div></nav>
@@ -284,7 +296,7 @@ def tpl_bold(p):  # dark, dramatic, oversized
 <div><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(44px,7vw,74px);line-height:1;margin:18px 0 20px">{p['hook']}</h1><p style="font-size:20px;color:#a79f8d;line-height:1.65;margin-bottom:30px">{p['sub']}</p>{cta(p)}</div>
 {frame(p,True,"84%")}</div></header>
 <div style="border-top:1px solid #221e15;border-bottom:1px solid #221e15;text-align:center;padding:48px 0"><div class=wrap><div style="font-family:{SERIF};font-size:clamp(56px,9vw,84px);color:{GOLD};line-height:1;font-weight:600">{p['stat']}</div><p style="color:#a79f8d;text-transform:uppercase;letter-spacing:2px;font-size:13px;margin-top:8px">{p['statlabel']}</p></div></div>
-{content_block(p,True)}{richsections(p,True)}{trustbar(True)}{reviews(True)}{guarantee(True)}{faq(True)}{offer_cta(p,True)}{FOOT(True)}{sticky(p)}"""
+{content_block(p,True)}{richsections(p,True)}{trustbar(True)}{rawdata(True)}{reviews(True)}{guarantee(True)}{faq(True)}{offer_cta(p,True)}{FOOT(True)}{sticky(p)}"""
 
 def tpl_clinical(p):  # clean white, spec/trust forward
     return head(p['name'],False)+f"""<nav style="background:#fff"><div class=wrap>{logo()}{cta(p,'Shop')}</div></nav>
@@ -294,14 +306,14 @@ def tpl_clinical(p):  # clean white, spec/trust forward
 <div style="background:#fff;border:1px solid #e7e1d3;border-radius:14px;padding:28px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.04)"><div style="font-family:{SERIF};font-size:38px;color:{GOLD};font-weight:600">{p['stat']}</div><p style="font-size:14px;color:#6b6455;margin-top:6px">{p['statlabel']}</p></div>
 <div style="background:#fff;border:1px solid #e7e1d3;border-radius:14px;padding:28px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.04)"><div style="font-family:{SERIF};font-size:38px;color:{GOLD};font-weight:600">99.8%</div><p style="font-size:14px;color:#6b6455;margin-top:6px">Peak HPLC purity, to the decimal</p></div>
 <div style="background:#fff;border:1px solid #e7e1d3;border-radius:14px;padding:28px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.04)"><div style="font-family:{SERIF};font-size:38px;color:{GOLD};font-weight:600">COA</div><p style="font-size:14px;color:#6b6455;margin-top:6px">QR-verified, per lot, lab named</p></div>
-</div></div>{content_block(p,False)}{richsections(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
+</div></div>{content_block(p,False)}{richsections(p,False)}{rawdata(False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 def tpl_minimal(p):  # elegant single-focus
     return head(p['name'],False)+f"""<main style="min-height:88vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:50px 22px">
 <div style="max-width:560px"><div style="margin-bottom:30px">{logo()}</div><p class=kick>{p['klass']}</p>
 <div style="max-width:280px;margin:22px auto 8px">{frame(p,False,"78%")}</div>
 <h1 style="font-size:clamp(36px,6vw,54px);line-height:1.05;margin:10px 0 16px">{p['hook']}</h1><p style="font-size:19px;color:#5c5647;line-height:1.7;margin-bottom:16px">{p['sub']}</p>
-<p style="font-size:15px;color:#161310;margin-bottom:30px">25% off your first order, code <b style="color:{GOLD};font-family:{MONO}">FIRST25</b>, automatic · free shipping over $200</p>{cta(p)}</div></main>{content_block(p,False)}{richsections(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
+<p style="font-size:15px;color:#161310;margin-bottom:30px">25% off your first order, code <b style="color:{GOLD};font-family:{MONO}">FIRST25</b>, automatic · free shipping over $200</p>{cta(p)}</div></main>{content_block(p,False)}{richsections(p,False)}{rawdata(False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 def tpl_offer(p):  # dark DR niche + product grid
     cards = ""
@@ -311,7 +323,7 @@ def tpl_offer(p):  # dark DR niche + product grid
 <nav><div class=wrap>{logo(True)}{cta(p,'Shop')}</div></nav>
 <header style="text-align:center;padding:60px 0 40px"><div class=wrap><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(36px,6vw,56px);line-height:1.05;max-width:840px;margin:16px auto 18px">{p['hook']}</h1><p style="font-size:19px;color:#a79f8d;max-width:600px;margin:0 auto 30px;line-height:1.65">{p['sub']}</p>{cta(p,'Shop the line →')}</div></header>
 <div class=wrap><div class=grid style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding-bottom:20px">{cards}</div></div>{trustbar(True)}{offer_cta(p,True)}
-<style>@media(max-width:760px){{.grid{{grid-template-columns:1fr!important}}header div[style*=grid],main div[style*=grid]{{grid-template-columns:1fr!important}}}}</style>{reviews(True)}{guarantee(True)}{faq(True)}{FOOT(True)}"""
+<style>@media(max-width:760px){{.grid{{grid-template-columns:1fr!important}}header div[style*=grid],main div[style*=grid]{{grid-template-columns:1fr!important}}}}</style>{rawdata(True)}{rawdata(True)}{reviews(True)}{guarantee(True)}{faq(True)}{FOOT(True)}"""
 
 def tpl_story(p):  # VARIATION: long-form storytelling, story-first, COA-educational (light/cream)
     return head(p['name'],False)+f"""<nav><div class=wrap>{logo()}{cta(p,'Shop')}</div></nav>
@@ -319,7 +331,7 @@ def tpl_story(p):  # VARIATION: long-form storytelling, story-first, COA-educati
 <p class=kick>{p['klass']}</p><h1 style="font-size:clamp(40px,6vw,68px);line-height:1.05;margin:20px 0 26px">{p['hook']}</h1>
 <p style="font-size:21px;color:#5c5647;line-height:1.7;max-width:620px;margin:0 auto 34px">{p['sub']}</p>{cta(p)}
 <div style="max-width:360px;margin:46px auto 0">{frame(p,False,'80%')}</div></div></header>{urgency(False)}{trustbar(False)}
-{richsections(p,False)}{content_block(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
+{richsections(p,False)}{content_block(p,False)}{rawdata(False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 def tpl_dark(p):  # VARIATION: near-black, oversized, dramatic (heavier than 'bold')
     return head(p['name'],True)+f"""<style>body{{background:#070707}}</style><nav><div class=wrap>{logo(True)}{cta(p,'Shop')}</div></nav>
@@ -328,7 +340,7 @@ def tpl_dark(p):  # VARIATION: near-black, oversized, dramatic (heavier than 'bo
 <p style="font-size:21px;color:#a79f8d;line-height:1.6;max-width:600px;margin:0 auto 34px">{p['sub']}</p>{cta(p)}
 <div style="max-width:340px;margin:42px auto 0">{frame(p,True,'82%')}</div></div></header>
 <div style="border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;text-align:center;padding:58px 0;background:#0a0a0a"><div class=wrap><div style="font-family:{SERIF};font-size:clamp(64px,11vw,112px);color:{GOLD};line-height:1;font-weight:600">{p['stat']}</div><p style="color:#a79f8d;text-transform:uppercase;letter-spacing:3px;font-size:13px;margin-top:10px">{p['statlabel']}</p></div></div>
-{richsections(p,True)}{content_block(p,True)}{trustbar(True)}{reviews(True)}{guarantee(True)}{faq(True)}{offer_cta(p,True)}{FOOT(True)}{sticky(p)}"""
+{richsections(p,True)}{content_block(p,True)}{trustbar(True)}{rawdata(True)}{reviews(True)}{guarantee(True)}{faq(True)}{offer_cta(p,True)}{FOOT(True)}{sticky(p)}"""
 
 def tpl_wispy(p):  # VARIATION: soft blush, thin serif, airy, women-esque
     return head(p['name'],False)+f"""<style>body{{background:#fdf6f3;color:#3a3330}}.kick{{color:#c19a92!important;letter-spacing:3px}}.btn{{background:#3a3330!important;color:#fff!important;box-shadow:0 8px 22px rgba(58,51,48,.18)!important}}h1,h2,h3{{font-weight:400!important}}</style>
@@ -338,7 +350,7 @@ def tpl_wispy(p):  # VARIATION: soft blush, thin serif, airy, women-esque
 <p style="font-size:20px;color:#8a7d78;line-height:1.9;max-width:560px;margin:0 auto 36px;font-weight:300">{p['sub']}</p>{cta(p)}
 <div style="max-width:300px;margin:52px auto 0">{frame(p,False,'76%')}</div></div></header>
 <div style="text-align:center;padding:22px;color:#a89a94;font-size:14px;letter-spacing:.5px;font-style:italic">Naturally present in the body, studied for its role in renewal and repair</div>
-{richsections(p,False)}{content_block(p,False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
+{richsections(p,False)}{content_block(p,False)}{rawdata(False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 def tpl_longevity(p):  # VARIATION: clean teal/mist longevity theme, aspirational
     return head(p['name'],False)+f"""<style>body{{background:#f0f5f4}}.kick{{color:#0f4f4a!important}}.btn{{background:#0f4f4a!important;color:#fff!important;box-shadow:0 8px 22px rgba(15,79,74,.25)!important}}</style>
@@ -348,7 +360,7 @@ def tpl_longevity(p):  # VARIATION: clean teal/mist longevity theme, aspirationa
 <p style="font-size:20px;color:#4a5b58;line-height:1.75;max-width:600px;margin:0 auto 32px">{p['sub']}</p>{cta(p)}
 <div style="max-width:340px;margin:44px auto 0">{frame(p,False,'78%')}</div></div></header>
 <div style="border-top:1px solid #dde8e6;border-bottom:1px solid #dde8e6;text-align:center;padding:52px 0;background:#fff"><div class=wrap><div style="font-family:{SERIF};font-size:clamp(54px,8vw,86px);color:#0f4f4a;line-height:1;font-weight:600">{p['stat']}</div><p style="color:#4a5b58;text-transform:uppercase;letter-spacing:2px;font-size:13px;margin-top:8px">{p['statlabel']}</p></div></div>
-{richsections(p,False)}{content_block(p,False)}{trustbar(False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
+{richsections(p,False)}{content_block(p,False)}{trustbar(False)}{rawdata(False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 TEMPLATES = {"editorial":tpl_editorial,"bold":tpl_bold,"clinical":tpl_clinical,"minimal":tpl_minimal,"offer":tpl_offer,
              "story":tpl_story,"dark":tpl_dark,"wispy":tpl_wispy,"longevity":tpl_longevity,"prem":tpl_prem}
