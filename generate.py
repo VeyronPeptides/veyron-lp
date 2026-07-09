@@ -43,7 +43,7 @@ def cta(p, label=None):
     return f'<a class="btn" href="{dest(p)}">{label}</a>'
 
 # ── CONTENT (DB-driven: a page for every active product) ─────────────────────────
-import json
+import json, os
 _prods = json.load(open("products.json"))  # active products exported from the store DB
 
 # Rich hero content + short alias + chosen feel, keyed by the REAL product slug.
@@ -117,7 +117,8 @@ for i, pr in enumerate(sorted(_prods, key=lambda x: x["slug"])):
         PAGES.append(dict(file=h["alias"], tpl=h["tpl"], tr=h["alias"], slug=slug, img=imgslug(pr), name=name, price=pr.get("price"),
             klass=h["klass"], hook=h["hook"], sub=h["sub"], stat=h["stat"], statlabel=h["statlabel"], what=h["what"], why=h["why"],
             story=h.get("story"), edge=h.get("edge"), coa=h.get("coa"), faqs=h.get("faqs"), review=h.get("review"),
-            hero_layout=h.get("hero_layout"), signature=h.get("signature")))
+            hero_layout=h.get("hero_layout"), signature=h.get("signature"),
+            coa_img=(f"/coa/{slug}.webp" if os.path.exists(f"coa/{slug}.webp") else None)))
     else:
         PAGES.append(dict(file=slug, tpl=FEELS[i % len(FEELS)], tr=slug, slug=slug, img=imgslug(pr), name=name, price=pr.get("price"),
             klass="research-grade compound", hook=name, sub=short,

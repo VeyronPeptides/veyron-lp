@@ -50,6 +50,14 @@ h2.big{font-size:clamp(34px,4.6vw,52px);margin-bottom:20px}.lead{font-size:20px;
 .orbit .core{width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff,#f1ebdd);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.08);font-family:'Cormorant Garamond';font-size:34px;font-weight:600;color:var(--gold);z-index:2}
 .orbit .ring{position:absolute;inset:0;border:1px dashed var(--line);border-radius:50%}.orbit .ring.r2{inset:16%}
 .orbit .node{position:absolute;background:#fff;border:1px solid var(--line);border-radius:100px;padding:8px 15px;font:600 13px/1 'Inter';color:var(--sec);box-shadow:0 8px 20px rgba(0,0,0,.06)}
+@keyframes orbspin{to{transform:rotate(360deg)}}
+@keyframes orbpulse{0%,100%{box-shadow:0 20px 50px rgba(0,0,0,.08),0 0 0 0 rgba(201,138,30,0)}50%{box-shadow:0 20px 50px rgba(0,0,0,.12),0 0 46px 7px rgba(201,138,30,.30)}}
+.orbit .ring{animation:orbspin 64s linear infinite}.orbit .ring.r2{animation:orbspin 46s linear infinite reverse}
+.orbit .core{animation:orbpulse 3.6s ease-in-out infinite}
+.orbit .node{opacity:0;transform:scale(.82);transition:opacity .6s ease,transform .7s cubic-bezier(.2,.85,.2,1)}
+.orbit.in .node{opacity:1;transform:none}
+.orbit.in .node:nth-of-type(1){transition-delay:.04s}.orbit.in .node:nth-of-type(2){transition-delay:.16s}.orbit.in .node:nth-of-type(3){transition-delay:.28s}.orbit.in .node:nth-of-type(4){transition-delay:.40s}
+@media(prefers-reduced-motion:reduce){.orbit .ring,.orbit .core{animation:none}.orbit .node{opacity:1;transform:none;transition:none}}
 .rev{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
 .rcard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px}.rcard .stars{color:var(--gold);letter-spacing:2px;font-size:15px;margin-bottom:12px}.rcard blockquote{font-size:16px;line-height:1.6;color:var(--ink)}.rcard cite{display:block;margin-top:14px;font:600 13px/1 'Inter';color:var(--muted);font-style:normal}
 .faq details{border-top:1px solid var(--line);padding:22px 0}.faq summary{font-family:'Cormorant Garamond';font-size:23px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;align-items:center}.faq summary::-webkit-details-marker{display:none}.faq summary::after{content:"+";color:var(--gold);font-size:26px;font-weight:400;font-family:'Inter'}.faq details[open] summary::after{content:"−"}.faq p{font-size:15.5px;color:var(--muted);line-height:1.7;margin-top:12px}
@@ -200,4 +208,6 @@ def tpl_prem(p):
       f'<title>{p["name"]} — Veyron Biologics</title>{FONTS}{PREM_CSS}</head><body>'
       '<div class=ruo>For laboratory &amp; research use only · Not for human or animal consumption · 21+ qualified researchers</div>'
       f'{_hero(p)}{_stat(p)}<div style="height:110px;background:linear-gradient(180deg,var(--dark),var(--paper))"></div>{_story(p)}{_signature(p)}{_verify(p)}{_rawdata(p)}{_coa(p)}{_guarantee(p)}{_reviews(p)}{_faq(p)}{_offer(p)}{_footer()}{_sticky(p)}'
+      # Scroll-reveal: the signature orbit (NAD cellular map) animates its nodes in as it enters view.
+      "<script>try{var o=document.querySelector('.orbit');if(o&&'IntersectionObserver'in window){new IntersectionObserver(function(es,ob){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');ob.unobserve(e.target)}})},{threshold:.35}).observe(o)}else if(o){o.classList.add('in')}}catch(e){}</script>"
       '</body></html>')
