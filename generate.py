@@ -48,21 +48,21 @@ _prods = json.load(open("products.json"))  # active products exported from the s
 
 # Rich hero content + short alias + chosen feel, keyed by the REAL product slug.
 HEROES = {
- "retatrutide": dict(alias="reta", tpl="editorial", klass='"GLP-3" · triple-agonist',
-   hook="The research compound that made <em>GLP-1 look like a warm-up.</em>",
-   sub="Retatrutide is the triple-hormone agonist the field is calling \"GLP-3\", and in published research it left the previous generation behind.",
+ "retatrutide": dict(alias="reta", tpl="editorial", klass='triple-agonist · metabolic research',
+   hook="The research compound that made <em>the previous generation look like a warm-up.</em>",
+   sub="RT3 is the triple-hormone agonist the field is calling a triple-agonist, and in published research it left the previous generation behind.",
    stat="~24%", statlabel="mean body-weight reduction reported in 48-week research",
-   what="Retatrutide is a single molecule that acts on three receptors at once, GLP-1, GIP, and glucagon. Where a GLP-1 hits one target and a dual-agonist hits two, the triple-agonist engages all three pathways implicated in metabolic research.",
+   what="RT3 is a single molecule that acts on three key metabolic-research receptors at once. Where a single-agonist hits one target and a dual-agonist hits two, the triple-agonist engages all three pathways implicated in metabolic research.",
    why="In the published literature the triple-agonist didn't just improve on its predecessors, it reset the ceiling. Research on obese study subjects reported roughly 24% mean body-weight reduction over 48 weeks, with figures some researchers compared to bariatric outcomes."),
- "tirzepatide": dict(alias="tirz", tpl="bold", klass="dual-agonist · GLP-1 + GIP", hook="The dual-agonist workhorse.",
-   sub="The GLP-1 + GIP combination that became the research standard before the triple-agonist arrived, proven, dependable, decisive.",
+ "tirzepatide": dict(alias="tirz", tpl="bold", klass="dual-agonist · incretin receptors", hook="The dual-agonist workhorse.",
+   sub="The dual-incretin combination that became the research standard before the triple-agonist arrived, proven, dependable, decisive.",
    stat="~21%", statlabel="mean reduction reported in trials",
-   what="Tirzepatide activates two incretin receptors, GLP-1 and GIP. The dual mechanism made it a clear step up over single-agonist research, and it remains the reference point the newer compounds are measured against.",
+   what="TZ2 activates two key incretin receptors. The dual mechanism made it a clear step up over single-agonist research, and it remains the reference point the newer compounds are measured against.",
    why="The most-studied dual-agonist in the space, with the deepest body of research data behind it. When a study needs a proven benchmark, this is it."),
  "cagrilintide": dict(alias="cagri", tpl="bold", klass="amylin analog · stack partner", hook="The amylin analog the newest research is built around.",
    sub="The compound researchers pair with the incretins, the combination driving the latest metabolic studies.",
    stat="Stack", statlabel="the research favorite for combination work",
-   what="Cagrilintide is a long-acting amylin analog, a different mechanism from the incretins. That's exactly why it's the pairing partner: researchers stack it with GLP-1/GIP compounds to study combined pathways.",
+   what="Cagrilintide is a long-acting amylin analog, a different mechanism from the incretins. That's exactly why it's the pairing partner: researchers stack it with incretin compounds to study combined pathways.",
    why="The newest wave of metabolic research is built on combinations, and cagrilintide is the amylin half of the most-studied pairings."),
  "nad-plus": dict(alias="nad", tpl="clinical", klass="cellular · longevity research", hook="The molecule at the center of the longevity conversation.",
    sub="Central to cellular energy and sirtuin research, the compound the aging field keeps coming back to.",
@@ -129,8 +129,8 @@ for i, pr in enumerate(sorted(_prods, key=lambda x: x["slug"])):
 PAGES += [
  dict(file="metabolic", tpl="offer", tr="metabolic", slug=None, img="retatrutide", name="Metabolic Research Line",
    klass="metabolic research compounds", hook="The metabolic-research compounds, <em>sourced and verified.</em>",
-   sub="Retatrutide, tirzepatide, cagrilintide, the incretin-related research compounds, each HPLC-verified with a COA on every vial.",
-   stat="", statlabel="", products=[("retatrutide","Retatrutide"),("tirzepatide","Tirzepatide"),("cagrilintide","Cagrilintide")]),
+   sub="RT3, TZ2, cagrilintide, the incretin-related research compounds, each HPLC-verified with a COA on every vial.",
+   stat="", statlabel="", products=[("retatrutide","RT3"),("tirzepatide","TZ2"),("cagrilintide","Cagrilintide")]),
  dict(file="cellular", tpl="offer", tr="cellular", slug=None, img="nad-plus", name="Cellular Research Line",
    klass="cellular research compounds", hook="The cellular-research line, <em>tested to the decimal.</em>",
    sub="NAD+, GHK-Cu, epithalon, compounds studied across cellular-aging research, each COA-verified.",
@@ -150,8 +150,8 @@ PAGES += [
 # A/B VARIATIONS — same product on the premium system, but a DIFFERENT hero layout + lead angle than the
 # main page (a meaningful A/B), clean -2 names, all copy inside the compliance rails (spec/mechanism only).
 VARIATION_COPY = {
-  "reta-2": dict(hero_layout="centered", hook="""Retatrutide, <em>verified to the decimal.</em>""",
-    sub="""A triple-agonist research compound engaging the GLP-1, GIP, and glucagon receptors. Supplied at 99%+ HPLC purity, mass-spec confirmed, with a QR-verified COA on every vial."""),
+  "reta-2": dict(hero_layout="centered", hook="""RT3, <em>verified to the decimal.</em>""",
+    sub="""A triple-agonist research compound engaging the three key metabolic-research receptors. Supplied at 99%+ HPLC purity, mass-spec confirmed, with a QR-verified COA on every vial."""),
   "klow-2": dict(hero_layout="split-right", hook="""Four research peptides. <em>One verified vial.</em>""",
     sub="""GHK-Cu, KPV, BPC-157, and TB-500 pre-combined and COA-verified, so the blend the research community assembles by hand arrives as one documented material."""),
   "nad-2": dict(hero_layout="centered", hook="""NAD+, the coenzyme <em>in every living cell.</em>""",

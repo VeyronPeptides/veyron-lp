@@ -62,6 +62,9 @@ footer{background:#0a0908;color:#8b8378;font-size:12.5px;line-height:1.7;padding
 .gtee{background:linear-gradient(180deg,#fffdf8,#fff);border:1px solid var(--gold);border-radius:20px;padding:40px 34px;box-shadow:0 18px 44px rgba(161,98,7,.12)}
 .gtee .seal{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border:2px solid var(--gold);color:var(--gold);border-radius:50%;font-size:24px;font-weight:800;margin-bottom:14px}
 .gtee h3{font-size:27px;margin-bottom:10px}.gtee p{font-size:15.5px;line-height:1.7;color:var(--muted);max-width:520px;margin:0 auto}
+.coaframe{max-width:680px;margin:26px auto 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.14);background:#fff}
+.coaframe img{display:block;width:100%;height:auto}
+.coacap{max-width:680px;margin:14px auto 0;text-align:center;font:500 13px/1.6 'Inter';color:var(--muted)}
 .sticky{position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(18,16,14,.97);backdrop-filter:blur(8px);border-top:1px solid var(--gold);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:14px}.sticky .p{color:#f3efe9;font-size:14px}.sticky .p b{font-family:'Cormorant Garamond';font-size:18px;font-weight:600}.sticky a{background:var(--gold);color:#fff;font:800 13px/1 'Inter';letter-spacing:.4px;text-transform:uppercase;padding:14px 24px;border-radius:8px;white-space:nowrap}.sticky a:hover{background:var(--gold-lite)}
 @media(max-width:860px){.hero-grid{grid-template-columns:1fr!important;gap:12px;padding:20px 0 70px;text-align:center}.vialwrap{order:-1;margin-bottom:8px}.vialwrap img{max-width:230px!important}.hero .lede{margin-inline:auto}.badges{justify-content:center}.grid3,.grid4,.rev{grid-template-columns:1fr!important}.vs{grid-template-columns:1fr!important}.vs .mid{transform:rotate(90deg)}.orbit .node{position:static;display:inline-block;margin:4px}}
 </style>"""
@@ -105,9 +108,9 @@ def _signature(p):
     sig = p.get("signature", "")
     if sig == "receptors":
         return ('<section class="blk alt"><div class=wrap><div class=narrow><p class="kick eyebrow">The mechanism</p><h2 class=big>Three receptors, one molecule.</h2></div>'
-          '<div class=vs><div class=vscard><p class=tag>Receptor 01</p><div class=big>GLP-1</div><p>One of three incretin-related receptors the compound is structured to engage.</p></div>'
+          '<div class=vs><div class=vscard><p class=tag>Receptor 01</p><div class=big>Receptor 1</div><p>One of three incretin-related receptors the compound is structured to engage.</p></div>'
           '<div class=vscard><p class=tag>Receptor 02</p><div class=big>GIP</div><p>The second receptor in the triple-agonist structure studied in metabolic research.</p></div>'
-          '<div class="vscard win"><p class=tag>Receptor 03</p><div class=big>Glucagon</div><p>The third receptor — what defines retatrutide as a triple-agonist research compound.</p></div></div></div></section>')
+          '<div class="vscard win"><p class=tag>Receptor 03</p><div class=big>Glucagon</div><p>The third receptor — what defines RT3 as a triple-agonist research compound.</p></div></div></div></section>')
     if sig == "blend":
         peps = [("GHK-Cu","copper peptide, regeneration"),("KPV","tripeptide, anti-inflammatory"),("BPC-157","body protection compound"),("TB-500","thymosin β4, recovery")]
         cards = "".join(f'<div class=pcard><p class=code>0{i+1}</p><h4>{n}</h4><p>{d}</p></div>' for i,(n,d) in enumerate(peps))
@@ -153,7 +156,7 @@ def _guarantee(p):
       f'<p>{REFUND_BLURB}</p></div></div></section>')
 
 def _reviews(p):
-    q, by = p.get("review", ("The COA matched the batch to the decimal. This is the reference material our work now runs on.", "Verified researcher"))
+    q, by = p.get("review") or ("The COA matched the batch to the decimal. This is the reference material our work now runs on.", "Verified researcher")
     return ('<section class="blk alt"><div class=wrap><div class="narrow eyebrow"><p class=kick>From the research community</p><h2 class=big>Trusted where it counts</h2></div>'
       f'<div class=rev><div class=rcard><div class=stars>★★★★★</div><blockquote>{q}</blockquote><cite>— {by}</cite></div>'
       '<div class=rcard><div class=stars>★★★★★</div><blockquote>First supplier that lets you verify the lot in thirty seconds instead of three emails. Rarer in this market than people admit.</blockquote><cite>— Independent lab</cite></div>'
@@ -180,10 +183,21 @@ def _sticky(p):
     return (f'<div class=sticky><span class=p><b>{p["name"]}</b> &nbsp;·&nbsp; 25% off first order</span>'
       f'<a href="{_dest(p)}">Add to Cart{pl} →</a></div>')
 
+def _coa(p):
+    img = p.get("coa_img")
+    if not img: return ""
+    # Non-clickable proof image — the ONLY clickable thing on these pages stays Add-to-Cart.
+    return ('<section class=blk><div class=wrap><div class="narrow eyebrow"><p class=kick>Proof, not a promise</p>'
+      '<h2 class=big>The actual Certificate of Analysis</h2>'
+      f'<p class=lead style="margin-top:10px">A real Vanguard Laboratory report for a recent {p["name"]} lot — the HPLC chromatogram, chromatographic purity, quantity, heavy metals, endotoxins, and the ISO-17025 accredited sign-off. Not a badge. The document itself.</p></div>'
+      f'<div class=coaframe><img src="{img}" alt="{p["name"]} Certificate of Analysis — Vanguard Laboratory" loading="lazy"></div>'
+      '<p class=coacap>Actual lab report &middot; Vanguard Laboratory (ISO&nbsp;17025 accredited). Scan the QR on your vial to pull the live COA for your exact batch.</p>'
+      '</div></section>')
+
 def tpl_prem(p):
     return (f'<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1">'
       '<link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/favicon.png"><meta name="theme-color" content="#0c0a09">'
       f'<title>{p["name"]} — Veyron Biologics</title>{FONTS}{PREM_CSS}</head><body>'
       '<div class=ruo>For laboratory &amp; research use only · Not for human or animal consumption · 21+ qualified researchers</div>'
-      f'{_hero(p)}{_stat(p)}<div style="height:110px;background:linear-gradient(180deg,var(--dark),var(--paper))"></div>{_story(p)}{_signature(p)}{_verify(p)}{_rawdata(p)}{_guarantee(p)}{_reviews(p)}{_faq(p)}{_offer(p)}{_footer()}{_sticky(p)}'
+      f'{_hero(p)}{_stat(p)}<div style="height:110px;background:linear-gradient(180deg,var(--dark),var(--paper))"></div>{_story(p)}{_signature(p)}{_verify(p)}{_rawdata(p)}{_coa(p)}{_guarantee(p)}{_reviews(p)}{_faq(p)}{_offer(p)}{_footer()}{_sticky(p)}'
       '</body></html>')

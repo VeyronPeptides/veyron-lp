@@ -1,1 +1,362 @@
-[{"slug" : "acetic-acid", "name" : "Acetic Acid", "short" : "Dilute acetic acid for reconstitution of select research peptides.", "desc" : "Dilute acetic acid for reconstitution of select research peptides.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/acetic-acid.webp", "cat" : "", "price" : 12.95}, {"slug" : "adamax", "name" : "Adamax", "short" : "Peptide studied for neuro and recovery research.", "desc" : "Peptide studied for neuro and recovery research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/adamax.webp", "cat" : "", "price" : 74.95}, {"slug" : "adipotide", "name" : "Adipotide", "short" : "Pro-apoptotic peptide studied for targeted adipose-tissue research.", "desc" : "Pro-apoptotic peptide studied for targeted adipose-tissue research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/adipotide.webp", "cat" : "", "price" : 124.95}, {"slug" : "aicar", "name" : "AICAR", "short" : "AMPK activator studied in metabolic and endurance research.", "desc" : "AMPK activator studied in metabolic and endurance research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/aicar.webp", "cat" : "", "price" : 129.95}, {"slug" : "aod-9604", "name" : "AOD-9604", "short" : "Modified hGH fragment (176-191) studied for fat-metabolism research.", "desc" : "Modified hGH fragment (176-191) studied for fat-metabolism research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/aod-9604.webp", "cat" : "", "price" : 69.95}, {"slug" : "bac-water", "name" : "Reconstitution Solution", "short" : "Reconstitution solution (0.9% benzyl alcohol) for laboratory preparation of lyophilized research compounds.", "desc" : "Reconstitution solution (0.9% benzyl alcohol) for laboratory preparation of lyophilized research compounds.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/bac-water.webp", "cat" : "", "price" : 14.95}, {"slug" : "bpc-157", "name" : "BPC-157", "short" : "Stable gastric pentadecapeptide studied for tissue and gut-repair research.", "desc" : "Stable gastric pentadecapeptide studied for tissue and gut-repair research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/bpc-157.webp", "cat" : "", "price" : 44.95}, {"slug" : "cagrilintide", "name" : "Cagrilintide", "short" : "Long-acting amylin analog studied for amylin-receptor signaling research.", "desc" : "Long-acting amylin analog studied for amylin-receptor signaling research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/cagrilintide.webp", "cat" : "", "price" : 109.95}, {"slug" : "cjc-1295-dac", "name" : "CJC-1295 w/ DAC", "short" : "Long-acting GHRH analog (with DAC) studied for sustained GH-axis research.", "desc" : "Long-acting GHRH analog (with DAC) studied for sustained GH-axis research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/cjc-1295-dac.webp", "cat" : "", "price" : 49.95}, {"slug" : "cjc-1295-ipamorelin", "name" : "CJC-1295 + Ipamorelin", "short" : "GHRH analog (no-DAC) blended with ipamorelin for GH-axis research.", "desc" : "GHRH analog (no-DAC) blended with ipamorelin for GH-axis research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/cjc-1295-ipamorelin.webp", "cat" : "", "price" : 69.95}, {"slug" : "cjc-1295-no-dac", "name" : "CJC-1295 w/o DAC", "short" : "GHRH analog (without DAC) studied for GH-axis research.", "desc" : "GHRH analog (without DAC) studied for GH-axis research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/cjc-1295-no-dac.webp", "cat" : "", "price" : 74.95}, {"slug" : "dsip", "name" : "DSIP", "short" : "Delta sleep-inducing peptide studied for sleep and stress research.", "desc" : "Delta sleep-inducing peptide studied for sleep and stress research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/dsip.webp", "cat" : "", "price" : 59.95}, {"slug" : "epithalon", "name" : "Epithalon", "short" : "Synthetic tetrapeptide studied for telomere and aging research.", "desc" : "Synthetic tetrapeptide studied for telomere and aging research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/epithalon.webp", "cat" : "", "price" : 39.95}, {"slug" : "ghk-cu", "name" : "GHK-Cu", "short" : "Copper-binding tripeptide studied for skin-remodeling and repair research.", "desc" : "Copper-binding tripeptide studied for skin-remodeling and repair research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/ghk-cu.webp", "cat" : "", "price" : 49.95}, {"slug" : "glow", "name" : "GLOW", "short" : "Combination recovery & skin research blend.", "desc" : "Combination recovery & skin research blend.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/glow.webp", "cat" : "", "price" : 119.95}, {"slug" : "glutathione", "name" : "Glutathione", "short" : "Antioxidant tripeptide studied for cellular and detoxification research.", "desc" : "Antioxidant tripeptide studied for cellular and detoxification research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/glutathione.webp", "cat" : "", "price" : 74.95}, {"slug" : "ipamorelin", "name" : "Ipamorelin", "short" : "Selective growth-hormone secretagogue studied for GH-axis research.", "desc" : "Selective growth-hormone secretagogue studied for GH-axis research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/ipamorelin.webp", "cat" : "", "price" : 49.95}, {"slug" : "kisspeptin", "name" : "Kisspeptin", "short" : "Reproductive-axis signaling peptide studied in endocrine research.", "desc" : "Reproductive-axis signaling peptide studied in endocrine research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/kisspeptin.webp", "cat" : "", "price" : 49.95}, {"slug" : "klow", "name" : "KLOW", "short" : "Combination recovery research blend.", "desc" : "Combination recovery research blend.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/klow.webp", "cat" : "", "price" : 119.95}, {"slug" : "kpv", "name" : "KPV", "short" : "Tripeptide studied for anti-inflammatory and gut research.", "desc" : "Tripeptide studied for anti-inflammatory and gut research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/kpv.webp", "cat" : "", "price" : 44.95}, {"slug" : "l-carnitine", "name" : "L-Carnitine", "short" : "Amino-acid derivative studied for fat-metabolism and energy research.", "desc" : "Amino-acid derivative studied for fat-metabolism and energy research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/l-carnitine.webp", "cat" : "", "price" : 99.95}, {"slug" : "lipo-c", "name" : "Lipo C", "short" : "Lipotropic (MIC) blend studied for fat-metabolism research.", "desc" : "Lipotropic (MIC) blend studied for fat-metabolism research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/lipo-c.webp", "cat" : "", "price" : 49.95}, {"slug" : "melanotan-1", "name" : "Melanotan I", "short" : "Melanocortin agonist studied for pigmentation research.", "desc" : "Melanocortin agonist studied for pigmentation research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/melanotan-1.webp", "cat" : "", "price" : 49.95}, {"slug" : "melanotan-2", "name" : "Melanotan II", "short" : "Melanocortin agonist studied for melanocortin-receptor and pigmentation research.", "desc" : "Melanocortin agonist studied for melanocortin-receptor and pigmentation research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/melanotan-2.webp", "cat" : "", "price" : 59.95}, {"slug" : "mots-c", "name" : "MOTS-c", "short" : "Mitochondrial-derived peptide studied in metabolic and cellular research.", "desc" : "Mitochondrial-derived peptide studied in metabolic and cellular research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/mots-c.webp", "cat" : "", "price" : 44.95}, {"slug" : "nad-plus", "name" : "NAD+", "short" : "Coenzyme studied in cellular-energy and metabolic research.", "desc" : "Coenzyme studied in cellular-energy and metabolic research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/nad-plus.webp", "cat" : "", "price" : 59.95}, {"slug" : "oxytocin", "name" : "Oxy-2-C", "short" : "Neuropeptide studied for social-bonding and physiological research.", "desc" : "Neuropeptide studied for social-bonding and physiological research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/oxytocin.webp", "cat" : "", "price" : 64.95}, {"slug" : "p-21", "name" : "P-21", "short" : "Synthetic peptide studied for neurogenesis and cognition research.", "desc" : "Synthetic peptide studied for neurogenesis and cognition research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/p-21.webp", "cat" : "", "price" : 89.95}, {"slug" : "pt-141", "name" : "PT-141", "short" : "Melanocortin agonist (bremelanotide) studied for melanocortin-receptor research.", "desc" : "Melanocortin agonist (bremelanotide) studied for melanocortin-receptor research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/pt-141.webp", "cat" : "", "price" : 44.95}, {"slug" : "retatrutide", "name" : "RETA (RT3)", "short" : "Triple-receptor incretin agonist (GIP/glucagon axis) studied for metabolic research.", "desc" : "Triple-receptor incretin agonist (GIP/glucagon axis) studied for metabolic research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/retatrutide.webp", "cat" : "", "price" : 69.95}, {"slug" : "selank", "name" : "Selank", "short" : "Tuftsin-derived peptide studied for anxiety and cognition research.", "desc" : "Tuftsin-derived peptide studied for anxiety and cognition research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/selank.webp", "cat" : "", "price" : 39.95}, {"slug" : "semax", "name" : "Semax", "short" : "ACTH(4-10)-derived peptide studied for neuroprotection and cognition research.", "desc" : "ACTH(4-10)-derived peptide studied for neuroprotection and cognition research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/semax.webp", "cat" : "", "price" : 39.95}, {"slug" : "sermorelin", "name" : "Sermorelin", "short" : "GHRH analog studied for growth-hormone-axis research.", "desc" : "GHRH analog studied for growth-hormone-axis research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/sermorelin.webp", "cat" : "", "price" : 59.95}, {"slug" : "ss-31", "name" : "MTP-31", "short" : "Mitochondria-targeted peptide studied in cellular-energy / ATP-synthesis research.", "desc" : "Mitochondria-targeted peptide studied in cellular-energy / ATP-synthesis research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/ss-31.webp", "cat" : "", "price" : 129.95}, {"slug" : "tb-500", "name" : "TB-500", "short" : "Thymosin β4-related peptide studied for tissue repair and recovery research.", "desc" : "Thymosin β4-related peptide studied for tissue repair and recovery research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/tb-500.webp", "cat" : "", "price" : 54.95}, {"slug" : "tesamorelin", "name" : "Tesamorelin", "short" : "GHRH analog studied for GHRH-receptor and GH-axis research.", "desc" : "GHRH analog studied for GHRH-receptor and GH-axis research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/tesamorelin.webp", "cat" : "", "price" : 69.95}, {"slug" : "tesamorelin-ipamorelin", "name" : "Tesamorelin / Ipamorelin", "short" : "Blend of a GHRH analog and a GH secretagogue for combined GH-axis research.", "desc" : "Blend of a GHRH analog and a GH secretagogue for combined GH-axis research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/tesamorelin-ipamorelin.webp", "cat" : "", "price" : 89.95}, {"slug" : "thymosin-alpha-1", "name" : "Thymosin Alpha 1", "short" : "Immune-modulating peptide studied in immunity research.", "desc" : "Immune-modulating peptide studied in immunity research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/thymosin-alpha-1.webp", "cat" : "", "price" : 69.95}, {"slug" : "tirzepatide", "name" : "TIRZ (TZ2)", "short" : "Dual-receptor incretin agonist (GIP axis) studied for incretin-receptor research.", "desc" : "Dual-receptor incretin agonist (GIP axis) studied for incretin-receptor research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/tirzepatide.webp", "cat" : "", "price" : 79.95}, {"slug" : "wolverine", "name" : "Wolverine (BPC-157 / TB-500)", "short" : "BPC-157 + TB-500 recovery blend for tissue-repair research.", "desc" : "BPC-157 + TB-500 recovery blend for tissue-repair research.\n\nLyophilized — no refrigeration required. Reconstitution Solution available.", "img" : "/products/wolverine.webp", "cat" : "", "price" : 89.95}]
+[
+  {
+    "slug": "acetic-acid",
+    "name": "Acetic Acid",
+    "short": "Dilute acetic acid for reconstitution of select research peptides.",
+    "desc": "Dilute acetic acid for reconstitution of select research peptides.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/acetic-acid.webp",
+    "cat": "",
+    "price": 12.95
+  },
+  {
+    "slug": "adamax",
+    "name": "Adamax",
+    "short": "Peptide studied for neuro and recovery research.",
+    "desc": "Peptide studied for neuro and recovery research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/adamax.webp",
+    "cat": "",
+    "price": 74.95
+  },
+  {
+    "slug": "adipotide",
+    "name": "Adipotide",
+    "short": "Pro-apoptotic peptide studied for targeted adipose-tissue research.",
+    "desc": "Pro-apoptotic peptide studied for targeted adipose-tissue research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/adipotide.webp",
+    "cat": "",
+    "price": 124.95
+  },
+  {
+    "slug": "aicar",
+    "name": "AICAR",
+    "short": "AMPK activator studied in metabolic and endurance research.",
+    "desc": "AMPK activator studied in metabolic and endurance research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/aicar.webp",
+    "cat": "",
+    "price": 129.95
+  },
+  {
+    "slug": "aod-9604",
+    "name": "AOD-9604",
+    "short": "Modified hGH fragment (176-191) studied for fat-metabolism research.",
+    "desc": "Modified hGH fragment (176-191) studied for fat-metabolism research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/aod-9604.webp",
+    "cat": "",
+    "price": 69.95
+  },
+  {
+    "slug": "bac-water",
+    "name": "Reconstitution Solution",
+    "short": "Reconstitution solution (0.9% benzyl alcohol) for laboratory preparation of lyophilized research compounds.",
+    "desc": "Reconstitution solution (0.9% benzyl alcohol) for laboratory preparation of lyophilized research compounds.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/bac-water.webp",
+    "cat": "",
+    "price": 14.95
+  },
+  {
+    "slug": "bpc-157",
+    "name": "BPC-157",
+    "short": "Stable gastric pentadecapeptide studied for tissue and gut-repair research.",
+    "desc": "Stable gastric pentadecapeptide studied for tissue and gut-repair research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/bpc-157.webp",
+    "cat": "",
+    "price": 44.95
+  },
+  {
+    "slug": "cagrilintide",
+    "name": "Cagrilintide",
+    "short": "Long-acting amylin analog studied for amylin-receptor signaling research.",
+    "desc": "Long-acting amylin analog studied for amylin-receptor signaling research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/cagrilintide.webp",
+    "cat": "",
+    "price": 109.95
+  },
+  {
+    "slug": "cjc-1295-dac",
+    "name": "CJC-1295 w/ DAC",
+    "short": "Long-acting GHRH analog (with DAC) studied for sustained GH-axis research.",
+    "desc": "Long-acting GHRH analog (with DAC) studied for sustained GH-axis research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/cjc-1295-dac.webp",
+    "cat": "",
+    "price": 49.95
+  },
+  {
+    "slug": "cjc-1295-ipamorelin",
+    "name": "CJC-1295 + Ipamorelin",
+    "short": "GHRH analog (no-DAC) blended with ipamorelin for GH-axis research.",
+    "desc": "GHRH analog (no-DAC) blended with ipamorelin for GH-axis research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/cjc-1295-ipamorelin.webp",
+    "cat": "",
+    "price": 69.95
+  },
+  {
+    "slug": "cjc-1295-no-dac",
+    "name": "CJC-1295 w/o DAC",
+    "short": "GHRH analog (without DAC) studied for GH-axis research.",
+    "desc": "GHRH analog (without DAC) studied for GH-axis research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/cjc-1295-no-dac.webp",
+    "cat": "",
+    "price": 74.95
+  },
+  {
+    "slug": "dsip",
+    "name": "DSIP",
+    "short": "Delta sleep-inducing peptide studied for sleep and stress research.",
+    "desc": "Delta sleep-inducing peptide studied for sleep and stress research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/dsip.webp",
+    "cat": "",
+    "price": 59.95
+  },
+  {
+    "slug": "epithalon",
+    "name": "Epithalon",
+    "short": "Synthetic tetrapeptide studied for telomere and aging research.",
+    "desc": "Synthetic tetrapeptide studied for telomere and aging research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/epithalon.webp",
+    "cat": "",
+    "price": 39.95
+  },
+  {
+    "slug": "ghk-cu",
+    "name": "GHK-Cu",
+    "short": "Copper-binding tripeptide studied for skin-remodeling and repair research.",
+    "desc": "Copper-binding tripeptide studied for skin-remodeling and repair research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/ghk-cu.webp",
+    "cat": "",
+    "price": 49.95
+  },
+  {
+    "slug": "glow",
+    "name": "GLOW",
+    "short": "Combination recovery & skin research blend.",
+    "desc": "Combination recovery & skin research blend.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/glow.webp",
+    "cat": "",
+    "price": 119.95
+  },
+  {
+    "slug": "glutathione",
+    "name": "Glutathione",
+    "short": "Antioxidant tripeptide studied for cellular and detoxification research.",
+    "desc": "Antioxidant tripeptide studied for cellular and detoxification research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/glutathione.webp",
+    "cat": "",
+    "price": 74.95
+  },
+  {
+    "slug": "ipamorelin",
+    "name": "Ipamorelin",
+    "short": "Selective growth-hormone secretagogue studied for GH-axis research.",
+    "desc": "Selective growth-hormone secretagogue studied for GH-axis research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/ipamorelin.webp",
+    "cat": "",
+    "price": 49.95
+  },
+  {
+    "slug": "kisspeptin",
+    "name": "Kisspeptin",
+    "short": "Reproductive-axis signaling peptide studied in endocrine research.",
+    "desc": "Reproductive-axis signaling peptide studied in endocrine research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/kisspeptin.webp",
+    "cat": "",
+    "price": 49.95
+  },
+  {
+    "slug": "klow",
+    "name": "KLOW",
+    "short": "Combination recovery research blend.",
+    "desc": "Combination recovery research blend.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/klow.webp",
+    "cat": "",
+    "price": 119.95
+  },
+  {
+    "slug": "kpv",
+    "name": "KPV",
+    "short": "Tripeptide studied for anti-inflammatory and gut research.",
+    "desc": "Tripeptide studied for anti-inflammatory and gut research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/kpv.webp",
+    "cat": "",
+    "price": 44.95
+  },
+  {
+    "slug": "l-carnitine",
+    "name": "L-Carnitine",
+    "short": "Amino-acid derivative studied for fat-metabolism and energy research.",
+    "desc": "Amino-acid derivative studied for fat-metabolism and energy research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/l-carnitine.webp",
+    "cat": "",
+    "price": 99.95
+  },
+  {
+    "slug": "lipo-c",
+    "name": "Lipo C",
+    "short": "Lipotropic (MIC) blend studied for fat-metabolism research.",
+    "desc": "Lipotropic (MIC) blend studied for fat-metabolism research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/lipo-c.webp",
+    "cat": "",
+    "price": 49.95
+  },
+  {
+    "slug": "melanotan-1",
+    "name": "Melanotan I",
+    "short": "Melanocortin agonist studied for pigmentation research.",
+    "desc": "Melanocortin agonist studied for pigmentation research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/melanotan-1.webp",
+    "cat": "",
+    "price": 49.95
+  },
+  {
+    "slug": "melanotan-2",
+    "name": "Melanotan II",
+    "short": "Melanocortin agonist studied for melanocortin-receptor and pigmentation research.",
+    "desc": "Melanocortin agonist studied for melanocortin-receptor and pigmentation research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/melanotan-2.webp",
+    "cat": "",
+    "price": 59.95
+  },
+  {
+    "slug": "mots-c",
+    "name": "MOTS-c",
+    "short": "Mitochondrial-derived peptide studied in metabolic and cellular research.",
+    "desc": "Mitochondrial-derived peptide studied in metabolic and cellular research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/mots-c.webp",
+    "cat": "",
+    "price": 44.95
+  },
+  {
+    "slug": "nad-plus",
+    "name": "NAD+",
+    "short": "Coenzyme studied in cellular-energy and metabolic research.",
+    "desc": "Coenzyme studied in cellular-energy and metabolic research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/nad-plus.webp",
+    "cat": "",
+    "price": 59.95
+  },
+  {
+    "slug": "oxytocin",
+    "name": "Oxy-2-C",
+    "short": "Neuropeptide studied for social-bonding and physiological research.",
+    "desc": "Neuropeptide studied for social-bonding and physiological research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/oxytocin.webp",
+    "cat": "",
+    "price": 64.95
+  },
+  {
+    "slug": "p-21",
+    "name": "P-21",
+    "short": "Synthetic peptide studied for neurogenesis and cognition research.",
+    "desc": "Synthetic peptide studied for neurogenesis and cognition research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/p-21.webp",
+    "cat": "",
+    "price": 89.95
+  },
+  {
+    "slug": "pt-141",
+    "name": "PT-141",
+    "short": "Melanocortin agonist (bremelanotide) studied for melanocortin-receptor research.",
+    "desc": "Melanocortin agonist (bremelanotide) studied for melanocortin-receptor research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/pt-141.webp",
+    "cat": "",
+    "price": 44.95
+  },
+  {
+    "slug": "retatrutide",
+    "name": "RT3",
+    "short": "Triple-receptor incretin agonist (GIP/glucagon axis) studied for metabolic research.",
+    "desc": "Triple-receptor incretin agonist (GIP/glucagon axis) studied for metabolic research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/retatrutide.webp",
+    "cat": "",
+    "price": 69.95
+  },
+  {
+    "slug": "selank",
+    "name": "Selank",
+    "short": "Tuftsin-derived peptide studied for anxiety and cognition research.",
+    "desc": "Tuftsin-derived peptide studied for anxiety and cognition research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/selank.webp",
+    "cat": "",
+    "price": 39.95
+  },
+  {
+    "slug": "semax",
+    "name": "Semax",
+    "short": "ACTH(4-10)-derived peptide studied for neuroprotection and cognition research.",
+    "desc": "ACTH(4-10)-derived peptide studied for neuroprotection and cognition research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/semax.webp",
+    "cat": "",
+    "price": 39.95
+  },
+  {
+    "slug": "sermorelin",
+    "name": "Sermorelin",
+    "short": "GHRH analog studied for growth-hormone-axis research.",
+    "desc": "GHRH analog studied for growth-hormone-axis research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/sermorelin.webp",
+    "cat": "",
+    "price": 59.95
+  },
+  {
+    "slug": "ss-31",
+    "name": "MTP-31",
+    "short": "Mitochondria-targeted peptide studied in cellular-energy / ATP-synthesis research.",
+    "desc": "Mitochondria-targeted peptide studied in cellular-energy / ATP-synthesis research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/ss-31.webp",
+    "cat": "",
+    "price": 129.95
+  },
+  {
+    "slug": "tb-500",
+    "name": "TB-500",
+    "short": "Thymosin \u03b24-related peptide studied for tissue repair and recovery research.",
+    "desc": "Thymosin \u03b24-related peptide studied for tissue repair and recovery research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/tb-500.webp",
+    "cat": "",
+    "price": 54.95
+  },
+  {
+    "slug": "tesamorelin",
+    "name": "Tesamorelin",
+    "short": "GHRH analog studied for GHRH-receptor and GH-axis research.",
+    "desc": "GHRH analog studied for GHRH-receptor and GH-axis research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/tesamorelin.webp",
+    "cat": "",
+    "price": 69.95
+  },
+  {
+    "slug": "tesamorelin-ipamorelin",
+    "name": "Tesamorelin / Ipamorelin",
+    "short": "Blend of a GHRH analog and a GH secretagogue for combined GH-axis research.",
+    "desc": "Blend of a GHRH analog and a GH secretagogue for combined GH-axis research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/tesamorelin-ipamorelin.webp",
+    "cat": "",
+    "price": 89.95
+  },
+  {
+    "slug": "thymosin-alpha-1",
+    "name": "Thymosin Alpha 1",
+    "short": "Immune-modulating peptide studied in immunity research.",
+    "desc": "Immune-modulating peptide studied in immunity research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/thymosin-alpha-1.webp",
+    "cat": "",
+    "price": 69.95
+  },
+  {
+    "slug": "tirzepatide",
+    "name": "TZ2",
+    "short": "Dual-receptor incretin agonist (GIP axis) studied for incretin-receptor research.",
+    "desc": "Dual-receptor incretin agonist (GIP axis) studied for incretin-receptor research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/tirzepatide.webp",
+    "cat": "",
+    "price": 79.95
+  },
+  {
+    "slug": "wolverine",
+    "name": "Wolverine (BPC-157 / TB-500)",
+    "short": "BPC-157 + TB-500 recovery blend for tissue-repair research.",
+    "desc": "BPC-157 + TB-500 recovery blend for tissue-repair research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
+    "img": "/products/wolverine.webp",
+    "cat": "",
+    "price": 89.95
+  }
+]
