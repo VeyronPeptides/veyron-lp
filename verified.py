@@ -1,6 +1,23 @@
-<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1">
-<link rel=icon type=image/png href=/favicon.png><meta name=theme-color content=#12100c>
-<title>RT3 Verified Testing | Veyron Biologics</title><link rel=preconnect href=https://fonts.googleapis.com><link href='https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel=stylesheet><style>
+# Verified LP template — COA-forward "read the lab report" funnel page for the metabolic compounds (RT3, TZ2).
+# COMPLIANCE-CLEAN BY DESIGN: no "GLP", no INN phrases (Reta/Tirz), no mechanism/effect/weight-loss claims.
+# The page sells verifiability — testing, chain of evidence, the actual COA — not what the compound does.
+# Self-contained (mirrors premium.py): its own CSS + helpers, driven by the page dict `p`.
+SITE = "https://veyronbiologics.com"
+GOLD = "#b8912f"
+_FONTS = ("<link rel=preconnect href=https://fonts.googleapis.com>"
+  "<link href='https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel=stylesheet>")
+_RUOBAR = 'For laboratory &amp; research use only · Not for human or animal consumption · 21+ qualified researchers'
+_DISC = ('<strong>Research Use Only.</strong> All products sold by Veyron Biologics are for laboratory and research use only, '
+  'not drugs, foods, or supplements, and <strong>not for human or animal consumption</strong>. Nothing here is medical advice, '
+  'a therapeutic claim, or dosing guidance. By purchasing you affirm you are 21+ and a qualified researcher.')
+
+def _dest(p):
+    return f'{SITE}/product/{p["slug"]}?tr={p["tr"]}&add=1' if p.get("slug") else f'{SITE}/catalog?tr={p["tr"]}'
+def _price(p):
+    try: return f"${float(p.get('price')):.2f}" if p.get("price") else ""
+    except Exception: return ""
+
+VERIFIED_CSS = """<style>
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
 body{font:400 16px/1.6 'Inter',system-ui,sans-serif;background:#f7f4ee;color:#161310;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
@@ -59,7 +76,7 @@ section.lt{padding:60px 0;border-top:1px solid #e7e1d3}
 .faq{max-width:760px;margin:0 auto}.faq details{border-top:1px solid #e7e1d3;padding:18px 0}
 .faq summary{font-family:'Cormorant Garamond',serif;font-size:20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
 .faq summary::-webkit-details-marker{display:none}.faq summary::after{content:'+';color:#b8912f}
-.faq details[open] summary::after{content:'\2013'}.faq p{color:#5c5647;font-size:14.5px;margin-top:10px}
+.faq details[open] summary::after{content:'\\2013'}.faq p{color:#5c5647;font-size:14.5px;margin-top:10px}
 .final{background:radial-gradient(120% 100% at 50% 0,#211d14,#12100c);color:#f3efe4;text-align:center;padding:70px 0}
 .final h2{font-size:clamp(32px,5vw,50px);margin:10px 0}.final .price{font-family:'Cormorant Garamond',serif;font-size:38px}
 footer{background:#12100c;color:#8f8877;font-size:12.5px;padding:30px 0;line-height:1.7}
@@ -67,22 +84,39 @@ footer{background:#12100c;color:#8f8877;font-size:12.5px;padding:30px 0;line-hei
 .stickybar{position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(18,16,12,.97);border-top:1px solid #b8912f;padding:11px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .stickybar span{color:#f3efe4;font-size:13.5px}
 @media(max-width:860px){.hero-grid,.erow,.proto{grid-template-columns:1fr}.four,.five{grid-template-columns:1fr 1fr}.coa-body{grid-template-columns:1fr}}
-</style></head><body>
-<div class=ruo>For laboratory &amp; research use only · Not for human or animal consumption · 21+ qualified researchers</div>
-<nav class=vnav><div class=wrap><span class=vlogo>VEYRON</span><span class=vnav-r><a href="#coa">Read the lab report</a><a class=btn href="https://veyronbiologics.com/product/rt3?tr=reta&add=1">Add RT3 &nbsp;$69.95</a></span></div></nav>
+</style>"""
+
+def tpl_verified(p):
+    nm = p["name"]                       # e.g. "RT3" / "TZ2"
+    img = p.get("img") or (p.get("slug") or "rt3")
+    coa = p.get("coa_img")               # real per-lot COA image if present
+    d = _dest(p); pr = _price(p)
+    add = f'Add {nm}{f" · {pr}" if pr else ""}'
+    coa_doc = (f'<img src="{coa}" alt="{nm} Certificate of Analysis" loading="lazy">'
+               if coa else
+               '<div style="text-align:center;color:#999;font-size:12px;padding:120px 10px">The live, lot-specific Vanguard report renders here — pulled from the QR on your vial.</div>')
+    chips = "".join(f'<div class=chip><b>{n:02d}</b> · {t}</div>' for n, t in [
+        (1,"Identity confirmed"),(2,">99% HPLC purity"),(3,"Quantity verified"),(4,"3 vials tested"),
+        (5,"Heavy metals ND"),(6,"Endotoxin passed"),(7,"USP &lt;61&gt; no growth"),(8,"Solubility screened"),
+        (9,"Sealed-vial conformity"),(10,"Live QR lot report")])
+    return f"""<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=icon type=image/png href=/favicon.png><meta name=theme-color content=#12100c>
+<title>{nm} Verified Testing | Veyron Biologics</title>{_FONTS}{VERIFIED_CSS}</head><body>
+<div class=ruo>{_RUOBAR}</div>
+<nav class=vnav><div class=wrap><span class=vlogo>VEYRON</span><span class=vnav-r><a href="#coa">Read the lab report</a><a class=btn href="{d}">Add {nm}{f" &nbsp;{pr}" if pr else ""}</a></span></div></nav>
 
 <header class=hero><div class="wrap hero-grid">
   <div>
-    <p class=kick>10&nbsp;mg RT3 · Lot-specific Vanguard COA · Three-vial testing</p>
+    <p class=kick>10&nbsp;mg {nm} · Lot-specific Vanguard COA · Three-vial testing</p>
     <h1>Do not take our word for what's inside. <span class=gold>Read the verified lab report.</span></h1>
     <p class=lede>A purity percentage is easy to publish. A live, lot-specific report from a U.S. ISO/IEC&nbsp;17025-accredited laboratory is far harder to copy, reuse or fake — and easy to verify.</p>
-    <div class=callout>Every RT3 lot ships with a Vanguard report showing greater than <b>99% chromatographic purity</b> across three tested vials, measured quantity for each vial, plus heavy-metal, endotoxin and USP&nbsp;&lt;61&gt; bioburden results.</div>
-    <a class=btn href="https://veyronbiologics.com/product/rt3?tr=reta&add=1">Add RT3 · $69.95 →</a>
-    <div class=chips><div class=chip><b>01</b> · Identity confirmed</div><div class=chip><b>02</b> · >99% HPLC purity</div><div class=chip><b>03</b> · Quantity verified</div><div class=chip><b>04</b> · 3 vials tested</div><div class=chip><b>05</b> · Heavy metals ND</div><div class=chip><b>06</b> · Endotoxin passed</div><div class=chip><b>07</b> · USP &lt;61&gt; no growth</div><div class=chip><b>08</b> · Solubility screened</div><div class=chip><b>09</b> · Sealed-vial conformity</div><div class=chip><b>10</b> · Live QR lot report</div></div>
+    <div class=callout>Every {nm} lot ships with a Vanguard report showing greater than <b>99% chromatographic purity</b> across three tested vials, measured quantity for each vial, plus heavy-metal, endotoxin and USP&nbsp;&lt;61&gt; bioburden results.</div>
+    <a class=btn href="{d}">{add} →</a>
+    <div class=chips>{chips}</div>
   </div>
   <div class=struct>
-    <p class=lab>RT3 · Structural reference</p>
-    <img src="/products/rt3.webp" onerror="this.onerror=null;this.src='/products/rt3.png'" alt="RT3 research vial">
+    <p class=lab>{nm} · Structural reference</p>
+    <img src="/products/{img}.webp" onerror="this.onerror=null;this.src='/products/{img}.png'" alt="{nm} research vial">
     <div class=badge-r><b>&gt;99%</b> chromatographic purity across three tested vials</div>
     <p class=molmeta>Reference chemistry only · verify the exact figures on your lot's report</p>
   </div>
@@ -109,14 +143,14 @@ footer{background:#12100c;color:#8f8877;font-size:12.5px;padding:30px 0;line-hei
         <div class=cnote><span class=num>02</span><h4>HPLC chromatogram</h4><p>The raw trace is printed above the summary — the percentage is not presented alone.</p></div>
         <div class=cnote><span class=num>03</span><h4>Quantity per vial</h4><p>Measured fill is reported for three vials against the label claim.</p></div>
       </div>
-      <div class=coa-doc><img src="/coa/rt3.webp" alt="RT3 Certificate of Analysis" loading="lazy"></div>
+      <div class=coa-doc>{coa_doc}</div>
       <div style="display:flex;flex-direction:column;gap:12px">
         <div class=cnote><span class=num>04</span><h4>Chromatographic purity</h4><p>All three reported vial results are greater than 99% by HPLC-UV/VIS.</p></div>
         <div class=cnote><span class=num>05</span><h4>Multi-vial conformity</h4><p>Purity and quantity repeated across three vials, not one cherry-picked result.</p></div>
         <div class=cnote><span class=num>06</span><h4>Named lab and sign-off</h4><p>The report names the laboratory director and approver, and references A2LA accreditation.</p></div>
       </div>
     </div>
-    <div style="text-align:center;margin-top:20px"><a class=btn href="https://veyronbiologics.com/product/rt3?tr=reta&add=1">Verify the report + add rt3 · $69.95 →</a></div>
+    <div style="text-align:center;margin-top:20px"><a class=btn href="{d}">Verify the report + {add.lower()} →</a></div>
   </div>
 </div></section>
 
@@ -142,7 +176,7 @@ footer{background:#12100c;color:#8f8877;font-size:12.5px;padding:30px 0;line-hei
       <div style="padding:22px 18px;color:#8f8877;font-size:13px">Every point above is inspectable on the live report — not a badge, not a claim you have to believe.</div>
     </div>
   </div>
-  <div style="text-align:center;margin-top:26px"><a class=btn href="https://veyronbiologics.com/product/rt3?tr=reta&add=1">Choose RT3 with 10-point testing →</a></div>
+  <div style="text-align:center;margin-top:26px"><a class=btn href="{d}">Choose {nm} with 10-point testing →</a></div>
 </div></section>
 
 <section class=lt><div class=wrap>
@@ -167,7 +201,7 @@ footer{background:#12100c;color:#8f8877;font-size:12.5px;padding:30px 0;line-hei
 <section class=lt><div class=wrap>
   <div style="text-align:center;margin-bottom:22px"><p class=kick>Clear answers before checkout</p><h2 style="font-size:clamp(30px,4vw,44px)">What researchers usually want to know</h2></div>
   <div class=faq>
-    <details open><summary>What exactly do I receive?</summary><p>One 10&nbsp;mg RT3 vial for laboratory research use, plus access to the batch-specific Certificate of Analysis linked from the vial label.</p></details>
+    <details open><summary>What exactly do I receive?</summary><p>One 10&nbsp;mg {nm} vial for laboratory research use, plus access to the batch-specific Certificate of Analysis linked from the vial label.</p></details>
     <details><summary>What does this two-page COA show?</summary><p>Page 1: the HPLC chromatogram, chromatographic purity and measured quantity across three vials. Page 2: heavy-metal screens (ICP-MS), endotoxins (LAL) and USP&nbsp;&lt;61&gt; bioburden, each with its reporting limit.</p></details>
     <details><summary>What does the QR help me verify?</summary><p>It links to the live, lot-specific laboratory record so you can match the batch in your hand to the report — not a cropped screenshot.</p></details>
     <details><summary>Does Veyron test identity and microbial quality?</summary><p>Yes — identity is confirmed analytically, and microbial quality is screened by USP&nbsp;&lt;61&gt; bioburden (reported Pass, No Growth Detected). Note USP&nbsp;&lt;61&gt; bioburden is a microbial-growth screen, not a USP&nbsp;&lt;71&gt; sterility test.</p></details>
@@ -177,13 +211,13 @@ footer{background:#12100c;color:#8f8877;font-size:12.5px;padding:30px 0;line-hei
 
 <section class=final id=buy><div class=wrap>
   <p class=kick style="color:#cfc8b6">Results you can verify. Testing you can trace.</p>
-  <h2>Add 10&nbsp;mg RT3 to your research order.</h2>
-  <p class=price>$69.95</p>
+  <h2>Add 10&nbsp;mg {nm} to your research order.</h2>
+  {f'<p class=price>{pr}</p>' if pr else ''}
   <p style="color:#cfc8b6;margin:6px 0 22px">First order 25% off with code <b class=gold>FIRST25</b> at checkout. Free shipping over $200.</p>
-  <a class=btn href="https://veyronbiologics.com/product/rt3?tr=reta&add=1">Add RT3 · $69.95 →</a>
+  <a class=btn href="{d}">{add} →</a>
 </div></section>
 
-<footer><div class=wrap><p class=footruo><strong>Research Use Only.</strong> All products sold by Veyron Biologics are for laboratory and research use only, not drugs, foods, or supplements, and <strong>not for human or animal consumption</strong>. Nothing here is medical advice, a therapeutic claim, or dosing guidance. By purchasing you affirm you are 21+ and a qualified researcher.</p><a href="https://veyronbiologics.com" class=gold>© Veyron Biologics · veyronbiologics.com</a></div></footer>
+<footer><div class=wrap><p class=footruo>{_DISC}</p><a href="{SITE}" class=gold>© Veyron Biologics · veyronbiologics.com</a></div></footer>
 
-<div class=stickybar><span><b class=serif style="font-size:16px">RT3 10&nbsp;mg</b> &nbsp;·&nbsp; 25% off first order</span><a class=btn href="https://veyronbiologics.com/product/rt3?tr=reta&add=1" style="padding:11px 20px">Add RT3 · $69.95 →</a></div>
-</body></html>
+<div class=stickybar><span><b class=serif style="font-size:16px">{nm} 10&nbsp;mg</b> &nbsp;·&nbsp; 25% off first order</span><a class=btn href="{d}" style="padding:11px 20px">{add} →</a></div>
+</body></html>"""

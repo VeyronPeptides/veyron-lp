@@ -104,6 +104,14 @@ for _slug, (_hl, _sig) in PREM.items():
     if _slug in HEROES:
         HEROES[_slug]["tpl"] = "prem"; HEROES[_slug]["hero_layout"] = _hl; HEROES[_slug]["signature"] = _sig
 
+# Funnel (metabolic) compounds use the COA-forward "verified" template — sells verifiability, not mechanism.
+# This REPLACES the older claim-heavy hero (triple-agonist / body-weight-reduction copy) for these pages:
+# compliance-clean by design (no GLP, no INN phrases, no effect/weight-loss claims). Overrides PREM above.
+from verified import tpl_verified
+for _slug in ("rt3", "tz2"):
+    if _slug in HEROES:
+        HEROES[_slug]["tpl"] = "verified"
+
 FEELS = ["bold", "clinical", "minimal", "editorial"]  # rotate across non-hero products for A/B variety
 
 def imgslug(p): return p["img"].split("/")[-1].rsplit(".", 1)[0]
@@ -365,7 +373,7 @@ def tpl_longevity(p):  # VARIATION: clean teal/mist longevity theme, aspirationa
 {richsections(p,False)}{content_block(p,False)}{trustbar(False)}{rawdata(False)}{reviews(False)}{guarantee(False)}{faq(False)}{offer_cta(p,False)}{FOOT(False)}{sticky(p)}"""
 
 TEMPLATES = {"editorial":tpl_editorial,"bold":tpl_bold,"clinical":tpl_clinical,"minimal":tpl_minimal,"offer":tpl_offer,
-             "story":tpl_story,"dark":tpl_dark,"wispy":tpl_wispy,"longevity":tpl_longevity,"prem":tpl_prem}
+             "story":tpl_story,"dark":tpl_dark,"wispy":tpl_wispy,"longevity":tpl_longevity,"prem":tpl_prem,"verified":tpl_verified}
 
 built=[]
 for p in PAGES:
