@@ -14,7 +14,7 @@ TESTS_10 = [
     "Endotoxin screening",
     "Heavy metal testing",
     "Solubility and containment screening",
-    "FDA USP 71 sterility",
+    "USP 61 bioburden screening",
     "Vial integrity and conformity",
     "Exact batch number",
     "Purity threshold confirmation",
