@@ -5,7 +5,7 @@
 #   signature:   "receptors" | "blend" | "cellular" | "dual" | "gene" | "citations"
 #   accent:      optional hex override (defaults to gold)
 SITE = "https://veyronbiologics.com"
-from trust import LAB, LAB_LONG, ELITE, ELITE_BLURB, REFUND_BLURB, REFUND_DAYS, TESTS_10
+from trust import LAB, LAB_LONG, ELITE, ELITE_BLURB, REFUND_BLURB, REFUND_DAYS, TESTS_10, TRACK
 
 PREM_CSS = """<style>
 :root{--ink:#0C0A09;--dark:#1C1917;--dark2:#12100e;--gold:#A16207;--gold-lite:#C98A1E;--paper:#FAFAF9;--sec:#44403C;--muted:#57534E;--line:#E7E2DA;--line-d:#2A2622}
@@ -207,7 +207,7 @@ def _coa(p):
 def tpl_prem(p):
     return (f'<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1">'
       '<link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/favicon.png"><meta name="theme-color" content="#0c0a09">'
-      f'<title>{p["name"]} — Veyron Biologics</title>{FONTS}{PREM_CSS}</head><body>'
+      f'<title>{p["name"]} — Veyron Biologics</title>{FONTS}{PREM_CSS}{TRACK}</head><body>'
       '<div class=ruo>For laboratory &amp; research use only · Not for human or animal consumption · 21+ qualified researchers</div>'
       f'{_hero(p)}{_stat(p)}<div style="height:110px;background:linear-gradient(180deg,var(--dark),var(--paper))"></div>{_story(p)}{_signature(p)}{_verify(p)}{_rawdata(p)}{_coa(p)}{_guarantee(p)}{_reviews(p)}{_faq(p)}{_offer(p)}{_footer()}{_sticky(p)}'
       # Scroll-reveal: the signature orbit (NAD cellular map) animates its nodes in as it enters view.

@@ -6,7 +6,7 @@ real product photos by slug. Clean subdomain names (no dashes). Product pages li
 product (add-to-cart on the real site), niche pages to the catalog. Distinct FEELS for A/B.
 Run: python3 generate.py
 """
-from trust import LAB, LAB_LONG, ELITE, ELITE_BLURB, REFUND_BLURB, REFUND_DAYS, TESTS_10
+from trust import LAB, LAB_LONG, ELITE, ELITE_BLURB, REFUND_BLURB, REFUND_DAYS, TESTS_10, TRACK
 SITE = "https://veyronbiologics.com"
 # CTA destination store. These 9 landers now drive the WooCommerce funnel (live.veyronbiologics.com);
 # every other lander keeps pointing at the OG custom site until we migrate the rest.
@@ -208,7 +208,7 @@ def head(title, dark=False):
 .ruo{{background:#12100c;color:#8f8877;font-size:11.5px;text-align:center;padding:8px;letter-spacing:.4px}}
 nav{{padding:14px 0;border-bottom:1px solid {'#221e15' if dark else '#e7e1d3'}}}nav .wrap{{display:flex;justify-content:space-between;align-items:center}}
 .kick{{color:{GOLD};font-family:{MONO};font-size:14px;letter-spacing:2.5px;text-transform:uppercase;font-weight:700}}
-</style></head><body><div class=ruo>{RUOBAR}</div>"""
+</style>{TRACK}</head><body><div class=ruo>{RUOBAR}</div>"""
 
 FOOT = lambda dark: f'<footer style="border-top:1px solid {"#221e15" if dark else "#e7e1d3"};color:{"#7d7768" if dark else "#8f8877"};font-size:12.5px;padding:30px 0;line-height:1.7"><div class=wrap><p style="border:1px solid {"#221e15" if dark else "#e7e1d3"};border-radius:8px;padding:16px;margin-bottom:12px">{DISC}</p><a href="{SITE}" style="color:{GOLD};text-decoration:none">© Veyron Biologics · veyronbiologics.com</a></div></footer></body></html>'
 

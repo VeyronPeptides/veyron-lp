@@ -1,3 +1,4 @@
+from trust import TRACK
 # Verified LP template — COA-forward "read the lab report" funnel page for the metabolic compounds (RT3, TZ2).
 # COMPLIANCE-CLEAN BY DESIGN: no "GLP", no INN phrases (Reta/Tirz), no mechanism/effect/weight-loss claims.
 # The page sells verifiability — testing, chain of evidence, the actual COA — not what the compound does.
@@ -106,7 +107,7 @@ def tpl_verified(p):
         (9,"Sealed-vial conformity"),(10,"Live QR lot report")])
     return f"""<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1">
 <link rel=icon type=image/png href=/favicon.png><meta name=theme-color content=#12100c>
-<title>{nm} Verified Testing | Veyron Biologics</title>{_FONTS}{VERIFIED_CSS}</head><body>
+<title>{nm} Verified Testing | Veyron Biologics</title>{_FONTS}{VERIFIED_CSS}{TRACK}</head><body>
 <div class=ruo>{_RUOBAR}</div>
 <nav class=vnav><div class=wrap><a href="{SITE}" class=vlogo><img src="/veyron-logo-white.png" alt="Veyron Biologics" style="height:44px;width:auto;display:block"></a><span class=vnav-r><a href="#coa">Read the lab report</a><a class=btn href="{d}">Add {nm}{f" &nbsp;{pr}" if pr else ""}</a></span></div></nav>
 
