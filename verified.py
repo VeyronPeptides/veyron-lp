@@ -108,7 +108,7 @@ def tpl_verified(p):
 <link rel=icon type=image/png href=/favicon.png><meta name=theme-color content=#12100c>
 <title>{nm} Verified Testing | Veyron Biologics</title>{_FONTS}{VERIFIED_CSS}</head><body>
 <div class=ruo>{_RUOBAR}</div>
-<nav class=vnav><div class=wrap><span class=vlogo>VEYRON</span><span class=vnav-r><a href="#coa">Read the lab report</a><a class=btn href="{d}">Add {nm}{f" &nbsp;{pr}" if pr else ""}</a></span></div></nav>
+<nav class=vnav><div class=wrap><a href="{SITE}" class=vlogo><img src="/veyron-logo-white.png" alt="Veyron Biologics" style="height:44px;width:auto;display:block"></a><span class=vnav-r><a href="#coa">Read the lab report</a><a class=btn href="{d}">Add {nm}{f" &nbsp;{pr}" if pr else ""}</a></span></div></nav>
 
 <header class=hero><div class="wrap hero-grid">
   <div>
