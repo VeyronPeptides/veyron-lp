@@ -11,8 +11,13 @@ _DISC = ('<strong>Research Use Only.</strong> All products sold by Veyron Biolog
   'not drugs, foods, or supplements, and <strong>not for human or animal consumption</strong>. Nothing here is medical advice, '
   'a therapeutic claim, or dosing guidance. By purchasing you affirm you are 21+ and a qualified researcher.')
 
+STORE = "https://live.veyronbiologics.com"  # the 9 WP-live landers drive the WooCommerce funnel
+WP_LIVE = {"reta", "klow", "nad", "wolverine", "ghk", "bpc", "metabolic", "cellular", "repair"}
 def _dest(p):
-    return f'{SITE}/product/{p["slug"]}?tr={p["tr"]}&add=1' if p.get("slug") else f'{SITE}/catalog?tr={p["tr"]}'
+    base = STORE if p.get("file") in WP_LIVE else SITE
+    if p.get("slug"):
+        return f'{base}/product/{p["slug"]}?tr={p["tr"]}&add=1'
+    return f'{base}/shop?tr={p["tr"]}' if base == STORE else f'{base}/catalog?tr={p["tr"]}'
 def _price(p):
     try: return f"${float(p.get('price')):.2f}" if p.get("price") else ""
     except Exception: return ""

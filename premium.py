@@ -81,7 +81,9 @@ FONTS = '<link rel=preconnect href=https://fonts.googleapis.com><link rel=precon
 
 CART_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L5 3H2"/></svg>'
 
-def _dest(p): return f'{SITE}/product/{p["slug"]}?tr={p["tr"]}&add=1'
+STORE = "https://live.veyronbiologics.com"  # the 9 WP-live landers drive the WooCommerce funnel
+WP_LIVE = {"reta", "klow", "nad", "wolverine", "ghk", "bpc", "metabolic", "cellular", "repair"}
+def _dest(p): return f'{(STORE if p.get("file") in WP_LIVE else SITE)}/product/{p["slug"]}?tr={p["tr"]}&add=1'
 def _price(p):
     try: return f'${float(p.get("price")):.2f}' if p.get("price") else ""
     except Exception: return ""

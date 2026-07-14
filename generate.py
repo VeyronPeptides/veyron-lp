@@ -8,6 +8,12 @@ Run: python3 generate.py
 """
 from trust import LAB, LAB_LONG, ELITE, ELITE_BLURB, REFUND_BLURB, REFUND_DAYS, TESTS_10
 SITE = "https://veyronbiologics.com"
+# CTA destination store. These 9 landers now drive the WooCommerce funnel (live.veyronbiologics.com);
+# every other lander keeps pointing at the OG custom site until we migrate the rest.
+STORE = "https://live.veyronbiologics.com"
+WP_LIVE = {"reta", "klow", "nad", "wolverine", "ghk", "bpc", "metabolic", "cellular", "repair"}
+def _store(p):  # which store this lander's CTAs point to
+    return STORE if p.get("file") in WP_LIVE else SITE
 GOLD = "#b8912f"
 FONTS = ("<link rel=preconnect href=https://fonts.googleapis.com>"
          "<link href='https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel=stylesheet>")
@@ -28,8 +34,12 @@ def logo(dark=False):
 def img_tag(slug, cls=""):
     return f'<img class="{cls}" src="/products/{slug}.webp" alt="{slug} research vial" loading="lazy" onerror="this.onerror=null;this.src=\'/products/{slug}.png\'">'
 
-def dest(p):  # product pages → one-click add-to-cart → checkout; niches → catalog
-    return f'{SITE}/product/{p["slug"]}?tr={p["tr"]}&add=1' if p.get("slug") else f'{SITE}/catalog?tr={p["tr"]}'
+def dest(p):  # product pages → one-click add-to-cart → checkout; niches → catalog/shop
+    base = _store(p)
+    if p.get("slug"):
+        return f'{base}/product/{p["slug"]}?tr={p["tr"]}&add=1'
+    # niche pages: WP has no /catalog route — send WP-live niches to /shop, others to OG /catalog
+    return f'{base}/shop?tr={p["tr"]}' if base == STORE else f'{base}/catalog?tr={p["tr"]}'
 
 def price_str(p):
     v = p.get("price")
@@ -328,7 +338,7 @@ def tpl_minimal(p):  # elegant single-focus
 def tpl_offer(p):  # dark DR niche + product grid
     cards = ""
     for slug,label in p.get("products",[]):
-        cards += f'<a href="{SITE}/product/{slug}?tr={p["tr"]}" style="background:radial-gradient(circle at 50% 30%,rgba(184,145,47,.08),transparent 60%),#161109;border:1px solid #2c271c;border-radius:16px;padding:26px 20px;text-align:center;text-decoration:none;color:#f3efe4;display:block;transition:border-color .15s"><img src="/products/{slug}.webp" onerror="this.onerror=null;this.src=\'/products/{slug}.png\'" alt="{label}" style="height:210px;filter:drop-shadow(0 22px 34px rgba(0,0,0,.5))"><span style="display:block;font-family:{SERIF};font-size:22px;margin:12px 0 6px">{label}</span><em style="color:{GOLD};font-style:normal;font-size:12px;text-transform:uppercase;letter-spacing:.6px">Add to cart →</em></a>'
+        cards += f'<a href="{_store(p)}/product/{slug}?tr={p["tr"]}" style="background:radial-gradient(circle at 50% 30%,rgba(184,145,47,.08),transparent 60%),#161109;border:1px solid #2c271c;border-radius:16px;padding:26px 20px;text-align:center;text-decoration:none;color:#f3efe4;display:block;transition:border-color .15s"><img src="/products/{slug}.webp" onerror="this.onerror=null;this.src=\'/products/{slug}.png\'" alt="{label}" style="height:210px;filter:drop-shadow(0 22px 34px rgba(0,0,0,.5))"><span style="display:block;font-family:{SERIF};font-size:22px;margin:12px 0 6px">{label}</span><em style="color:{GOLD};font-style:normal;font-size:12px;text-transform:uppercase;letter-spacing:.6px">Add to cart →</em></a>'
     return head(p['name'],True)+f"""<div style="background:{GOLD};color:#12100c;text-align:center;font-weight:700;font-size:13px;padding:10px;text-transform:uppercase;letter-spacing:.6px">First order → 25% off with FIRST25 · Free shipping over $200</div>
 <nav><div class=wrap>{logo(True)}{cta(p,'Shop')}</div></nav>
 <header style="text-align:center;padding:60px 0 40px"><div class=wrap><p class=kick>{p['klass']}</p><h1 style="font-size:clamp(36px,6vw,56px);line-height:1.05;max-width:840px;margin:16px auto 18px">{p['hook']}</h1><p style="font-size:19px;color:#a79f8d;max-width:600px;margin:0 auto 30px;line-height:1.65">{p['sub']}</p>{cta(p,'Shop the line →')}</div></header>
