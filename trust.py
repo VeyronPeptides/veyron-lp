@@ -7,6 +7,12 @@ LAB_LONG = "Vanguard Labs, an independent ISO-certified US testing facility"
 ELITE = "Elite Level 3 Verified by Vanguard"
 REFUND_DAYS = 30  # standardized window (Notion had 14 on Reta / 30 on Metabolic → one number)
 
+# ── Hyros universal tracking (Team 1 attribution, account 216899, added 2026-07-16) ──────────────
+# Client-side click/lead/pageview tracker. MUST be on the landers too (that's where the ad click lands) —
+# same full-funnel lesson as the Meta pixel. Loads as high in <head> as we inject. Sales/revenue come from
+# the Hyros↔WooCommerce API integration on live.veyron, not this script.
+HYROS = """<script>var head=document.head;var script=document.createElement('script');script.type='text/javascript';script.src="https://216899.t.hyros.com/v1/lst/universal-script?ph=af50f23a1eaa9188de2347020b6184aaa156b29db55a3354515c9ac3afe7689d&tag=!clicked&ref_url="+encodeURI(document.URL);head.appendChild(script);</script>"""
+
 # ── Per-runner Meta pixel + attribution pass-through (added 2026-07-14) ───────────────────────────
 # The ad tags the lander URL with ?tr=<runner> (odhfgwv=John / jkrehez=Caleb). This snippet, injected into
 # every lander <head>, (1) fires THAT runner's pixel on the lander pageview via veyronbiologics.com/px.js,
@@ -14,7 +20,8 @@ REFUND_DAYS = 30  # standardized window (Notion had 14 on Reta / 30 on Metabolic
 # store too and attribution survives the hand-off. Before this the landers had ZERO pixels and hard-coded
 # product codes (reta/bpc/…) that resolved to house/no-pixel — the whole ad→lander→store funnel was dark,
 # which is exactly why runners saw no events. px.js resolves the runner→pixel server-side (nothing baked in).
-TRACK = """<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');(function(){var tr=(new URLSearchParams(location.search).get('tr')||'').replace(/[^a-zA-Z0-9_-]/g,'').slice(0,48);var s=document.createElement('script');s.async=true;s.src='https://veyronbiologics.com/px.js'+(tr?'?tr='+encodeURIComponent(tr):'');document.head.appendChild(s);if(tr){var ap=function(){document.querySelectorAll('a[href*="live.veyronbiologics.com"]').forEach(function(n){try{var u=new URL(n.href);u.searchParams.set('tr',tr);n.href=u.toString();}catch(e){}});};if(document.readyState!='loading')ap();else document.addEventListener('DOMContentLoaded',ap);}})();</script>"""
+# HYROS is prepended so it loads first (Hyros wants to be as high in <head> as possible).
+TRACK = HYROS + """<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');(function(){var tr=(new URLSearchParams(location.search).get('tr')||'').replace(/[^a-zA-Z0-9_-]/g,'').slice(0,48);var s=document.createElement('script');s.async=true;s.src='https://veyronbiologics.com/px.js'+(tr?'?tr='+encodeURIComponent(tr):'');document.head.appendChild(s);if(tr){var ap=function(){document.querySelectorAll('a[href*="live.veyronbiologics.com"]').forEach(function(n){try{var u=new URL(n.href);u.searchParams.set('tr',tr);n.href=u.toString();}catch(e){}});};if(document.readyState!='loading')ap();else document.addEventListener('DOMContentLoaded',ap);}})();</script>"""
 
 # The 10x testing protocol — the exact ten checkpoints, in order, every batch passes before it ships.
 TESTS_10 = [
