@@ -8,9 +8,9 @@ Run: python3 generate.py
 """
 from trust import LAB, LAB_LONG, ELITE, ELITE_BLURB, REFUND_BLURB, REFUND_DAYS, TESTS_10, TRACK
 SITE = "https://veyronbiologics.com"
-# CTA destination store. These 9 landers now drive the WooCommerce funnel (live.veyronbiologics.com);
+# CTA destination store. These 9 landers now drive the WooCommerce funnel (veyronbiologics.com);
 # every other lander keeps pointing at the OG custom site until we migrate the rest.
-STORE = "https://live.veyronbiologics.com"
+STORE = "https://veyronbiologics.com"
 WP_LIVE = {"reta", "klow", "nad", "wolverine", "ghk", "bpc", "metabolic", "cellular", "repair"}
 def _store(p):  # which store this lander's CTAs point to
     return STORE if p.get("file") in WP_LIVE else SITE
