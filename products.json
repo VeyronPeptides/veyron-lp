@@ -45,7 +45,7 @@
     "price": 69.95
   },
   {
-    "slug": "bac-water",
+    "slug": "reconstitution-solution",
     "name": "Reconstitution Solution",
     "short": "Reconstitution solution (0.9% benzyl alcohol) for laboratory preparation of lyophilized research compounds.",
     "desc": "Reconstitution solution (0.9% benzyl alcohol) for laboratory preparation of lyophilized research compounds.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
@@ -72,7 +72,7 @@
     "price": 109.95
   },
   {
-    "slug": "cjc-1295-dac",
+    "slug": "cjc-1295-w-dac",
     "name": "CJC-1295 w/ DAC",
     "short": "Long-acting GHRH analog (with DAC) studied for sustained GH-axis research.",
     "desc": "Long-acting GHRH analog (with DAC) studied for sustained GH-axis research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
@@ -90,7 +90,7 @@
     "price": 69.95
   },
   {
-    "slug": "cjc-1295-no-dac",
+    "slug": "cjc-1295-w-o-dac",
     "name": "CJC-1295 w/o DAC",
     "short": "GHRH analog (without DAC) studied for GH-axis research.",
     "desc": "GHRH analog (without DAC) studied for GH-axis research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
@@ -198,7 +198,7 @@
     "price": 49.95
   },
   {
-    "slug": "melanotan-1",
+    "slug": "melanotan-i",
     "name": "Melanotan I",
     "short": "Melanocortin agonist studied for pigmentation research.",
     "desc": "Melanocortin agonist studied for pigmentation research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
@@ -207,7 +207,7 @@
     "price": 49.95
   },
   {
-    "slug": "melanotan-2",
+    "slug": "melanotan-ii",
     "name": "Melanotan II",
     "short": "Melanocortin agonist studied for melanocortin-receptor and pigmentation research.",
     "desc": "Melanocortin agonist studied for melanocortin-receptor and pigmentation research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
@@ -225,7 +225,7 @@
     "price": 44.95
   },
   {
-    "slug": "nad-plus",
+    "slug": "nad",
     "name": "NAD+",
     "short": "Coenzyme studied in cellular-energy and metabolic research.",
     "desc": "Coenzyme studied in cellular-energy and metabolic research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
@@ -297,7 +297,7 @@
     "price": 59.95
   },
   {
-    "slug": "ss-31",
+    "slug": "elamipretide-ss-31",
     "name": "MTP-31",
     "short": "Mitochondria-targeted peptide studied in cellular-energy / ATP-synthesis research.",
     "desc": "Mitochondria-targeted peptide studied in cellular-energy / ATP-synthesis research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
@@ -351,7 +351,7 @@
     "price": 79.95
   },
   {
-    "slug": "wolverine",
+    "slug": "wolverine-bpc-157-tb-500",
     "name": "Wolverine (BPC-157 / TB-500)",
     "short": "BPC-157 + TB-500 recovery blend for tissue-repair research.",
     "desc": "BPC-157 + TB-500 recovery blend for tissue-repair research.\n\nLyophilized \u2014 no refrigeration required. Reconstitution Solution available.",
